@@ -39,7 +39,7 @@ ByteString >> asDirtNotes [
 	| seq tokens gates notesAStrings notesAsNumbers dirtString a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: '''',self asString , ''' asDirtNotes'.
+	b rythm: '''',self asString , ''' asDirtNotes'.
 	a announce: b.
 	gates := ''.
 	tokens := self splitOn: ','.
@@ -75,7 +75,7 @@ ByteString >> asDirtSounds [
 	| seq tokens gates soundsAsStrings a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' asDirtSounds'.
+	b rythm: self asString , ' asDirtSounds'.
 	a announce: b.
 	gates := ''.
 	tokens := self splitOn: ','.
@@ -183,7 +183,7 @@ ByteString >> hexBeat [
 	thisContext sender selector asString = 'semibreves' ifFalse: [
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' hexBeat'.
+	b rythm: self asString , ' hexBeat'.
 	a announce: b].
 
 	strings := (1 to: self size) collect: [ :i |
@@ -204,7 +204,7 @@ ByteString >> hexBeat: anArrayOfNoteNumbers [
 	| strings flat a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' hexBeat'.
+	b rythm: self asString , ' hexBeat'.
 	a announce: b.
 
 	strings := (1 to: self size) collect: [ :i |
@@ -224,7 +224,7 @@ ByteString >> hexBeat: anArrayOfNoteNumbers dur: anArrayOfDurations [
 	| strings flat a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' hexBeat'.
+	b rythm: self asString , ' hexBeat'.
 	a announce: b.
 
 	strings := (1 to: self size) collect: [ :i |
@@ -342,7 +342,7 @@ ByteString >> pattern [
 	| strings flat a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' pattern'.
+	b rythm: self asString , ' pattern'.
 	a announce: b.
 
 	strings := (1 to: self size) collect: [ :i |
@@ -362,7 +362,7 @@ ByteString >> pattern: anArrayOfNoteNumbers [
 	| strings flat a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' pattern'.
+	b rythm: self asString , ' pattern'.
 	a announce: b.
 
 	strings := (1 to: self size) collect: [ :i |
@@ -382,7 +382,7 @@ ByteString >> pattern: anArrayOfNoteNumbers and: anArrayOfDurations [
 	| strings flat a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' pattern'.
+	b rythm: self asString , ' pattern'.
 	a announce: b.
 
 	strings := (1 to: self size) collect: [ :i |

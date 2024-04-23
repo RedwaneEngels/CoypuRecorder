@@ -157,7 +157,7 @@ algorithm based on the Bresenham approach"
 	| onsets pulses slope result previous current a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' euclidean'.
+	b rythm: self asString , ' euclidean'.
 	a announce: b.
 	current := 0.
 	onsets := self at: 1.

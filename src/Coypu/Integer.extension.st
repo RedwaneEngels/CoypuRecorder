@@ -7,7 +7,7 @@ Integer >> adowa [
 	| pattern a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' adowa'.
+	b rythm: self asString , ' adowa'.
 	a announce: b.
 	pattern := #( 0 0 0 1 0 1 0 1 ).
 
@@ -22,7 +22,7 @@ Integer >> aksak [
 	| pattern a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' aksak'.
+	b rythm: self asString , ' aksak'.
 	a announce: b.
 	pattern := #( 1 0 1 0 0 0 1 0 0 0 ).
 
@@ -39,7 +39,7 @@ Integer >> banda [
 	| pattern a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' banda'.
+	b rythm: self asString , ' banda'.
 	a announce: b.
 	pattern := #( 1 0 1 1 0 1 1 0 ).
 
@@ -56,7 +56,7 @@ Integer >> bomba [
 	| pattern a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' bomba'.
+	b rythm: self asString , ' bomba'.
 	a announce: b.
 	pattern := #( 1 0 0 1 1 1 1 0 ).
 
@@ -71,7 +71,7 @@ Integer >> bossa [
 	| pattern a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' bossa'.
+	b rythm: self asString , ' bossa'.
 	a announce: b.
 	pattern := #( 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 ).
 
@@ -103,7 +103,7 @@ Integer >> claveSon [
 	| pattern a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' claveson'.
+	b rythm: self asString , ' claveson'.
 	a announce: b.
 	pattern := #( 1 0 0 1 0 0 1 0 0 0 1 0 1 0 0 0 ).
 
@@ -142,7 +142,7 @@ Integer >> downbeats [
 	| a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' downbeats'.
+	b rythm: self asString , ' downbeats'.
 	a announce: b.
 	^ ((1 to: self) collect: [ :i | ((i rem: 4) = 1) asBit ]) asRhythm
 		  asSeq
@@ -155,7 +155,7 @@ Integer >> gahu [
 	| pattern a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' gahu'.
+	b rythm: self asString , ' gahu'.
 	a announce: b.
 	pattern := #( 1 0 0 1 0 0 1 0 0 0 1 0 0 0 1 0 ).
 
@@ -208,7 +208,7 @@ Integer >> quavers [
 	| a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' quavers'.
+	b rythm: self asString , ' quavers'.
 	a announce: b.
 	^ ((1 to: self) collect: [ :i |
 		   ((i rem: 4) = 1 | ((i rem: 4) = 3)) asBit ]) asRhythm asSeq
@@ -300,7 +300,7 @@ Integer >> randomTrigs [
 	| r a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' tumbao'.
+	b rythm: self asString , ' tumbao'.
 	a announce: b.
 	r := Random new.
 	^ ((1 to: self) collect: [ :i | r next rounded ]) asRhythm asSeq
@@ -313,7 +313,7 @@ Integer >> randomTrigsWithProbability: anIntegerProbability [
 	| r rytm a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' tumbao'.
+	b rythm: self asString , ' tumbao'.
 	a announce: b.
 	rytm := Array new: self.
 	r := Random new.
@@ -362,7 +362,7 @@ Integer >> rests [
 	| a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' tumbao'.
+	b rythm: self asString , ' tumbao'.
 	a announce: b.
 	^ (Array new: self withAll: 0) asRhythm asSeq
 ]
@@ -374,7 +374,7 @@ Integer >> rumba [
 	| pattern a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' rumba'.
+	b rythm: self asString , ' rumba'.
 	a announce: b.
 	pattern := #( 1 0 0 1 0 0 0 1 0 0 1 0 1 0 0 0 ).
 
@@ -391,7 +391,7 @@ Integer >> semibreves [
 	| result a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' semibreves'.
+	b rythm: self asString , ' semibreves'.
 	a announce: b.
 	result := '8000' hexBeat times: self.
 	result durations: 16.
@@ -404,7 +404,7 @@ Integer >> semiquavers [
 	| a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' semiquavers'.
+	b rythm: self asString , ' semiquavers'.
 	a announce: b.
 
 	^ (Array new: self withAll: 1) asRhythm asSeq
@@ -431,7 +431,7 @@ Integer >> shiko [
 	| pattern a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' shiko'.
+	b rythm: self asString , ' shiko'.
 	a announce: b.
 	pattern := #( 1 0 0 0 1 0 1 0 0 0 1 0 1 0 0 0 ).
 
@@ -448,7 +448,7 @@ Integer >> sikyi [
 	| pattern a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' sikyi'.
+	b rythm: self asString , ' sikyi'.
 	a announce: b.
 	pattern := #( 0 0 0 1 0 1 0 1 ).
 
@@ -463,7 +463,7 @@ Integer >> soukous [
 	| pattern a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' soukous'.
+	b rythm: self asString , ' soukous'.
 	a announce: b.
 	pattern := #( 1 0 0 1 0 0 1 0 0 0 1 1 0 0 0 0 ).
 
@@ -539,7 +539,7 @@ Integer >> tresillo [
 	| pattern newArray rhythm a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' tresillo'.
+	b rythm: self asString , ' tresillo'.
 	a announce: b.
 
 	pattern := #( 1 0 0 1 0 0 1 0 ).
@@ -565,7 +565,7 @@ Integer >> trigs [
 	| a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' trigs'.
+	b rythm: self asString , ' trigs'.
 	a announce: b.
 	" retuns a Sequencer of gates size = self with all ones - same as semiquavers"
 	^ (Array new: self withAll: 1) asRhythm asSeq
@@ -578,7 +578,7 @@ Integer >> trueAksak [
 	| pattern a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' trueAksak'.
+	b rythm: self asString , ' trueAksak'.
 	a announce: b.
 	pattern := #( 1 0 1 0 1 0 1 0 0 1 0 1 0 ).
 
@@ -595,7 +595,7 @@ Integer >> tumbao [
 	| a b pattern rhythm |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' tumbao'.
+	b rythm: self asString , ' tumbao'.
 	a announce: b.
 	pattern := #( 1 0 0 1 1 0 1 0 ).
 
@@ -611,7 +611,7 @@ Integer >> upbeats [
 	| a b |
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
-	b newRythm: self asString , ' upbeats'.
+	b rythm: self asString , ' upbeats'.
 	a announce: b.
 
 	^ ((1 to: self) collect: [ :i | ((i rem: 4) = 3) asBit ]) asRhythm

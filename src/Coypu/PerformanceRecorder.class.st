@@ -28,7 +28,7 @@ PerformanceRecorder class >> uniqueInstance [
 { #category : #adding }
 PerformanceRecorder >> addInstrument: anAnnouncement [
 
-	savedPerformance add: ((RecordedInstrument new) newRythm: anAnnouncement newRythm)
+	savedPerformance add: ((RecordedInstrument new) rythm: anAnnouncement rythm)
 ]
 
 { #category : #accessing }
@@ -56,7 +56,7 @@ PerformanceRecorder >> lastDirtNotes: anAnnouncement [
 { #category : #adding }
 PerformanceRecorder >> lastSymbol: anAnnouncement [
 
-	savedPerformance last newSymbol: anAnnouncement newSymbol
+	savedPerformance last symbol: anAnnouncement symbol
 ]
 
 { #category : #'muting and soloing' }
@@ -108,10 +108,10 @@ PerformanceRecorder >> savedPerformance [
 ]
 
 { #category : #'as yet unclassified' }
-PerformanceRecorder >> savedPerformanceInTranscript [
+PerformanceRecorder >> scriptInTranscript [
 
 	| c |
-	c := self savedPerformanceScriptList.
+	c := self scriptList.
 	'p := PerformanceRecorder uniqueInstance .' traceCr.
 	'p performer: PerformerSuperDirt new.' traceCr.
 	'' traceCr.
@@ -122,7 +122,7 @@ PerformanceRecorder >> savedPerformanceInTranscript [
 ]
 
 { #category : #'as yet unclassified' }
-PerformanceRecorder >> savedPerformanceScriptList [
+PerformanceRecorder >> scriptList [
 
 	| script |
 	script := savedPerformance collect: [ :each | each print ].
@@ -157,7 +157,7 @@ PerformanceRecorder >> writeScriptInTxtFile [
 
 	| x script c stream counter |
 	counter := ''.
-	c := self savedPerformanceScriptList.
+	c := self scriptList.
 	x := FileLocator home / 'Documents'.
 	(x / 'PerformanceScripts') isDirectory ifFalse: [
 		(x / 'PerformanceScripts') ensureCreateDirectory ].

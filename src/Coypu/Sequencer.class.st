@@ -1163,7 +1163,7 @@ Sequencer >> to: aSymbol [
 		ifTrue: [  ].
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := SymbolAnnouncement new.
-	b newSymbol: self seqKey.
+	b symbol: self seqKey.
 	a announce: b.
 
 	"For Polyphony"

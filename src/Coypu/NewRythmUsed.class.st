@@ -22,7 +22,7 @@ NewRythmUsed >> newRythmUsed: aRythm [
  rythm := aRythm.
   self announcer
     announce: ( RythmAnnouncement new
-                newRythm: aRythm;
+                rythm: aRythm;
                 yourself).
 
 self newRythmUsedAlert: aRythm

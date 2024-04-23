@@ -2,17 +2,19 @@ Class {
 	#name : #RythmAnnouncement,
 	#superclass : #Announcement,
 	#instVars : [
-		'newRythm'
+		'rythm'
 	],
 	#category : #'Announcements-Core-Base'
 }
 
 { #category : #accessing }
-RythmAnnouncement >> newRythm [
-^ newRythm
+RythmAnnouncement >> rythm [
+
+	^ rythm
 ]
 
 { #category : #accessing }
-RythmAnnouncement >> newRythm: aRythm [
-newRythm := aRythm.
+RythmAnnouncement >> rythm: aRythm [
+
+	rythm := aRythm
 ]

@@ -2,19 +2,19 @@ Class {
 	#name : #SymbolAnnouncement,
 	#superclass : #Announcement,
 	#instVars : [
-		'newSymbol'
+		'symbol'
 	],
 	#category : #'Announcements-Core-Base'
 }
 
 { #category : #accessing }
-SymbolAnnouncement >> newSymbol [
-^ newSymbol
+SymbolAnnouncement >> symbol [
 
+	^ symbol
 ]
 
 { #category : #accessing }
-SymbolAnnouncement >> newSymbol: aSymbol [
-newSymbol := aSymbol.
+SymbolAnnouncement >> symbol: aSymbol [
 
+	symbol := aSymbol
 ]
