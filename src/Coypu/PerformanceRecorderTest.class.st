@@ -12,7 +12,7 @@ PerformanceRecorderTest >> setUp [
 
 	super setUp.
 	performanceRecorder := PerformanceRecorder uniqueInstance.
-	performanceRecorder performer: Performer new
+	performanceRecorder performer: PerformerSuperDirt  new
 ]
 
 { #category : #tests }
@@ -102,4 +102,40 @@ PerformanceRecorderTest >> testMuteInPerformance [
 	self
 		assert: performanceRecorder savedPerformance last print
 		equals: 'mute: #bb.'
+]
+
+{ #category : #tests }
+PerformanceRecorderTest >> testPlayForInSavedPerformance [
+
+	self
+		assert: performanceRecorder savedPerformance isEmpty
+		equals: true.
+
+	performanceRecorder playFor: 12 bars.
+
+	self
+		assert: performanceRecorder savedPerformance isEmpty
+		equals: false.
+
+	self
+		assert: performanceRecorder savedPerformance last print
+		equals: 'playFor: 12 bars.'
+]
+
+{ #category : #tests }
+PerformanceRecorderTest >> testPlayInSavedPerformance [
+
+	self
+		assert: performanceRecorder savedPerformance isEmpty
+		equals: true.
+
+	performanceRecorder play.
+
+	self
+		assert: performanceRecorder savedPerformance isEmpty
+		equals: false.
+
+	self
+		assert: performanceRecorder savedPerformance last print
+		equals: 'play.'
 ]

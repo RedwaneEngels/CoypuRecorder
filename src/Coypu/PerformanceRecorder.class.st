@@ -69,10 +69,10 @@ PerformanceRecorder >> mute: aKeyOrAnArrayOfKeys [
 
 { #category : #'LiveCoding - satelliteEvent' }
 PerformanceRecorder >> pacaDance [
+"NE FONCTIONNE PAS"
+	savedPerformance add: (RecordedOrder new order: 'pacaDance').
 
-	savedPerformance add: ((RecordedOrder new) order: 'pacaDance').
-
-	Performance uniqueInstance pacaDance
+	"Performance uniqueInstance pacaDance"
 ]
 
 { #category : #accessing }
@@ -88,9 +88,10 @@ PerformanceRecorder >> performer: aPerformer [
 
 { #category : #playing }
 PerformanceRecorder >> play [
+	"NE FONCTIONNE PAS"
 
 	savedPerformance add: (RecordedOrder new order: 'play.').
-	Performance uniqueInstance play
+	"Performance uniqueInstance play"
 ]
 
 { #category : #playing }
