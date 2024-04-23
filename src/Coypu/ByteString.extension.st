@@ -180,10 +180,11 @@ ByteString >> hexBeat [
 	" convert a string with an Hexadecimal number to the Kyma array correspondong to the expression  BinaryArray ofSize: (self size) fromInteger: (self asHex)"
 
 	| strings flat rhythm a b |
+	thisContext sender selector asString = 'semibreves' ifFalse: [
 	a := PerformanceRecorder uniqueInstance announcer.
 	b := RythmAnnouncement new.
 	b newRythm: self asString , ' hexBeat'.
-	a announce: b.
+	a announce: b].
 
 	strings := (1 to: self size) collect: [ :i |
 		           (self at: i) digitValue

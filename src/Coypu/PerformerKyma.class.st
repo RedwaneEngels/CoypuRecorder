@@ -26,12 +26,13 @@ an OSC with the address /vcs/BPM/1 with the rate converted in BeatsPerMinutes"
 
 
 	performance bpm: bpm.
-	performance transportStep: 1.
+	performance transportStep: 0.
 	performance activeProcess: ([
 		 aNumberOfSteps timesRepeat: [
 			 (Delay forSeconds: performance freq) wait.
 			 "sequencers scan"
 			 [
+			 
 			 performance valuesDo: [ :seq |
 				 (seq gates wrap: performance transportStep) = 1
 					 ifTrue: [

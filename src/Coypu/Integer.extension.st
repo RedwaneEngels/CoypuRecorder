@@ -386,11 +386,16 @@ Integer >> rumba [
 
 { #category : #'*Coypu' }
 Integer >> semibreves [
-" returns self number of semibrevesin the first position of the bars"
-| result |
-result := (('8000' hexBeat ) times: self) .
-result durations: 16.
-^ result
+	" returns self number of semibrevesin the first position of the bars"
+
+	| result a b |
+	a := PerformanceRecorder uniqueInstance announcer.
+	b := RythmAnnouncement new.
+	b newRythm: self asString , ' semibreves'.
+	a announce: b.
+	result := '8000' hexBeat times: self.
+	result durations: 16.
+	^ result
 ]
 
 { #category : #'*Coypu' }

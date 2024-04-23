@@ -3,7 +3,6 @@ Class {
 	#superclass : #Object,
 	#type : #variable,
 	#instVars : [
-		'lastRythm',
 		'savedPerformance',
 		'announcer'
 	],
@@ -29,11 +28,7 @@ PerformanceRecorder class >> uniqueInstance [
 { #category : #adding }
 PerformanceRecorder >> addInstrument: anAnnouncement [
 
-	| k l |
-	k := anAnnouncement newSymbol.
-	l := RecordedInstrument new.
-	l newRythm: lastRythm  newSymbol: k.
-	savedPerformance add:  l.
+	savedPerformance add: ((RecordedInstrument new) newRythm: anAnnouncement newRythm)
 ]
 
 { #category : #accessing }
@@ -58,16 +53,10 @@ PerformanceRecorder >> lastDirtNotes: anAnnouncement [
 
 ]
 
-{ #category : #accessing }
-PerformanceRecorder >> lastRythm [
+{ #category : #adding }
+PerformanceRecorder >> lastSymbol: anAnnouncement [
 
-	^ lastRythm
-]
-
-{ #category : #accessing }
-PerformanceRecorder >> lastRythm: anAnnouncement [
-
-	lastRythm := anAnnouncement newRythm
+	savedPerformance last newSymbol: anAnnouncement newSymbol
 ]
 
 { #category : #'muting and soloing' }
@@ -78,13 +67,21 @@ PerformanceRecorder >> mute: aKeyOrAnArrayOfKeys [
 		add:( RecordedOrder new order: 'mute: ' , '#' , aKeyOrAnArrayOfKeys asString , '.').
 ]
 
+{ #category : #'LiveCoding - satelliteEvent' }
+PerformanceRecorder >> pacaDance [
+
+	savedPerformance add: ((RecordedOrder new) order: 'pacaDance').
+
+	Performance uniqueInstance pacaDance
+]
+
 { #category : #accessing }
 PerformanceRecorder >> performer: aPerformer [
 
 	savedPerformance := OrderedCollection new.
 	announcer := Announcer new.
-	announcer when: RythmAnnouncement send: #lastRythm: to: self.
-	announcer when: SymbolAnnouncement send: #addInstrument: to: self.
+	announcer when: RythmAnnouncement send: #addInstrument: to: self.
+	announcer when: SymbolAnnouncement send: #lastSymbol: to: self.
 	announcer when: DirtNotesAnnouncement send: #lastDirtNotes: to: self.
 	Performance uniqueInstance performer: aPerformer
 ]
@@ -111,18 +108,10 @@ PerformanceRecorder >> savedPerformance [
 ]
 
 { #category : #'as yet unclassified' }
-PerformanceRecorder >> savedPerformanceScript [
-
-	| script |
-	script := savedPerformance collect: [ :each | each print ].
-	^ script
-]
-
-{ #category : #'as yet unclassified' }
-PerformanceRecorder >> savedPerformanceScriptInTranscript [
+PerformanceRecorder >> savedPerformanceInTranscript [
 
 	| c |
-	c := self savedPerformanceScript.
+	c := self savedPerformanceScriptList.
 	'p := PerformanceRecorder uniqueInstance .' traceCr.
 	'p performer: PerformerSuperDirt new.' traceCr.
 	'' traceCr.
@@ -130,6 +119,14 @@ PerformanceRecorder >> savedPerformanceScriptInTranscript [
 		('"#At ' , time time asTime asString , ' :"') traceCr.
 		('p ' , each) traceCr.
 		'' traceCr ]
+]
+
+{ #category : #'as yet unclassified' }
+PerformanceRecorder >> savedPerformanceScriptList [
+
+	| script |
+	script := savedPerformance collect: [ :each | each print ].
+	^ script
 ]
 
 { #category : #'muting and soloing' }
@@ -153,4 +150,43 @@ PerformanceRecorder >> unsolo: aKeyOrAnArrayOfKeys [
 	Performance uniqueInstance unsolo: aKeyOrAnArrayOfKeys.
 	savedPerformance add: (RecordedOrder new order:
 			 'unsolo: ' , '#' , aKeyOrAnArrayOfKeys asString , '.')
+]
+
+{ #category : #writing }
+PerformanceRecorder >> writeScriptInTxtFile [
+
+	| x script c stream counter |
+	counter := ''.
+	c := self savedPerformanceScriptList.
+	x := FileLocator home / 'Documents'.
+	(x / 'PerformanceScripts') isDirectory ifFalse: [
+		(x / 'PerformanceScripts') ensureCreateDirectory ].
+	[
+	(x / 'PerformanceScripts' / 'Performance of the '
+	 , DateAndTime now asDate asString , '(' , counter asString , ')'
+	 , 'txt') asFileReference isFile ] whileTrue: [
+		counter = '' ifTrue: [ counter := 0 ].
+		counter := counter + 1 ].
+	script := (x / 'PerformanceScripts' / 'Performance of the '
+	           , DateAndTime now asDate asString ,'(',counter asString
+	           ,')', 'txt') asFileReference.
+
+	stream := script writeStream.
+	stream nextPutAll: 'p := PerformanceRecorder uniqueInstance.'.
+	stream
+		nextPutAll: String cr;
+		nextPutAll: String cr;
+		nextPutAll: 'p performer: PerformerSuperDirt new.';
+		nextPutAll: String cr;
+		nextPutAll: String cr.
+	c with: savedPerformance do: [ :each :time |
+		stream
+			nextPutAll: '"At ';
+			nextPutAll: time time asTime asString;
+			nextPutAll: ' :"';
+			nextPutAll: String cr;
+			nextPutAll: 'p ' , each;
+			nextPutAll: String cr;
+			nextPutAll: String cr ].
+	stream close
 ]

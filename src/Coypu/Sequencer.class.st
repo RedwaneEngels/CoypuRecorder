@@ -263,7 +263,7 @@ Sequencer >> dirtNotes: aStringWithNotes [
 	"add into a Sequencer anotes from a String in which numbers can be multiplicated"
 
 	| a b tokens dNotes arrayOfNotes |
-	(thisContext sender selector asString = 'asDirtNotes') ifFalse: [
+	thisContext sender selector asString = 'asDirtNotes' ifFalse: [
 		a := PerformanceRecorder uniqueInstance announcer.
 		b := DirtNotesAnnouncement new.
 		b newDirtNotes: aStringWithNotes.
@@ -680,10 +680,13 @@ Sequencer >> notes: anArrayOfNotes mode: anArrayOfModes to: aKeyInPerformance [
 { #category : #'LiveCoding - sequencer' }
 Sequencer >> notes: anArrayOfNotes to: aKeyInThePerformance [
 	" convenience method to fill keys in performance without using too many parenthesis"
+
 	| p |
-	p := Performance uniqueInstance .
-	self to: aKeyInThePerformance .
-	aKeyInThePerformance notes: anArrayOfNotes  
+	p := Performance uniqueInstance.
+	self to: aKeyInThePerformance.
+	aKeyInThePerformance notes: anArrayOfNotes.
+	"for SuperDirt"
+	self dirtMessage at: 'n' put: anArrayOfNotes 
 ]
 
 { #category : #accessing }
