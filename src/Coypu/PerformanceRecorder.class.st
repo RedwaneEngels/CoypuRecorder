@@ -1,3 +1,36 @@
+"
+Please comment me using the following template inspired by Class Responsibility Collaborator (CRC) design:
+
+For the Class part:  The recorder of performance .
+
+For the Responsibility part: Decorator of Performance used to record the performance.
+
+For the Collaborators Part: Decorator of Performance
+									Using RecordedCommand in the OrderedCollection savedPerformance.
+
+Public API and Key Messages
+
+- Use it has a performance and it will save every command used in savedPerformance.
+- You can get those command in a txt file via the message ""writeScriptInTxtFile""
+- PerformanceRecorder is a singleton so you can get access to it via the line ""PerformanceRecorder uniqueInstance"".
+
+ Exemple of use : 
+""This exemple do a little performance and display the command used in the transcript.""
+p := PerformanceRecorder uniqueInstance.
+p performer: PerformerSuperDirt new.
+16 upbeats to: #bd.
+p playFor 12 bars.
+p scriptInTranscript
+
+Internal Representation and Key Implementation Points.
+
+    Instance Variables
+	announcer:		<Announcer> Used to save the command and to stock them in savedPerformance>
+	savedPerformance:		<OrderedCollection> OrderedCollection where the commands used are saved as RecordedCommand objects.
+
+
+    Implementation Points
+"
 Class {
 	#name : #PerformanceRecorder,
 	#superclass : #Object,
@@ -22,19 +55,117 @@ PerformanceRecorder class >> new [
 { #category : #accessing }
 PerformanceRecorder class >> uniqueInstance [
 
-	^ uniqueInstance ifNil: [ uniqueInstance := super new ]
+	^ uniqueInstance
+		  ifNil: [ uniqueInstance := self new ]
+]
+
+{ #category : #accessing }
+PerformanceRecorder >> activeDSP [ 
+
+^ Performance uniqueInstance activeDSP
+]
+
+{ #category : #accessing }
+PerformanceRecorder >> activeDSP: aDSP [
+
+Performance uniqueInstance activeDSP: aDSP
+]
+
+{ #category : #accessing }
+PerformanceRecorder >> activeProcess [
+
+	^Performance uniqueInstance activeProcess
+]
+
+{ #category : #accessing }
+PerformanceRecorder >> activeProcess: anObject [
+
+Performance uniqueInstance activeProcess: anObject
 ]
 
 { #category : #adding }
-PerformanceRecorder >> addInstrument: anAnnouncement [
+PerformanceRecorder >> add: aSequencer channel: anIntegerBetween1And16 [
 
-	savedPerformance add: ((RecordedInstrument new) rythm: anAnnouncement rythm)
+Performance uniqueInstance add: aSequencer channel: anIntegerBetween1And16
 ]
 
 { #category : #accessing }
 PerformanceRecorder >> announcer [
 
 	^ announcer
+]
+
+{ #category : #accessing }
+PerformanceRecorder >> at: key put: anObject [
+
+Performance uniqueInstance at: key put: anObject
+]
+
+{ #category : #accessing }
+PerformanceRecorder >> backup [
+
+^	Performance uniqueInstance backup
+]
+
+{ #category : #accessing }
+PerformanceRecorder >> backup: anObject [
+
+	Performance uniqueInstance backup: anObject
+]
+
+{ #category : #accessing }
+PerformanceRecorder >> bpm [
+
+^	Performance uniqueInstance bpm
+]
+
+{ #category : #accessing }
+PerformanceRecorder >> bpm: aRateInSeconds [
+
+Performance uniqueInstance bpm: aRateInSeconds
+]
+
+{ #category : #accessing }
+PerformanceRecorder >> canvas [
+
+	^Performance uniqueInstance canvas
+]
+
+{ #category : #accessing }
+PerformanceRecorder >> canvas: aRSCanvas [
+
+Performance uniqueInstance canvas: aRSCanvas
+]
+
+{ #category : #accessing }
+PerformanceRecorder >> dictionary [
+
+^	Performance uniqueInstance dictionary
+]
+
+{ #category : #accessing }
+PerformanceRecorder >> dirtMIDIDevice [
+	"select a SuperDirt MIDI device for the Performance"
+
+	^Performance uniqueInstance dirtMIDIDevice
+]
+
+{ #category : #accessing }
+PerformanceRecorder >> dirtMIDIDevice: aString [
+	"select a SuperDirt MIDI device for the Performance"
+	
+Performance uniqueInstance dirtMIDIDevice: aString
+]
+
+{ #category : #'accessing - structure variables' }
+PerformanceRecorder >> freq [
+	^ Performance uniqueInstance freq
+]
+
+{ #category : #accessing }
+PerformanceRecorder >> freq1: anObject [
+
+Performance uniqueInstance freq1: anObject
 ]
 
 { #category : #accessing }
@@ -46,17 +177,22 @@ PerformanceRecorder >> freq: aDurationInSeconds [
 	Performance uniqueInstance freq: aDurationInSeconds
 ]
 
-{ #category : #accessing }
-PerformanceRecorder >> lastDirtNotes: anAnnouncement [
+{ #category : #'LiveCoding - Performance' }
+PerformanceRecorder >> incrementTransportStep [
 
-	savedPerformance last dirtNotes: anAnnouncement newDirtNotes
-
+	Performance uniqueInstance incrementTransportStep 
 ]
 
-{ #category : #adding }
-PerformanceRecorder >> lastSymbol: anAnnouncement [
+{ #category : #initialization }
+PerformanceRecorder >> initialize: aSize [
 
-	savedPerformance last symbol: anAnnouncement symbol
+Performance uniqueInstance initialize: aSize
+]
+
+{ #category : #accessing }
+PerformanceRecorder >> length [
+
+Performance uniqueInstance length
 ]
 
 { #category : #'muting and soloing' }
@@ -67,6 +203,16 @@ PerformanceRecorder >> mute: aKeyOrAnArrayOfKeys [
 		add:( RecordedOrder new order: 'mute: ' , '#' , aKeyOrAnArrayOfKeys asString , '.').
 ]
 
+{ #category : #'muting and soloing' }
+PerformanceRecorder >> muteAll [
+
+	savedPerformance
+		add:( RecordedOrder new
+		order: 'muteAll.').
+	Performance uniqueInstance muteAll
+		
+]
+
 { #category : #'LiveCoding - satelliteEvent' }
 PerformanceRecorder >> pacaDance [
 "NE FONCTIONNE PAS"
@@ -75,15 +221,31 @@ PerformanceRecorder >> pacaDance [
 	"Performance uniqueInstance pacaDance"
 ]
 
+{ #category : #'muting and soloing' }
+PerformanceRecorder >> performer [
+
+	^Performance uniqueInstance performer
+]
+
 { #category : #accessing }
 PerformanceRecorder >> performer: aPerformer [
 
-	savedPerformance := OrderedCollection new.
+	savedPerformance := SavedPerformance new.
 	announcer := Announcer new.
-	announcer when: RythmAnnouncement send: #addInstrument: to: self.
-	announcer when: SymbolAnnouncement send: #lastSymbol: to: self.
-	announcer when: DirtNotesAnnouncement send: #lastDirtNotes: to: self.
-	Performance uniqueInstance performer: aPerformer
+	announcer
+		when: RythmAnnouncement
+		send: #addInstrument:
+		to: savedPerformance.
+	announcer
+		when: SymbolAnnouncement
+		send: #lastSymbol:
+		to: savedPerformance.
+	announcer
+		when: DirtNotesAnnouncement
+		send: #lastDirtNotes:
+		to: savedPerformance.
+
+	Performance uniqueInstance  performer: aPerformer
 ]
 
 { #category : #playing }
@@ -102,32 +264,55 @@ PerformanceRecorder >> playFor: aNumberOfSteps [
 	Performance uniqueInstance playFor: aNumberOfSteps
 ]
 
+{ #category : #'muting and soloing' }
+PerformanceRecorder >> playKymaSequencFor: aNumberOfSteps [
+
+Performance uniqueInstance playKymaSequencFor: aNumberOfSteps
+]
+
+{ #category : #'muting and soloing' }
+PerformanceRecorder >> playKymaSequenceAt: aRateInSeconds for: aNumberOfSteps [
+
+	Performance uniqueInstance playKymaSequenceAt: aRateInSeconds for: aNumberOfSteps
+]
+
+{ #category : #'muting and soloing' }
+PerformanceRecorder >> playLocalSequenceAt: aRateInSeconds for: aNumberOfSteps [
+
+	Performance uniqueInstance
+		playLocalSequenceAt: aRateInSeconds
+		for: aNumberOfSteps
+]
+
+{ #category : #'muting and soloing' }
+PerformanceRecorder >> resetAllSequencers [ 
+
+Performance uniqueInstance resetAllSequencers 
+]
+
+{ #category : #accessing }
+PerformanceRecorder >> restore [
+
+	savedPerformance add: (RecordedOrder new order: 'restore.').
+	Performance uniqueInstance restore
+]
+
+{ #category : #'muting and soloing' }
+PerformanceRecorder >> rsGroupDictionary [
+
+	^Performance uniqueInstance rsGroupDictionary
+]
+
+{ #category : #'muting and soloing' }
+PerformanceRecorder >> rsGroupDictionary: anRSGroupDictionary [
+
+ Performance uniqueInstance rsGroupDictionary: anRSGroupDictionary  
+]
+
 { #category : #accessing }
 PerformanceRecorder >> savedPerformance [
 
 	^ savedPerformance
-]
-
-{ #category : #'as yet unclassified' }
-PerformanceRecorder >> scriptInTranscript [
-
-	| c |
-	c := self scriptList.
-	'p := PerformanceRecorder uniqueInstance .' traceCr.
-	'p performer: PerformerSuperDirt new.' traceCr.
-	'' traceCr.
-	c with: savedPerformance do: [ :each :time |
-		('"#At ' , time time asTime asString , ' :"') traceCr.
-		('p ' , each) traceCr.
-		'' traceCr ]
-]
-
-{ #category : #'as yet unclassified' }
-PerformanceRecorder >> scriptList [
-
-	| script |
-	script := savedPerformance collect: [ :each | each print ].
-	^ script
 ]
 
 { #category : #'muting and soloing' }
@@ -145,6 +330,24 @@ PerformanceRecorder >> stop [
 	Performance uniqueInstance stop
 ]
 
+{ #category : #'muting and soloing' }
+PerformanceRecorder >> swap: firstKey with: secondKey [
+
+Performance uniqueInstance swap: firstKey with: secondKey
+]
+
+{ #category : #'muting and soloing' }
+PerformanceRecorder >> transportStep [
+
+	^Performance uniqueInstance transportStep
+]
+
+{ #category : #'muting and soloing' }
+PerformanceRecorder >> transportStep: anInteger [
+
+Performance uniqueInstance transportStep: anInteger
+]
+
 { #category : #'LiveCoding - Performance' }
 PerformanceRecorder >> unsolo: aKeyOrAnArrayOfKeys [
 
@@ -153,41 +356,14 @@ PerformanceRecorder >> unsolo: aKeyOrAnArrayOfKeys [
 			 'unsolo: ' , '#' , aKeyOrAnArrayOfKeys asString , '.')
 ]
 
-{ #category : #writing }
-PerformanceRecorder >> writeScriptInTxtFile [
+{ #category : #accessing }
+PerformanceRecorder >> visualization [
 
-	| x script c stream counter |
-	counter := ''.
-	c := self scriptList.
-	x := FileLocator home / 'Documents'.
-	(x / 'PerformanceScripts') isDirectory ifFalse: [
-		(x / 'PerformanceScripts') ensureCreateDirectory ].
-	[
-	(x / 'PerformanceScripts' / 'Performance of the '
-	 , DateAndTime now asDate asString , '(' , counter asString , ')'
-	 , 'txt') asFileReference isFile ] whileTrue: [
-		counter = '' ifTrue: [ counter := 0 ].
-		counter := counter + 1 ].
-	script := (x / 'PerformanceScripts' / 'Performance of the '
-	           , DateAndTime now asDate asString ,'(',counter asString
-	           ,')', 'txt') asFileReference.
+^	Performance uniqueInstance visualization
+]
 
-	stream := script writeStream.
-	stream nextPutAll: 'p := PerformanceRecorder uniqueInstance.'.
-	stream
-		nextPutAll: String cr;
-		nextPutAll: String cr;
-		nextPutAll: 'p performer: PerformerSuperDirt new.';
-		nextPutAll: String cr;
-		nextPutAll: String cr.
-	c with: savedPerformance do: [ :each :time |
-		stream
-			nextPutAll: '"At ';
-			nextPutAll: time time asTime asString;
-			nextPutAll: ' :"';
-			nextPutAll: String cr;
-			nextPutAll: 'p ' , each;
-			nextPutAll: String cr;
-			nextPutAll: String cr ].
-	stream close
+{ #category : #accessing }
+PerformanceRecorder >> visualization: anObject [
+
+Performance uniqueInstance visualization: anObject 
 ]

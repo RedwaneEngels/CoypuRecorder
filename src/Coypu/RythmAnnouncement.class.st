@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'rythm'
 	],
-	#category : #'Announcements-Core-Base'
+	#category : #Coypu
 }
 
 { #category : #accessing }

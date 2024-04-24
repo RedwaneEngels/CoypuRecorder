@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'symbol'
 	],
-	#category : #'Announcements-Core-Base'
+	#category : #Coypu
 }
 
 { #category : #accessing }

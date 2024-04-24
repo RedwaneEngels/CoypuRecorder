@@ -16,19 +16,7 @@ PerformanceRecorderTest >> setUp [
 ]
 
 { #category : #tests }
-PerformanceRecorderTest >> testAddInstrument [
-
-self assert: performanceRecorder savedPerformance isEmpty equals: true.
-
-performanceRecorder addInstrument: (RythmAnnouncement new rythm: 'upbeats').
-
-self assert: performanceRecorder savedPerformance isEmpty equals: false.
-
-self assert: performanceRecorder savedPerformance last rythm equals: 'upbeats'
-]
-
-{ #category : #tests }
-PerformanceRecorderTest >> testFreqInSavedPerformance [
+PerformanceRecorderTest >> testFreq [
 
 	self
 		assert: performanceRecorder savedPerformance isEmpty
@@ -46,48 +34,7 @@ PerformanceRecorderTest >> testFreqInSavedPerformance [
 ]
 
 { #category : #tests }
-PerformanceRecorderTest >> testLastDirtNotesInPerformance [
-
-	self
-		assert: performanceRecorder savedPerformance isEmpty
-		equals: true.
-		
-	performanceRecorder addInstrument:
-		(RythmAnnouncement new rythm: 'upbeats').
-	performanceRecorder lastDirtNotes:
-		(DirtNotesAnnouncement new newDirtNotes: '4').
-	self
-		assert: performanceRecorder savedPerformance isEmpty
-		equals: false.
-
-	self
-		assert: performanceRecorder savedPerformance last dirtNotes
-		equals: '4'
-]
-
-{ #category : #tests }
-PerformanceRecorderTest >> testLastSymbolInPerformance [
-
-	self
-		assert: performanceRecorder savedPerformance isEmpty
-		equals: true.
-
-	performanceRecorder addInstrument:
-		(RythmAnnouncement new rythm: 'upbeats').
-	performanceRecorder lastSymbol:
-		(SymbolAnnouncement new symbol: '#bb').
-
-	self
-		assert: performanceRecorder savedPerformance isEmpty
-		equals: false.
-
-	self
-		assert: performanceRecorder savedPerformance last symbol
-		equals: '#bb'
-]
-
-{ #category : #tests }
-PerformanceRecorderTest >> testMuteInPerformance [
+PerformanceRecorderTest >> testMute [
 
 	self
 		assert: performanceRecorder savedPerformance isEmpty
@@ -105,7 +52,25 @@ PerformanceRecorderTest >> testMuteInPerformance [
 ]
 
 { #category : #tests }
-PerformanceRecorderTest >> testPlayForInSavedPerformance [
+PerformanceRecorderTest >> testPlay [
+
+	self
+		assert: performanceRecorder savedPerformance isEmpty
+		equals: true.
+
+	performanceRecorder play.
+
+	self
+		assert: performanceRecorder savedPerformance isEmpty
+		equals: false.
+
+	self
+		assert: performanceRecorder savedPerformance last print
+		equals: 'play.'
+]
+
+{ #category : #tests }
+PerformanceRecorderTest >> testPlayFor [
 
 	self
 		assert: performanceRecorder savedPerformance isEmpty
@@ -123,19 +88,75 @@ PerformanceRecorderTest >> testPlayForInSavedPerformance [
 ]
 
 { #category : #tests }
-PerformanceRecorderTest >> testPlayInSavedPerformance [
+PerformanceRecorderTest >> testRestore [
 
 	self
 		assert: performanceRecorder savedPerformance isEmpty
 		equals: true.
 
-	performanceRecorder play.
-
+	16 upbeats to: #bb.
+	performanceRecorder mute: #bb.
+	performanceRecorder restore.
 	self
 		assert: performanceRecorder savedPerformance isEmpty
 		equals: false.
 
 	self
 		assert: performanceRecorder savedPerformance last print
-		equals: 'play.'
+		equals: 'restore.'
+]
+
+{ #category : #tests }
+PerformanceRecorderTest >> testSolo [
+
+	self
+		assert: performanceRecorder savedPerformance isEmpty
+		equals: true.
+
+	16 upbeats to: #bb.
+	performanceRecorder solo: #bb.
+	self
+		assert: performanceRecorder savedPerformance isEmpty
+		equals: false.
+
+	self
+		assert: performanceRecorder savedPerformance last print
+		equals: 'solo: #bb.'
+]
+
+{ #category : #tests }
+PerformanceRecorderTest >> testStop [
+
+	self
+		assert: performanceRecorder savedPerformance isEmpty
+		equals: true.
+
+	16 upbeats to: #bb.
+	performanceRecorder stop.
+	self
+		assert: performanceRecorder savedPerformance isEmpty
+		equals: false.
+
+	self
+		assert: performanceRecorder savedPerformance last print
+		equals: 'stop.'
+]
+
+{ #category : #tests }
+PerformanceRecorderTest >> testUnsolo [
+
+	self
+		assert: performanceRecorder savedPerformance isEmpty
+		equals: true.
+
+	16 upbeats to: #bb.
+	performanceRecorder solo: #bb.
+	performanceRecorder unsolo: #bb.
+	self
+		assert: performanceRecorder savedPerformance isEmpty
+		equals: false.
+
+	self
+		assert: performanceRecorder savedPerformance last print
+		equals: 'unsolo: #bb.'
 ]
