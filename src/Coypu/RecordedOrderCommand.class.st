@@ -1,5 +1,5 @@
 Class {
-	#name : #RecordedOrder,
+	#name : #RecordedOrderCommand,
 	#superclass : #RecordedCommand,
 	#type : #variable,
 	#instVars : [
@@ -9,19 +9,19 @@ Class {
 }
 
 { #category : #accessing }
-RecordedOrder >> order [
+RecordedOrderCommand >> order [
 
 	^order
 ]
 
 { #category : #accessing }
-RecordedOrder >> order: anOrder [
+RecordedOrderCommand >> order: anOrder [
 
 order := anOrder
 ]
 
 { #category : #printing }
-RecordedOrder >> print [
+RecordedOrderCommand >> print [
 
 	^ self order asString
 ]

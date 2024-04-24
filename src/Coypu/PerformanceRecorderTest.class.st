@@ -16,6 +16,15 @@ PerformanceRecorderTest >> setUp [
 ]
 
 { #category : #tests }
+PerformanceRecorderTest >> test [
+  | api |
+  api := PerformanceRecorder selectors. "ici on pourra filtrer"
+   Performance selectors do: [
+    :s | 
+      self assert: (api includes: s) ]
+]
+
+{ #category : #tests }
 PerformanceRecorderTest >> testFreq [
 
 	self

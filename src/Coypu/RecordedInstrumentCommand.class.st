@@ -1,5 +1,5 @@
 Class {
-	#name : #RecordedInstrument,
+	#name : #RecordedInstrumentCommand,
 	#superclass : #RecordedCommand,
 	#type : #variable,
 	#instVars : [
@@ -11,19 +11,19 @@ Class {
 }
 
 { #category : #accessing }
-RecordedInstrument >> dirtNotes [
+RecordedInstrumentCommand >> dirtNotes [
 
 ^	dirtNotes
 ]
 
 { #category : #accessing }
-RecordedInstrument >> dirtNotes: aDirtNotes [
+RecordedInstrumentCommand >> dirtNotes: aDirtNotes [
 
 dirtNotes := aDirtNotes
 ]
 
 { #category : #printing }
-RecordedInstrument >> print [
+RecordedInstrumentCommand >> print [
 
 	| m |
 	m := rythm , ' to: #' , symbol , '.'.
@@ -33,25 +33,25 @@ RecordedInstrument >> print [
 ]
 
 { #category : #'instance creation' }
-RecordedInstrument >> rythm [
+RecordedInstrumentCommand >> rythm [
 ^rythm 
 ]
 
 { #category : #'instance creation' }
-RecordedInstrument >> rythm: aRythm [ 
+RecordedInstrumentCommand >> rythm: aRythm [ 
 
 	rythm := aRythm.
 
 ]
 
 { #category : #'instance creation' }
-RecordedInstrument >> symbol [
+RecordedInstrumentCommand >> symbol [
 
 	^ symbol 
 ]
 
 { #category : #'instance creation' }
-RecordedInstrument >> symbol: aSymbol [
+RecordedInstrumentCommand >> symbol: aSymbol [
 
 
 	symbol := aSymbol

@@ -60,6 +60,12 @@ PerformanceRecorder class >> uniqueInstance [
 ]
 
 { #category : #accessing }
+PerformanceRecorder >> Dictionary [
+
+	^ Performance uniqueInstance dictionary
+]
+
+{ #category : #accessing }
 PerformanceRecorder >> activeDSP [ 
 
 ^ Performance uniqueInstance activeDSP
@@ -138,12 +144,6 @@ Performance uniqueInstance canvas: aRSCanvas
 ]
 
 { #category : #accessing }
-PerformanceRecorder >> dictionary [
-
-^	Performance uniqueInstance dictionary
-]
-
-{ #category : #accessing }
 PerformanceRecorder >> dirtMIDIDevice [
 	"select a SuperDirt MIDI device for the Performance"
 
@@ -171,7 +171,7 @@ Performance uniqueInstance freq1: anObject
 { #category : #accessing }
 PerformanceRecorder >> freq: aDurationInSeconds [
 
-	savedPerformance add: (RecordedOrder new order:
+	savedPerformance add: (RecordedOrderCommand new order:
 			 'freq: ' , (1 / (4 * aDurationInSeconds) * 60) asInteger asString
 			 , ' bpm.').
 	Performance uniqueInstance freq: aDurationInSeconds
@@ -189,6 +189,12 @@ PerformanceRecorder >> initialize: aSize [
 Performance uniqueInstance initialize: aSize
 ]
 
+{ #category : #testing }
+PerformanceRecorder >> isPerformance [ 
+
+Performance uniqueInstance isPerformance
+]
+
 { #category : #accessing }
 PerformanceRecorder >> length [
 
@@ -200,14 +206,14 @@ PerformanceRecorder >> mute: aKeyOrAnArrayOfKeys [
 
 	Performance uniqueInstance mute: aKeyOrAnArrayOfKeys.
 	savedPerformance
-		add:( RecordedOrder new order: 'mute: ' , '#' , aKeyOrAnArrayOfKeys asString , '.').
+		add:( RecordedOrderCommand new order: 'mute: ' , '#' , aKeyOrAnArrayOfKeys asString , '.').
 ]
 
 { #category : #'muting and soloing' }
 PerformanceRecorder >> muteAll [
 
 	savedPerformance
-		add:( RecordedOrder new
+		add:( RecordedOrderCommand new
 		order: 'muteAll.').
 	Performance uniqueInstance muteAll
 		
@@ -216,7 +222,7 @@ PerformanceRecorder >> muteAll [
 { #category : #'LiveCoding - satelliteEvent' }
 PerformanceRecorder >> pacaDance [
 "NE FONCTIONNE PAS"
-	savedPerformance add: (RecordedOrder new order: 'pacaDance').
+	savedPerformance add: (RecordedOrderCommand new order: 'pacaDance').
 
 	"Performance uniqueInstance pacaDance"
 ]
@@ -252,14 +258,14 @@ PerformanceRecorder >> performer: aPerformer [
 PerformanceRecorder >> play [
 	"NE FONCTIONNE PAS"
 
-	savedPerformance add: (RecordedOrder new order: 'play.').
+	savedPerformance add: (RecordedOrderCommand new order: 'play.').
 	"Performance uniqueInstance play"
 ]
 
 { #category : #playing }
 PerformanceRecorder >> playFor: aNumberOfSteps [
 
-	savedPerformance add: (RecordedOrder new order:
+	savedPerformance add: (RecordedOrderCommand new order:
 			 'playFor: ' , (aNumberOfSteps / 16) asString , ' bars.').
 	Performance uniqueInstance playFor: aNumberOfSteps
 ]
@@ -284,6 +290,12 @@ PerformanceRecorder >> playLocalSequenceAt: aRateInSeconds for: aNumberOfSteps [
 		for: aNumberOfSteps
 ]
 
+{ #category : #removing }
+PerformanceRecorder >> remove: aKey [
+
+Performance uniqueInstance remove: aKey
+]
+
 { #category : #'muting and soloing' }
 PerformanceRecorder >> resetAllSequencers [ 
 
@@ -293,7 +305,7 @@ Performance uniqueInstance resetAllSequencers
 { #category : #accessing }
 PerformanceRecorder >> restore [
 
-	savedPerformance add: (RecordedOrder new order: 'restore.').
+	savedPerformance add: (RecordedOrderCommand new order: 'restore.').
 	Performance uniqueInstance restore
 ]
 
@@ -315,18 +327,24 @@ PerformanceRecorder >> savedPerformance [
 	^ savedPerformance
 ]
 
+{ #category : #'as yet unclassified' }
+PerformanceRecorder >> scriptForDisplayer: aDisplayer [
+
+savedPerformance scriptListForDisplayer: aDisplayer
+]
+
 { #category : #'muting and soloing' }
 PerformanceRecorder >> solo: aKeyOrAnArrayOfKeys [
 
 	Performance uniqueInstance solo: aKeyOrAnArrayOfKeys.
-	savedPerformance add: (RecordedOrder new order:
+	savedPerformance add: (RecordedOrderCommand new order:
 			 'solo: ' , '#' , aKeyOrAnArrayOfKeys asString , '.')
 ]
 
 { #category : #accessing }
 PerformanceRecorder >> stop [
 
-	savedPerformance add: (RecordedOrder new order: 'stop.').
+	savedPerformance add: (RecordedOrderCommand new order: 'stop.').
 	Performance uniqueInstance stop
 ]
 
@@ -352,7 +370,7 @@ Performance uniqueInstance transportStep: anInteger
 PerformanceRecorder >> unsolo: aKeyOrAnArrayOfKeys [
 
 	Performance uniqueInstance unsolo: aKeyOrAnArrayOfKeys.
-	savedPerformance add: (RecordedOrder new order:
+	savedPerformance add: (RecordedOrderCommand new order:
 			 'unsolo: ' , '#' , aKeyOrAnArrayOfKeys asString , '.')
 ]
 
