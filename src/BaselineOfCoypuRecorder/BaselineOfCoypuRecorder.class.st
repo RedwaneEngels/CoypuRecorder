@@ -13,7 +13,7 @@ BaselineOfCoypuRecorder >> baseline: spec [
 					spec 
 							package: 'Coypu';
 							package: 'CoypuRecorder';
-							package: 'CoypuRecorderTests' with: [ spec requires: #('MyProject');
+							package: 'CoypuRecorderTests' with: [ spec requires: #('CoypuRecorder');
 							baseline: '{BaselineOfCoypu}'
 							with: [  spec repository: '{github}://{https://github.com/lucretiomsp/Coypu.git}:{lucretiomsp}/{Coypu}' ] ] ]
 ]
