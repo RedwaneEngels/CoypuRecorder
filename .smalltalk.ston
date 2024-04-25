@@ -6,9 +6,6 @@ SmalltalkCISpec {
     }],
 #testing : {
     #exclude : {
-      #classes : [ #CycleTests ],
-      #categories : [ 'Coypu-Tests' ],
-      #packages : [ 'Coypu' ],
-      #projects : [ 'BaselineOfCoypuRecorder' ]}
+      #classes : [ #CycleTests ]}
 
   }}
