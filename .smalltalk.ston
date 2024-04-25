@@ -6,6 +6,6 @@ SmalltalkCISpec {
     }],
 #testing : {
     #exclude : {
-      #classes : [ #CycleTests ]}
+      #packages : [ 'Coypu' ]}
 
   }}
