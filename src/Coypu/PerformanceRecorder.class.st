@@ -56,7 +56,7 @@ PerformanceRecorder class >> new [
 PerformanceRecorder class >> uniqueInstance [
 
 	^ uniqueInstance
-		  ifNil: [ uniqueInstance := self new ]
+		  ifNil: [ uniqueInstance := super new ]
 ]
 
 { #category : #accessing }
