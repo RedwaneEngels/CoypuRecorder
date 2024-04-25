@@ -17,10 +17,10 @@ BaselineOfCoypuRecorder >> baseline: spec [
 			for: #common
 			do:  [ "Packages"
 					spec 
+							package: 'Coypu' with:  [ spec repository: 'github://lucretiomsp/Coypu/src' ];
 							package: 'CoypuRecorder';
-							package: 'CoypuRecorderTests' with: [ spec requires: #('CoypuRecorder');
-							baseline: '{BaselineOfCoypu}'
-							with: [  spec repository: '{github}://{https://github.com/lucretiomsp/Coypu.git}:{lucretiomsp}/{Coypu}' ] ] ]
+							package: 'CoypuRecorderTests' with: [ spec requires: #('CoypuRecorder')]]
+							
 ]
 
 { #category : #accessing }
