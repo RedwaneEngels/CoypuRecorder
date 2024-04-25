@@ -3,12 +3,13 @@ SmalltalkCISpec {
     SCIMetacelloLoadSpec {
       #baseline : 'CoypuRecorder',
       #directory : 'src'
-    }
-  ]
+    }]
+#testing : {
     // Exclude specific TestCases from testing
     #exclude : {
       #classes : [ #PerformanceTest ],
       #categories : [ 'Tests-*' ],
       #packages : [ 'Coypu.*' ],
       #projects : [ 'CoypuRecorder' ]}
-}
+
+  }}
