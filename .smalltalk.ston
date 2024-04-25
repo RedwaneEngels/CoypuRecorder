@@ -5,7 +5,6 @@ SmalltalkCISpec {
       #directory : 'src'
     }],
 #testing : {
-    // Exclude specific TestCases from testing
     #exclude : {
       #classes : [ #PerformanceTest ],
       #categories : [ 'Tests-*' ],
