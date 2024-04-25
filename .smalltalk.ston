@@ -1,7 +1,7 @@
 SmalltalkCISpec {
   #loading : [
     SCIMetacelloLoadSpec {
-      #baseline : 'CopyuRecorder',
+      #baseline : 'CoypuRecorder',
       #directory : 'src'
     }
   ]
