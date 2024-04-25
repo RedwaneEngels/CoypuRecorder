@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'performanceRecorder'
 	],
-	#category : #CoypuRecorderTests
+	#category : #'CoypuRecorderTests-Tests'
 }
 
 { #category : #running }

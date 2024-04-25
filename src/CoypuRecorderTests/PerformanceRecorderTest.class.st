@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'performanceRecorder'
 	],
-	#category : #CoypuRecorderTests
+	#category : #'CoypuRecorderTests-Tests'
 }
 
 { #category : #running }
@@ -113,6 +113,14 @@ PerformanceRecorderTest >> testRestore [
 	self
 		assert: performanceRecorder savedPerformance collectionOfCommands last print
 		equals: 'restore.'
+]
+
+{ #category : #tests }
+PerformanceRecorderTest >> testSameAPIThanPerformance [
+
+	| api |
+	api := PerformanceRecorder selectors. "ici on pourra filtrer"
+	Performance selectors do: [ :s | self assert: (api includes: s) ]
 ]
 
 { #category : #tests }
