@@ -10,7 +10,7 @@ Class {
 	#classInstVars : [
 		'uniqueInstance'
 	],
-	#category : #'Coypu-Performance'
+	#category : #'CoypuRecorder-Recorder'
 }
 
 { #category : #'instance creation' }
