@@ -4,6 +4,12 @@ Class {
 	#category : #BaselineOfCoypuRecorder
 }
 
+{ #category : #accessing }
+BaselineOfCoypuRecorder >> CoypuRecorder [ 
+^ MetacelloCypressBaselineProject 
+
+]
+
 { #category : #baselines }
 BaselineOfCoypuRecorder >> baseline: spec [ 
 	<baseline>
@@ -11,7 +17,6 @@ BaselineOfCoypuRecorder >> baseline: spec [
 			for: #common
 			do:  [ "Packages"
 					spec 
-							package: 'Coypu';
 							package: 'CoypuRecorder';
 							package: 'CoypuRecorderTests' with: [ spec requires: #('CoypuRecorder');
 							baseline: '{BaselineOfCoypu}'
