@@ -1,6 +1,6 @@
 Class {
 	#name : #BaselineOfCoypuRecorder,
-	#superclass : #Object,
+	#superclass : #BaselineOf,
 	#category : #BaselineOfCoypuRecorder
 }
 
