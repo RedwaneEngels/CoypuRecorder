@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'symbol'
 	],
-	#category : #CoypuRecorderAnnouncement
+	#category : #CoypuRecorderAnnouncements
 }
 
 { #category : #accessing }
