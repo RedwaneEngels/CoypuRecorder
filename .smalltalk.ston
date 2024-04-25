@@ -7,7 +7,7 @@ SmalltalkCISpec {
   ]
     // Exclude specific TestCases from testing
     #exclude : {
-      #classes : [ #PerformanceTest,#ChordTests,#CycleTests,#LiveCodingTests,#RandomTests,#SequencerTests ],
+      #classes : [ '#PerformanceTest','#ChordTests','#CycleTests','#LiveCodingTests','#RandomTests','#SequencerTests' ],
       #categories : [ 'Tests' ],
       #packages : [ 'Coypu.*' ],
       #projects : [ 'CoypuRecorder' ]
