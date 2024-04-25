@@ -3,6 +3,9 @@ SmalltalkCISpec {
     SCIMetacelloLoadSpec {
       #baseline : 'CoypuRecorder',
       #directory : 'src'
-    }
-  ]
-}
+    }],
+#testing : {
+    #exclude : {
+      #packages : [ 'Coypu' ]}
+
+  }}
