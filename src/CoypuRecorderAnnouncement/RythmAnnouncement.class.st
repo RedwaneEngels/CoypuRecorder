@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'rythm'
 	],
-	#category : #CoypuRecorder
+	#category : #CoypuRecorderAnnouncement
 }
 
 { #category : #accessing }
