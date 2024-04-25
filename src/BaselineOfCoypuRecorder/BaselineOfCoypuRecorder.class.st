@@ -11,16 +11,16 @@ BaselineOfCoypuRecorder >> CoypuRecorder [
 ]
 
 { #category : #baselines }
-BaselineOfCoypuRecorder >> baseline: spec [ 
+BaselineOfCoypuRecorder >> baseline: spec [
+
 	<baseline>
-	spec
-			for: #common
-			do:  [ "Packages"
-					spec 
-							package: 'Coypu';
-							package: 'CoypuRecorder' with: [spec requires: #('Coypu')];
-							package: 'CoypuRecorderTests' with: [ spec requires: #('CoypuRecorder')]]
-							
+	spec for: #common do: [ "Packages"
+		spec
+			package: 'Coypu';
+			package: 'CoypuRecorder' with: [ spec requires: #( 'Coypu' ) ];
+			package: 'CoypuRecorderTests'
+			with: [ spec requires: #( 'CoypuRecorder' ) ] ];
+			package: 'CoypuRecorderAnnouncements'
 ]
 
 { #category : #accessing }
