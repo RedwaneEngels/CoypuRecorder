@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'newDirtNotes'
 	],
-	#category : #Coypu
+	#category : #CoypuRecorder
 }
 
 { #category : #accessing }

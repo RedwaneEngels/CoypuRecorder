@@ -6,7 +6,7 @@ Class {
 		'performanceScript',
 		'performanceTimes'
 	],
-	#category : #Coypu
+	#category : #CoypuRecorder
 }
 
 { #category : #accessing }

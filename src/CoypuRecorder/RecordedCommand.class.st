@@ -5,7 +5,7 @@ Class {
 	#instVars : [
 		'time'
 	],
-	#category : #'Coypu-Performance'
+	#category : #CoypuRecorder
 }
 
 { #category : #'instance creation' }

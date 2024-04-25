@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'performanceRecorder'
 	],
-	#category : #'Coypu-Performance'
+	#category : #CoypuRecorderTests
 }
 
 { #category : #running }
@@ -20,17 +20,17 @@ SavedPerformanceTest >> setUp [
 SavedPerformanceTest >> testAddInstrument [
 
 	self
-		assert: performanceRecorder savedPerformance isEmpty
+		assert: performanceRecorder savedPerformance collectionOfCommands  isEmpty
 		equals: true.
 
 	16 upbeats to: #bd.
 
 	self
-		assert: performanceRecorder savedPerformance isEmpty
+		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
 		equals: false.
 
 	self
-		assert: performanceRecorder savedPerformance last rythm
+		assert: performanceRecorder savedPerformance collectionOfCommands last rythm
 		equals: '16 upbeats'
 ]
 
@@ -38,22 +38,22 @@ SavedPerformanceTest >> testAddInstrument [
 SavedPerformanceTest >> testLastDirtNotes [
 
 	self
-		assert: performanceRecorder savedPerformance isEmpty
+		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
 		equals: true.
 
 	16 upbeats to: #bd; dirtNotes: '4'.
 	self
-		assert: performanceRecorder savedPerformance isEmpty
+		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
 		equals: false.
 
 	self
-		assert: performanceRecorder savedPerformance last dirtNotes
+		assert: performanceRecorder savedPerformance collectionOfCommands last dirtNotes
 		equals: '4'.
 		
 	8 upbeats dirtNotes: '8'; to: #bass3.
 	
 	self
-			assert: performanceRecorder savedPerformance last dirtNotes
+			assert: performanceRecorder savedPerformance collectionOfCommands last dirtNotes
 		equals: '8'.
 
 ]
@@ -62,16 +62,16 @@ SavedPerformanceTest >> testLastDirtNotes [
 SavedPerformanceTest >> testLastSymbol [
 
 	self
-		assert: performanceRecorder savedPerformance isEmpty
+		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
 		equals: true.
 
 	16 upbeats to: #bb.
 
 	self
-		assert: performanceRecorder savedPerformance isEmpty
+		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
 		equals: false.
 
 	self
-		assert: performanceRecorder savedPerformance last symbol
+		assert: performanceRecorder savedPerformance collectionOfCommands last symbol
 		equals: 'bb'
 ]

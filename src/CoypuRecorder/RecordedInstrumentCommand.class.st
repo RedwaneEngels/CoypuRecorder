@@ -7,7 +7,7 @@ Class {
 		'rythm',
 		'symbol'
 	],
-	#category : #Coypu
+	#category : #CoypuRecorder
 }
 
 { #category : #accessing }

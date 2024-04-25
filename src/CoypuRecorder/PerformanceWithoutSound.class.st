@@ -19,7 +19,7 @@ Class {
 		'uniqueInstance',
 		'orbit'
 	],
-	#category : #'Coypu-Performance'
+	#category : #CoypuRecorder
 }
 
 { #category : #'as yet unclassified' }

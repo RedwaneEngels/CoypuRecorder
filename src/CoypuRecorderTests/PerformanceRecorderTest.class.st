@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'performanceRecorder'
 	],
-	#category : #'Coypu-Performance'
+	#category : #CoypuRecorderTests
 }
 
 { #category : #running }
@@ -28,17 +28,17 @@ PerformanceRecorderTest >> test [
 PerformanceRecorderTest >> testFreq [
 
 	self
-		assert: performanceRecorder savedPerformance isEmpty
+		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
 		equals: true.
 
 	performanceRecorder freq: 138 bpm.
 
 	self
-		assert: performanceRecorder savedPerformance isEmpty
+		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
 		equals: false.
 
 	self
-		assert: performanceRecorder savedPerformance last print
+		assert: performanceRecorder savedPerformance collectionOfCommands last print
 		equals: 'freq: 138 bpm.'
 ]
 
@@ -46,17 +46,17 @@ PerformanceRecorderTest >> testFreq [
 PerformanceRecorderTest >> testMute [
 
 	self
-		assert: performanceRecorder savedPerformance isEmpty
+		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
 		equals: true.
 
 	16 upbeats to: #bb.
 	performanceRecorder mute: #bb.
 	self
-		assert: performanceRecorder savedPerformance isEmpty
+		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
 		equals: false.
 
 	self
-		assert: performanceRecorder savedPerformance last print
+		assert: performanceRecorder savedPerformance collectionOfCommands last print
 		equals: 'mute: #bb.'
 ]
 
@@ -64,17 +64,17 @@ PerformanceRecorderTest >> testMute [
 PerformanceRecorderTest >> testPlay [
 
 	self
-		assert: performanceRecorder savedPerformance isEmpty
+		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
 		equals: true.
 
 	performanceRecorder play.
 
 	self
-		assert: performanceRecorder savedPerformance isEmpty
+		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
 		equals: false.
 
 	self
-		assert: performanceRecorder savedPerformance last print
+		assert: performanceRecorder savedPerformance collectionOfCommands last print
 		equals: 'play.'
 ]
 
@@ -82,17 +82,17 @@ PerformanceRecorderTest >> testPlay [
 PerformanceRecorderTest >> testPlayFor [
 
 	self
-		assert: performanceRecorder savedPerformance isEmpty
+		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
 		equals: true.
 
 	performanceRecorder playFor: 12 bars.
 
 	self
-		assert: performanceRecorder savedPerformance isEmpty
+		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
 		equals: false.
 
 	self
-		assert: performanceRecorder savedPerformance last print
+		assert: performanceRecorder savedPerformance collectionOfCommands last print
 		equals: 'playFor: 12 bars.'
 ]
 
@@ -100,18 +100,18 @@ PerformanceRecorderTest >> testPlayFor [
 PerformanceRecorderTest >> testRestore [
 
 	self
-		assert: performanceRecorder savedPerformance isEmpty
+		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
 		equals: true.
 
 	16 upbeats to: #bb.
 	performanceRecorder mute: #bb.
 	performanceRecorder restore.
 	self
-		assert: performanceRecorder savedPerformance isEmpty
+		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
 		equals: false.
 
 	self
-		assert: performanceRecorder savedPerformance last print
+		assert: performanceRecorder savedPerformance collectionOfCommands last print
 		equals: 'restore.'
 ]
 
@@ -119,17 +119,17 @@ PerformanceRecorderTest >> testRestore [
 PerformanceRecorderTest >> testSolo [
 
 	self
-		assert: performanceRecorder savedPerformance isEmpty
+		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
 		equals: true.
 
 	16 upbeats to: #bb.
 	performanceRecorder solo: #bb.
 	self
-		assert: performanceRecorder savedPerformance isEmpty
+		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
 		equals: false.
 
 	self
-		assert: performanceRecorder savedPerformance last print
+		assert: performanceRecorder savedPerformance collectionOfCommands last print
 		equals: 'solo: #bb.'
 ]
 
@@ -137,17 +137,17 @@ PerformanceRecorderTest >> testSolo [
 PerformanceRecorderTest >> testStop [
 
 	self
-		assert: performanceRecorder savedPerformance isEmpty
+		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
 		equals: true.
 
 	16 upbeats to: #bb.
 	performanceRecorder stop.
 	self
-		assert: performanceRecorder savedPerformance isEmpty
+		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
 		equals: false.
 
 	self
-		assert: performanceRecorder savedPerformance last print
+		assert: performanceRecorder savedPerformance collectionOfCommands last print
 		equals: 'stop.'
 ]
 
@@ -155,17 +155,17 @@ PerformanceRecorderTest >> testStop [
 PerformanceRecorderTest >> testUnsolo [
 
 	self
-		assert: performanceRecorder savedPerformance isEmpty
+		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
 		equals: true.
 
 	16 upbeats to: #bb.
 	performanceRecorder solo: #bb.
 	performanceRecorder unsolo: #bb.
 	self
-		assert: performanceRecorder savedPerformance isEmpty
+		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
 		equals: false.
 
 	self
-		assert: performanceRecorder savedPerformance last print
+		assert: performanceRecorder savedPerformance collectionOfCommands last print
 		equals: 'unsolo: #bb.'
 ]
