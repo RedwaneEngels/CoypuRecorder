@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'collectionOfCommands'
 	],
-	#category : #CoypuRecorder
+	#category : #'CoypuRecorder-savedPerformance'
 }
 
 { #category : #'instance creation' }

@@ -5,7 +5,7 @@ Class {
 	#instVars : [
 		'order'
 	],
-	#category : #CoypuRecorder
+	#category : #'CoypuRecorder-RecordedCommand'
 }
 
 { #category : #accessing }
