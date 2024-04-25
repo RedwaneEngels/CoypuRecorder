@@ -5,6 +5,12 @@ SmalltalkCISpec {
       #directory : 'src'
     }],
 #testing : {
+    #include : {
+      #classes : [#PerformanceRecorderTest ],
+      #categories : [ 'CoypuRecorder-Tests' ],
+      #packages : [ 'CoypuRecorderTests' ],
+      #projects : [ 'BaselineOfCoypuRecorder' ]
+    },
     #exclude : {
       #classes : [ #PerformanceTest ],
       #categories : [ 'Tests-*' ],
