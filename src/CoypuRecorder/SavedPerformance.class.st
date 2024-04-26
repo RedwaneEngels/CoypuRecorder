@@ -19,6 +19,20 @@ SavedPerformance class >> new [
 ^x
 ]
 
+{ #category : #'as yet unclassified' }
+SavedPerformance >> absoluteToRelative: anOrderedCollection [
+|start absolute|
+
+start := (anOrderedCollection at: 1) asSeconds.
+
+absolute := OrderedCollection new.
+absolute add: '0'.
+anOrderedCollection removeFirst.
+anOrderedCollection do: [:each |absolute add: (each asSeconds - start) asString ].
+
+^  absolute
+]
+
 { #category : #adding }
 SavedPerformance >> add: anObject [
 
@@ -70,11 +84,36 @@ collectionOfCommands  last symbol: anAnnouncement symbol
 SavedPerformance >> scriptForDisplayer: aDisplayer [
 
 	| scripts |
+	scripts := collectionOfCommands collect: [ :each |'p '
+		           , (self visitCommandToGetScript: each) , String cr ].
+
+	aDisplayer performanceScript: scripts
+]
+
+{ #category : #accessing }
+SavedPerformance >> scriptWithRelativeTimeForDisplayer: aDisplayer [
+
+	| scripts relativetimes |
+	relativetimes := self absoluteToRelative:
+		                 (collectionOfCommands collect: [ :each |
+			                  self visitCommandToGetTime: each ]).
+	scripts := collectionOfCommands
+		           with: relativetimes
+		           collect: [ :each :time |
+			           '"#At the ' , time ,time suffixeNumber ,' second :"' , String cr , 'p '
+			           , (self visitCommandToGetScript: each) , String cr ].
+
+	aDisplayer performanceScript: scripts
+]
+
+{ #category : #accessing }
+SavedPerformance >> scriptWithTimeForDisplayer: aDisplayer [
+
+	| scripts |
 	scripts := collectionOfCommands collect: [ :each |
-		           '"#At ' , (self
-			           visitCommandToGetTime:
-			           each ), ' :"' , String cr , 'p ' , (self
-			           visitCommandToGetScript: each) , String cr ].
+		           '"#At ' , (self visitCommandToGetTime: each) asString , ' :"'
+		           , String cr , 'p ' , (self visitCommandToGetScript: each)
+		           , String cr ].
 
 	aDisplayer performanceScript: scripts
 ]

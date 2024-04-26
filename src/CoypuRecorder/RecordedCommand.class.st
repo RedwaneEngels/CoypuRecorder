@@ -17,7 +17,7 @@ RecordedCommand >> getPrint: aSavedPerformance [
 { #category : #primitives }
 RecordedCommand >> getTime: aSavedPerformance [
 
-^	aSavedPerformance getCommandTime: self time asTime asString
+	^ aSavedPerformance getCommandTime: self time asTime
 ]
 
 { #category : #'instance creation' }
