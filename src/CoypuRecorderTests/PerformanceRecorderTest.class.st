@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'performanceRecorder'
 	],
-	#category : #CoypuRecorderTests
+	#category : #'CoypuRecorderTests-Tests'
 }
 
 { #category : #tests }
@@ -19,15 +19,6 @@ PerformanceRecorderTest >> setUp [
 	super setUp.
 	performanceRecorder := PerformanceRecorder uniqueInstance.
 	performanceRecorder performer: PerformerSuperDirt  new
-]
-
-{ #category : #tests }
-PerformanceRecorderTest >> test [
-  | api |
-  api := PerformanceRecorder selectors. "ici on pourra filtrer"
-   Performance selectors do: [
-    :s | 
-      self assert: (api includes: s) ]
 ]
 
 { #category : #tests }
@@ -89,6 +80,14 @@ PerformanceRecorderTest >> testRestore [
 	self assert: self commands isEmpty equals: false.
 
 	self assert: self commands last print equals: 'restore.'
+]
+
+{ #category : #tests }
+PerformanceRecorderTest >> testSameAPIThanPerformance [
+
+	| api |
+	api := PerformanceRecorder selectors. "ici on pourra filtrer"
+	Performance selectors do: [ :s | self assert: (api includes: s) ]
 ]
 
 { #category : #tests }
