@@ -327,12 +327,6 @@ PerformanceRecorder >> savedPerformance [
 	^ savedPerformance
 ]
 
-{ #category : #'as yet unclassified' }
-PerformanceRecorder >> scriptForDisplayer: aDisplayer [
-
-savedPerformance scriptListForDisplayer: aDisplayer
-]
-
 { #category : #'muting and soloing' }
 PerformanceRecorder >> solo: aKeyOrAnArrayOfKeys [
 

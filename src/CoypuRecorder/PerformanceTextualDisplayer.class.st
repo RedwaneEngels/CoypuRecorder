@@ -3,8 +3,7 @@ Class {
 	#superclass : #Object,
 	#type : #variable,
 	#instVars : [
-		'performanceScript',
-		'performanceTimes'
+		'performanceScript'
 	],
 	#category : #'CoypuRecorder-Displayer'
 }
@@ -15,10 +14,8 @@ PerformanceTextualDisplayer >> displayInTranscript [
 	'p := PerformanceRecorder uniqueInstance .' traceCr.
 	'p performer: PerformerSuperDirt new.' traceCr.
 	'' traceCr.
-	performanceScript with: performanceTimes do: [ :each :time |
-		('"#At ' , time asTime asString , ' :"') traceCr.
-		('p ' , each) traceCr.
-		'' traceCr ]
+	performanceScript do: [ :each |
+		each traceCr ]
 ]
 
 { #category : #accessing }
@@ -27,14 +24,8 @@ PerformanceTextualDisplayer >> performanceScript: anOrderedCollection [
 performanceScript := anOrderedCollection 
 ]
 
-{ #category : #accessing }
-PerformanceTextualDisplayer >> performanceTimes: anOrderedCollection [
-
-	performanceTimes := anOrderedCollection
-]
-
 { #category : #visiting }
-PerformanceTextualDisplayer >> visitAPerformanceRecorder: aSavedPerformance [
+PerformanceTextualDisplayer >> visitASavedPerformance: aSavedPerformance [
 
 	aSavedPerformance scriptForDisplayer: self
 ]
@@ -47,16 +38,15 @@ PerformanceTextualDisplayer >> writeScriptInTxtFile [
 	x := FileLocator home / 'Documents'.
 	(x / 'PerformanceScripts') isDirectory ifFalse: [
 		(x / 'PerformanceScripts') ensureCreateDirectory ].
-	[
-	(x / 'PerformanceScripts' / 'Performance of the '
-	 , DateAndTime now asDate asString , '(' , counter asString , ')'
-	 , 'txt') asFileReference isFile ] whileTrue: [
-		counter = '' ifTrue: [ counter := 0 ].
-		counter := counter + 1 ].
-	script := (x / 'PerformanceScripts' / 'Performance of the '
-	           , DateAndTime now asDate asString , '(' , counter asString
-	           , ')' , 'txt') asFileReference.
+	x := x / 'PerformanceScripts' / DateAndTime now asDate asString.
+	x isDirectory ifFalse: [
+		(x / DateAndTime now asDate asString) ensureCreateDirectory ].
+	
+	script := (x / 'Performance' , 'txt') asFileReference.
+	script asFileReference isFile ifTrue: [
+		script := x / (x nextNameFor: 'Performance' extension: 'txt') ].
 
+	script := script asFileReference.
 	stream := script writeStream.
 	stream nextPutAll: 'p := PerformanceRecorder uniqueInstance.'.
 	stream
@@ -65,14 +55,9 @@ PerformanceTextualDisplayer >> writeScriptInTxtFile [
 		nextPutAll: 'p performer: PerformerSuperDirt new.';
 		nextPutAll: String cr;
 		nextPutAll: String cr.
-	performanceScript  with: performanceTimes  do: [ :each :time |
+	performanceScript do: [ :each |
 		stream
-			nextPutAll: '"At ';
-			nextPutAll: time asTime asString;
-			nextPutAll: ' :"';
-			nextPutAll: String cr;
-			nextPutAll: 'p ' , each;
-			nextPutAll: String cr;
+			nextPutAll: each;
 			nextPutAll: String cr ].
 	stream close
 ]

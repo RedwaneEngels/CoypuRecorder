@@ -8,11 +8,29 @@ Class {
 	#category : #'CoypuRecorder-RecordedCommand'
 }
 
+{ #category : #'as yet unclassified' }
+RecordedCommand >> getPrint: aSavedPerformance [
+
+	^ aSavedPerformance getCommandScript: self print
+]
+
+{ #category : #primitives }
+RecordedCommand >> getTime: aSavedPerformance [
+
+^	aSavedPerformance getCommandTime: self time asTime asString
+]
+
 { #category : #'instance creation' }
 RecordedCommand >> initialize [
 
 	super initialize.
 	time := DateAndTime now . 
+]
+
+{ #category : #printing }
+RecordedCommand >> print [
+
+self subclassResponsibility 
 ]
 
 { #category : #accessing }

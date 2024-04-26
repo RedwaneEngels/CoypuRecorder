@@ -2,7 +2,8 @@ Class {
 	#name : #SavedPerformance,
 	#superclass : #Object,
 	#instVars : [
-		'collectionOfCommands'
+		'collectionOfCommands',
+		'aSavedPerformance'
 	],
 	#category : #'CoypuRecorder-savedPerformance'
 }
@@ -41,6 +42,18 @@ SavedPerformance >> collectionOfCommands: anOrderedCollection [
 collectionOfCommands := anOrderedCollection 
 ]
 
+{ #category : #'as yet unclassified' }
+SavedPerformance >> getCommandScript: aString [
+
+^ aString 
+]
+
+{ #category : #'as yet unclassified' }
+SavedPerformance >> getCommandTime: aString [
+
+^ aString
+]
+
 { #category : #adding }
 SavedPerformance >> lastDirtNotes: anAnnouncement [
 
@@ -54,11 +67,26 @@ collectionOfCommands  last symbol: anAnnouncement symbol
 ]
 
 { #category : #accessing }
-SavedPerformance >> scriptListForDisplayer: aDisplayer [
-| scripts  times |
-	scripts := collectionOfCommands collect: [ :each | each print ].
-	times := collectionOfCommands collect: [:each | each time  ].
-	
-aDisplayer performanceScript: scripts.
-aDisplayer performanceTimes: times.
+SavedPerformance >> scriptForDisplayer: aDisplayer [
+
+	| scripts |
+	scripts := collectionOfCommands collect: [ :each |
+		           '"#At ' , (self
+			           visitCommandToGetTime:
+			           each ), ' :"' , String cr , 'p ' , (self
+			           visitCommandToGetScript: each) , String cr ].
+
+	aDisplayer performanceScript: scripts
+]
+
+{ #category : #visiting }
+SavedPerformance >> visitCommandToGetScript: aRecordedCommand [
+
+	^ aRecordedCommand getPrint: self
+]
+
+{ #category : #visiting }
+SavedPerformance >> visitCommandToGetTime: aRecordedCommand [
+
+	^ aRecordedCommand getTime: self
 ]
