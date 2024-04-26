@@ -7,6 +7,12 @@ Class {
 	#category : #CoypuRecorderTests
 }
 
+{ #category : #tests }
+PerformanceRecorderTest >> commands [
+
+	^ performanceRecorder savedPerformance collectionOfCommands
+]
+
 { #category : #running }
 PerformanceRecorderTest >> setUp [
 
@@ -27,145 +33,97 @@ PerformanceRecorderTest >> test [
 { #category : #tests }
 PerformanceRecorderTest >> testFreq [
 
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
-		equals: true.
+	self assertEmpty: self commands.
 
 	performanceRecorder freq: 138 bpm.
 
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
-		equals: false.
+	self denyEmpty: self commands.
 
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands last print
-		equals: 'freq: 138 bpm.'
+	self assert: self commands last print equals: 'freq: 138 bpm.'
 ]
 
 { #category : #tests }
 PerformanceRecorderTest >> testMute [
 
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
-		equals: true.
+	self assert: self commands isEmpty equals: true.
 
 	16 upbeats to: #bb.
 	performanceRecorder mute: #bb.
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
-		equals: false.
+	self assert: self commands isEmpty equals: false.
 
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands last print
-		equals: 'mute: #bb.'
+	self assert: self commands last print equals: 'mute: #bb.'
 ]
 
 { #category : #tests }
 PerformanceRecorderTest >> testPlay [
 
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
-		equals: true.
+	self assert: self commands isEmpty equals: true.
 
 	performanceRecorder play.
 
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
-		equals: false.
+	self assert: self commands isEmpty equals: false.
 
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands last print
-		equals: 'play.'
+	self assert: self commands last print equals: 'play.'
 ]
 
 { #category : #tests }
 PerformanceRecorderTest >> testPlayFor [
 
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
-		equals: true.
+	self assert: self commands isEmpty equals: true.
 
 	performanceRecorder playFor: 12 bars.
 
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
-		equals: false.
+	self assert: self commands isEmpty equals: false.
 
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands last print
-		equals: 'playFor: 12 bars.'
+	self assert: self commands last print equals: 'playFor: 12 bars.'
 ]
 
 { #category : #tests }
 PerformanceRecorderTest >> testRestore [
 
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
-		equals: true.
+	self assert: self commands isEmpty equals: true.
 
 	16 upbeats to: #bb.
 	performanceRecorder mute: #bb.
 	performanceRecorder restore.
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
-		equals: false.
+	self assert: self commands isEmpty equals: false.
 
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands last print
-		equals: 'restore.'
+	self assert: self commands last print equals: 'restore.'
 ]
 
 { #category : #tests }
 PerformanceRecorderTest >> testSolo [
 
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
-		equals: true.
+	self assert: self commands isEmpty equals: true.
 
 	16 upbeats to: #bb.
 	performanceRecorder solo: #bb.
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
-		equals: false.
+	self assert: self commands isEmpty equals: false.
 
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands last print
-		equals: 'solo: #bb.'
+	self assert: self commands last print equals: 'solo: #bb.'
 ]
 
 { #category : #tests }
 PerformanceRecorderTest >> testStop [
 
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
-		equals: true.
+	self assert: self commands isEmpty equals: true.
 
 	16 upbeats to: #bb.
 	performanceRecorder stop.
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
-		equals: false.
+	self assert: self commands isEmpty equals: false.
 
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands last print
-		equals: 'stop.'
+	self assert: self commands last print equals: 'stop.'
 ]
 
 { #category : #tests }
 PerformanceRecorderTest >> testUnsolo [
 
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
-		equals: true.
+	self assert: self commands isEmpty equals: true.
 
 	16 upbeats to: #bb.
 	performanceRecorder solo: #bb.
 	performanceRecorder unsolo: #bb.
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands isEmpty
-		equals: false.
+	self assert: self commands isEmpty equals: false.
 
-	self
-		assert: performanceRecorder savedPerformance collectionOfCommands last print
-		equals: 'unsolo: #bb.'
+	self assert: self commands last print equals: 'unsolo: #bb.'
 ]
