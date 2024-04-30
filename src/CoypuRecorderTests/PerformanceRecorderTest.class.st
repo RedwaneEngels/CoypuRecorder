@@ -30,7 +30,7 @@ PerformanceRecorderTest >> testFreq [
 
 	self denyEmpty: self commands.
 
-	self assert: self commands last print equals: 'freq: 138 bpm.'
+	self assert: self commands last print equals: 'p freq: 138 bpm.'
 ]
 
 { #category : #tests }
@@ -42,7 +42,7 @@ PerformanceRecorderTest >> testMute [
 	performanceRecorder mute: #bb.
 	self assert: self commands isEmpty equals: false.
 
-	self assert: self commands last print equals: 'mute: #bb.'
+	self assert: self commands last print equals: 'p mute: #bb.'
 ]
 
 { #category : #tests }
@@ -54,7 +54,7 @@ PerformanceRecorderTest >> testPlay [
 
 	self assert: self commands isEmpty equals: false.
 
-	self assert: self commands last print equals: 'play.'
+	self assert: self commands last print equals: 'p play.'
 ]
 
 { #category : #tests }
@@ -66,7 +66,7 @@ PerformanceRecorderTest >> testPlayFor [
 
 	self assert: self commands isEmpty equals: false.
 
-	self assert: self commands last print equals: 'playFor: 12 bars.'
+	self assert: self commands last print equals: 'p playFor: 12 bars.'
 ]
 
 { #category : #tests }
@@ -79,7 +79,7 @@ PerformanceRecorderTest >> testRestore [
 	performanceRecorder restore.
 	self assert: self commands isEmpty equals: false.
 
-	self assert: self commands last print equals: 'restore.'
+	self assert: self commands last print equals: 'p restore.'
 ]
 
 { #category : #tests }
@@ -99,7 +99,7 @@ PerformanceRecorderTest >> testSolo [
 	performanceRecorder solo: #bb.
 	self assert: self commands isEmpty equals: false.
 
-	self assert: self commands last print equals: 'solo: #bb.'
+	self assert: self commands last print equals: 'p solo: #bb.'
 ]
 
 { #category : #tests }
@@ -111,7 +111,7 @@ PerformanceRecorderTest >> testStop [
 	performanceRecorder stop.
 	self assert: self commands isEmpty equals: false.
 
-	self assert: self commands last print equals: 'stop.'
+	self assert: self commands last print equals: 'p stop.'
 ]
 
 { #category : #tests }
@@ -124,5 +124,5 @@ PerformanceRecorderTest >> testUnsolo [
 	performanceRecorder unsolo: #bb.
 	self assert: self commands isEmpty equals: false.
 
-	self assert: self commands last print equals: 'unsolo: #bb.'
+	self assert: self commands last print equals: 'p unsolo: #bb.'
 ]
