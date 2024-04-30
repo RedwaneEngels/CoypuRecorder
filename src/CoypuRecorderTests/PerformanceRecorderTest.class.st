@@ -36,11 +36,11 @@ PerformanceRecorderTest >> testFreq [
 { #category : #tests }
 PerformanceRecorderTest >> testMute [
 
-	self assert: self commands isEmpty equals: true.
+	self assertEmpty: self commands.
 
 	16 upbeats to: #bb.
 	performanceRecorder mute: #bb.
-	self assert: self commands isEmpty equals: false.
+	self denyEmpty: self commands.
 
 	self assert: self commands last print equals: 'p mute: #bb.'
 ]
@@ -48,11 +48,11 @@ PerformanceRecorderTest >> testMute [
 { #category : #tests }
 PerformanceRecorderTest >> testPlay [
 
-	self assert: self commands isEmpty equals: true.
+	self assertEmpty: self commands.
 
 	performanceRecorder play.
 
-	self assert: self commands isEmpty equals: false.
+	self denyEmpty: self commands.
 
 	self assert: self commands last print equals: 'p play.'
 ]
@@ -60,11 +60,11 @@ PerformanceRecorderTest >> testPlay [
 { #category : #tests }
 PerformanceRecorderTest >> testPlayFor [
 
-	self assert: self commands isEmpty equals: true.
+	self assertEmpty: self commands.
 
 	performanceRecorder playFor: 12 bars.
 
-	self assert: self commands isEmpty equals: false.
+	self denyEmpty: self commands.
 
 	self assert: self commands last print equals: 'p playFor: 12 bars.'
 ]
@@ -72,12 +72,12 @@ PerformanceRecorderTest >> testPlayFor [
 { #category : #tests }
 PerformanceRecorderTest >> testRestore [
 
-	self assert: self commands isEmpty equals: true.
+	self assertEmpty: self commands.
 
 	16 upbeats to: #bb.
 	performanceRecorder mute: #bb.
 	performanceRecorder restore.
-	self assert: self commands isEmpty equals: false.
+	self denyEmpty: self commands.
 
 	self assert: self commands last print equals: 'p restore.'
 ]
@@ -92,12 +92,11 @@ PerformanceRecorderTest >> testSameAPIThanPerformance [
 
 { #category : #tests }
 PerformanceRecorderTest >> testSolo [
-
-	self assert: self commands isEmpty equals: true.
+	self assertEmpty: self commands.
 
 	16 upbeats to: #bb.
 	performanceRecorder solo: #bb.
-	self assert: self commands isEmpty equals: false.
+	self denyEmpty: self commands.
 
 	self assert: self commands last print equals: 'p solo: #bb.'
 ]
@@ -105,11 +104,11 @@ PerformanceRecorderTest >> testSolo [
 { #category : #tests }
 PerformanceRecorderTest >> testStop [
 
-	self assert: self commands isEmpty equals: true.
+	self assertEmpty: self commands.
 
 	16 upbeats to: #bb.
 	performanceRecorder stop.
-	self assert: self commands isEmpty equals: false.
+	self denyEmpty: self commands.
 
 	self assert: self commands last print equals: 'p stop.'
 ]
@@ -117,12 +116,12 @@ PerformanceRecorderTest >> testStop [
 { #category : #tests }
 PerformanceRecorderTest >> testUnsolo [
 
-	self assert: self commands isEmpty equals: true.
+	self assertEmpty: self commands.
 
 	16 upbeats to: #bb.
 	performanceRecorder solo: #bb.
 	performanceRecorder unsolo: #bb.
-	self assert: self commands isEmpty equals: false.
+	self denyEmpty: self commands.
 
 	self assert: self commands last print equals: 'p unsolo: #bb.'
 ]

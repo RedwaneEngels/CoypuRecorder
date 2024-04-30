@@ -15,13 +15,13 @@ RecordedCommand >> delay: aTimeInSeconds [
 delay := aTimeInSeconds
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'visitor - double dispatching' }
 RecordedCommand >> getPrint: aSavedPerformance [
 
 	^ aSavedPerformance getCommandScript: self print
 ]
 
-{ #category : #primitives }
+{ #category : #'visitor - double dispatching' }
 RecordedCommand >> getTime: aSavedPerformance [
 
 	^ aSavedPerformance getCommandTime: self time asTime
@@ -31,7 +31,7 @@ RecordedCommand >> getTime: aSavedPerformance [
 RecordedCommand >> initialize [
 
 	super initialize.
-	time := DateAndTime now . 
+	time := DateAndTime now rounded
 ]
 
 { #category : #printing }

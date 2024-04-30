@@ -2,8 +2,7 @@ Class {
 	#name : #SavedPerformance,
 	#superclass : #Object,
 	#instVars : [
-		'collectionOfCommands',
-		'aSavedPerformance'
+		'collectionOfCommands'
 	],
 	#category : #'CoypuRecorder-savedPerformance'
 }
@@ -19,43 +18,27 @@ SavedPerformance class >> new [
 ^x
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #calculating }
 SavedPerformance >> absoluteToDelay [
 
-	| times |
-	times := OrderedCollection new.
+	| delays times |
+	times := self getTimes.
+	delays := OrderedCollection new.
 
-	1 to: collectionOfCommands size - 1 do: [ :i |
-		times add:
-			(self visitCommandToGetTime: (collectionOfCommands at: i + 1))
-				asSeconds
-			-
-			(self visitCommandToGetTime: (collectionOfCommands at: i))
-				asSeconds.
-		((self visitCommandToGetTime: (collectionOfCommands at: i + 1))
-			 asSeconds asString , ' - '
-		 , (self visitCommandToGetTime: (collectionOfCommands at: i))
-				 asSeconds asString) traceCr ].
+	1 to: times size - 1 do: [ :i |
+		delays add: (times at: i + 1) asSeconds - (times at: i) asSeconds ].
 
-	times addFirst: 0.
-	times traceCr.
+	delays addFirst: 0.
 
-	^ times
+	^ delays
 ]
 
-{ #category : #'as yet unclassified' }
-SavedPerformance >> absoluteToRelative: anOrderedCollection [
+{ #category : #calculating }
+SavedPerformance >> absoluteToRelative [
 
-	| start relative |
-	start := (anOrderedCollection at: 1) asSeconds.
-
-	relative  := OrderedCollection new.
-	relative  add: '0'.
-	anOrderedCollection removeFirst.
-	anOrderedCollection do: [ :each |
-		relative  add: (each asSeconds - start) asString ].
-
-	^ relative 
+	| times |
+	times := self getTimes.
+	^ times collect: [ :each | (each asSeconds - times first asSeconds ) asString ]
 ]
 
 { #category : #adding }
@@ -70,7 +53,7 @@ SavedPerformance >> addInstrument: anAnnouncement [
 	collectionOfCommands add: (RecordedInstrumentCommand new rythm: anAnnouncement rythm)
 ]
 
-{ #category : #adding }
+{ #category : #accessing }
 SavedPerformance >> collectionOfCommands [
 ^	collectionOfCommands
 ]
@@ -81,16 +64,37 @@ SavedPerformance >> collectionOfCommands: anOrderedCollection [
 collectionOfCommands := anOrderedCollection 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #visiting }
 SavedPerformance >> getCommandScript: aString [
 
 ^ aString 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #visiting }
 SavedPerformance >> getCommandTime: aString [
 
 ^ aString
+]
+
+{ #category : #'as yet unclassified' }
+SavedPerformance >> getScripts [
+
+	| scripts |
+	scripts := collectionOfCommands collect: [ :each |
+		           self visitCommandToGetScript: each ].
+	scripts
+		addFirst: 'p performer: PerformerSuperDirt new.' , String cr;
+		addFirst: 'p := PerformanceRecorder uniqueInstance.', String cr, String cr.
+
+	^ scripts
+]
+
+{ #category : #'as yet unclassified' }
+SavedPerformance >> getTimes [
+
+^ collectionOfCommands collect: [ :each |
+		           self visitCommandToGetTime: each ].
+
 ]
 
 { #category : #adding }
@@ -105,66 +109,45 @@ SavedPerformance >> lastSymbol: anAnnouncement [
 collectionOfCommands  last symbol: anAnnouncement symbol
 ]
 
-{ #category : #accessing }
+{ #category : #visitors }
 SavedPerformance >> scriptForReplayer: aDisplayer [
 
-	| scripts |
-	scripts := collectionOfCommands collect: [ :each |
-		           (self visitCommandToGetScript: each) ].
-	scripts
-		addFirst:
-			'p performer: PerformerSuperDirt new.' , String cr ;
-		addFirst: 'p := PerformanceRecorder uniqueInstance.'.
-
-	aDisplayer performanceScript: scripts
+	aDisplayer performanceScript: self getScripts
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #visitors }
 SavedPerformance >> scriptWithDelayTimeForReplayer: aReplayer [
 
-	| delay scripts |
+	| delay|
 	delay := self absoluteToDelay.
 
 	collectionOfCommands with: delay do: [ :each :d | each delay: d ].
-
-	scripts := collectionOfCommands collect: [ :each |
-		           (self visitCommandToGetScript: each),
-		           String cr , String cr ].
-
-	scripts
-		addFirst: 'p performer: PerformerSuperDirt new.' , String cr;
-		addFirst:
-			'p := PerformanceRecorder uniqueInstance.' , String cr , String cr.
-
-	aReplayer performanceScript: scripts
+	aReplayer performanceScript:  self getScripts.
 ]
 
-{ #category : #accessing }
+{ #category : #visitors }
 SavedPerformance >> scriptWithRelativeTimeForReplayer: aDisplayer [
 
 	| scripts relativetimes |
-	relativetimes := self absoluteToRelative:
-		                 (collectionOfCommands collect: [ :each |
-			                  self visitCommandToGetTime: each ]).
-	scripts := collectionOfCommands
-		           with: relativetimes
+	relativetimes := self absoluteToRelative.
+	scripts := ( self getScripts allButFirst:2 ) with: relativetimes
 		           collect: [ :each :time |
 			           '"//At the ' , time , time suffixeNumber , ' second\\"'
-			           , String cr , (self visitCommandToGetScript: each)].
+			           , String cr , each ].
 	scripts
 		addFirst: 'p performer: PerformerSuperDirt new.' , String cr;
 		addFirst: 'p := PerformanceRecorder uniqueInstance.'.
 	aDisplayer performanceScript: scripts
 ]
 
-{ #category : #accessing }
+{ #category : #visitors }
 SavedPerformance >> scriptWithTimeForReplayer: aDisplayer [
 
 	| scripts |
-	scripts := collectionOfCommands collect: [ :each |
-		           '"#At ' , (self visitCommandToGetTime: each)asString
-		           , ' :"' , String cr
-		           , (self visitCommandToGetScript: each) ].
+	scripts := (self getScripts allButFirst: 2)
+		           with: self getTimes
+		           collect: [ :each :times |
+		           '"#At ' , times asString , ' :"' , String cr , each ].
 	scripts
 		addFirst: 'p performer: PerformerSuperDirt new.' , String cr;
 		addFirst: 'p := PerformanceRecorder uniqueInstance.'.
