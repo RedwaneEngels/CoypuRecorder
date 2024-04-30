@@ -3,10 +3,17 @@ Class {
 	#superclass : #Object,
 	#type : #variable,
 	#instVars : [
-		'time'
+		'time',
+		'delay'
 	],
 	#category : #'CoypuRecorder-RecordedCommand'
 }
+
+{ #category : #accessing }
+RecordedCommand >> delay: aTimeInSeconds [
+
+delay := aTimeInSeconds
+]
 
 { #category : #'as yet unclassified' }
 RecordedCommand >> getPrint: aSavedPerformance [

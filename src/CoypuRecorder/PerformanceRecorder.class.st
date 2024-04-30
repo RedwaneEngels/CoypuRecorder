@@ -132,6 +132,14 @@ Performance uniqueInstance bpm: aRateInSeconds
 ]
 
 { #category : #accessing }
+PerformanceRecorder >> bpm: aRateInSeconds atTime: aTime [
+
+	(Delay forSeconds: aTime) wait.
+
+	Performance uniqueInstance bpm: aRateInSeconds
+]
+
+{ #category : #accessing }
 PerformanceRecorder >> canvas [
 
 	^Performance uniqueInstance canvas
@@ -177,6 +185,16 @@ PerformanceRecorder >> freq: aDurationInSeconds [
 	Performance uniqueInstance freq: aDurationInSeconds
 ]
 
+{ #category : #accessing }
+PerformanceRecorder >> freq: aDurationInSeconds atTime: aTime [
+(Delay forSeconds: aTime) wait.
+
+	savedPerformance add: (RecordedOrderCommand new order:
+			 'freq: ' , (1 / (4 * aDurationInSeconds) * 60) asInteger asString
+			 , ' bpm.').
+	Performance uniqueInstance freq: aDurationInSeconds
+]
+
 { #category : #'LiveCoding - Performance' }
 PerformanceRecorder >> incrementTransportStep [
 
@@ -210,6 +228,16 @@ PerformanceRecorder >> mute: aKeyOrAnArrayOfKeys [
 ]
 
 { #category : #'muting and soloing' }
+PerformanceRecorder >> mute: aKeyOrAnArrayOfKeys atTime: aTime [
+
+	(Delay forSeconds: aTime) wait.
+
+	Performance uniqueInstance mute: aKeyOrAnArrayOfKeys.
+	savedPerformance add: (RecordedOrderCommand new order:
+			 'mute: ' , '#' , aKeyOrAnArrayOfKeys asString , '.')
+]
+
+{ #category : #'muting and soloing' }
 PerformanceRecorder >> muteAll [
 
 	savedPerformance
@@ -219,12 +247,31 @@ PerformanceRecorder >> muteAll [
 		
 ]
 
+{ #category : #'muting and soloing' }
+PerformanceRecorder >> muteAllAtTime: aTime [
+	(Delay forSeconds: aTime) wait.
+
+	savedPerformance add: (RecordedOrderCommand new order: 'muteAll.').
+	Performance uniqueInstance muteAll
+]
+
 { #category : #'LiveCoding - satelliteEvent' }
 PerformanceRecorder >> pacaDance [
 "NE FONCTIONNE PAS"
 	savedPerformance add: (RecordedOrderCommand new order: 'pacaDance').
 
 	"Performance uniqueInstance pacaDance"
+]
+
+{ #category : #'LiveCoding - satelliteEvent' }
+PerformanceRecorder >> pacaDanceAtTime: aTime [
+	"NE FONCTIONNE PAS"
+
+	(Delay forSeconds: aTime) wait.
+
+	savedPerformance add: (RecordedOrderCommand new order: 'pacaDance').
+
+	Performance uniqueInstance pacaDance
 ]
 
 { #category : #'muting and soloing' }
@@ -270,6 +317,16 @@ PerformanceRecorder >> playFor: aNumberOfSteps [
 	Performance uniqueInstance playFor: aNumberOfSteps
 ]
 
+{ #category : #playing }
+PerformanceRecorder >> playFor: aNumberOfSteps atTime: aTime [
+
+	(Delay forSeconds: aTime) wait.
+
+	savedPerformance add: (RecordedOrderCommand new order:
+			 'playFor: ' , (aNumberOfSteps / 16) asString , ' bars.').
+	Performance uniqueInstance playFor: aNumberOfSteps
+]
+
 { #category : #'muting and soloing' }
 PerformanceRecorder >> playKymaSequencFor: aNumberOfSteps [
 
@@ -277,9 +334,26 @@ Performance uniqueInstance playKymaSequencFor: aNumberOfSteps
 ]
 
 { #category : #'muting and soloing' }
+PerformanceRecorder >> playKymaSequencFor: aNumberOfSteps atTime: aTime [
+
+	(Delay forSeconds: aTime) wait.
+
+	Performance uniqueInstance playKymaSequencFor: aNumberOfSteps
+]
+
+{ #category : #'muting and soloing' }
 PerformanceRecorder >> playKymaSequenceAt: aRateInSeconds for: aNumberOfSteps [
 
 	Performance uniqueInstance playKymaSequenceAt: aRateInSeconds for: aNumberOfSteps
+]
+
+{ #category : #'muting and soloing' }
+PerformanceRecorder >> playKymaSequenceAt: aRateInSeconds for: aNumberOfSteps atTime: aTime [
+
+	(Delay forSeconds: aTime) wait.
+	Performance uniqueInstance
+		playKymaSequenceAt: aRateInSeconds
+		for: aNumberOfSteps
 ]
 
 { #category : #'muting and soloing' }
@@ -290,10 +364,36 @@ PerformanceRecorder >> playLocalSequenceAt: aRateInSeconds for: aNumberOfSteps [
 		for: aNumberOfSteps
 ]
 
+{ #category : #'muting and soloing' }
+PerformanceRecorder >> playLocalSequenceAt: aRateInSeconds for: aNumberOfSteps atTime: aTime [
+
+	(Delay forSeconds: aTime) wait.
+
+	Performance uniqueInstance
+		playLocalSequenceAt: aRateInSeconds
+		for: aNumberOfSteps
+]
+
+{ #category : #playing }
+PerformanceRecorder >> playatTime: aTime [
+	"NE FONCTIONNE PAS"
+	(Delay forSeconds: aTime) wait.
+	savedPerformance add: (RecordedOrderCommand new order: 'play.')
+	"Performance uniqueInstance play"
+]
+
 { #category : #removing }
 PerformanceRecorder >> remove: aKey [
 
 Performance uniqueInstance remove: aKey
+]
+
+{ #category : #removing }
+PerformanceRecorder >> remove: aKey atTime: aTime [
+
+	(Delay forSeconds: aTime) wait.
+
+	Performance uniqueInstance remove: aKey
 ]
 
 { #category : #'muting and soloing' }
@@ -304,6 +404,14 @@ Performance uniqueInstance resetAllSequencers
 
 { #category : #accessing }
 PerformanceRecorder >> restore [
+
+	savedPerformance add: (RecordedOrderCommand new order: 'restore.').
+	Performance uniqueInstance restore
+]
+
+{ #category : #accessing }
+PerformanceRecorder >> restoreAtTime: aTime [
+	(Delay forSeconds: aTime) wait.
 
 	savedPerformance add: (RecordedOrderCommand new order: 'restore.').
 	Performance uniqueInstance restore
@@ -335,8 +443,27 @@ PerformanceRecorder >> solo: aKeyOrAnArrayOfKeys [
 			 'solo: ' , '#' , aKeyOrAnArrayOfKeys asString , '.')
 ]
 
+{ #category : #'muting and soloing' }
+PerformanceRecorder >> solo: aKeyOrAnArrayOfKeys atTime: aTime [
+
+	(Delay forSeconds: aTime) wait.
+
+	Performance uniqueInstance solo: aKeyOrAnArrayOfKeys.
+	savedPerformance add: (RecordedOrderCommand new order:
+			 'solo: ' , '#' , aKeyOrAnArrayOfKeys asString , '.')
+]
+
 { #category : #accessing }
 PerformanceRecorder >> stop [
+
+	savedPerformance add: (RecordedOrderCommand new order: 'stop.').
+	Performance uniqueInstance stop
+]
+
+{ #category : #accessing }
+PerformanceRecorder >> stopAtTime: aTime [
+
+	(Delay forSeconds: aTime) wait.
 
 	savedPerformance add: (RecordedOrderCommand new order: 'stop.').
 	Performance uniqueInstance stop
@@ -362,6 +489,16 @@ Performance uniqueInstance transportStep: anInteger
 
 { #category : #'LiveCoding - Performance' }
 PerformanceRecorder >> unsolo: aKeyOrAnArrayOfKeys [
+
+	Performance uniqueInstance unsolo: aKeyOrAnArrayOfKeys.
+	savedPerformance add: (RecordedOrderCommand new order:
+			 'unsolo: ' , '#' , aKeyOrAnArrayOfKeys asString , '.')
+]
+
+{ #category : #'LiveCoding - Performance' }
+PerformanceRecorder >> unsolo: aKeyOrAnArrayOfKeys atTime: aTime [
+
+	(Delay forSeconds: aTime) wait.
 
 	Performance uniqueInstance unsolo: aKeyOrAnArrayOfKeys.
 	savedPerformance add: (RecordedOrderCommand new order:

@@ -1,52 +1,65 @@
 Class {
-	#name : #PerformanceTextualDisplayer,
+	#name : #PerformanceTextualReplayer,
 	#superclass : #Object,
 	#type : #variable,
 	#instVars : [
 		'performanceScript'
 	],
-	#category : #'CoypuRecorder-Displayer'
+	#category : #'CoypuRecorder-Replayer'
 }
 
 { #category : #accessing }
-PerformanceTextualDisplayer >> displayInTranscript [
+PerformanceTextualReplayer >> displayInTranscript [
 
-	'p := PerformanceRecorder uniqueInstance .' traceCr.
-	'p performer: PerformerSuperDirt new.' traceCr.
-	'' traceCr.
-	performanceScript do: [ :each |
-		each traceCr ]
+	performanceScript do: [ :each | each traceCr ]
 ]
 
 { #category : #visiting }
-PerformanceTextualDisplayer >> getScript: aSavedPerformance [
+PerformanceTextualReplayer >> getScript: aSavedPerformance [
 
-	aSavedPerformance scriptForDisplayer: self
+	aSavedPerformance scriptForReplayer: self
 ]
 
 { #category : #visiting }
-PerformanceTextualDisplayer >> getScriptWithRelativeTime: aSavedPerformance [
+PerformanceTextualReplayer >> getScriptWithRelativeTime: aSavedPerformance [
 
-	aSavedPerformance scriptWithRelativeTimeForDisplayer: self
+	aSavedPerformance scriptWithRelativeTimeForReplayer: self
 ]
 
 { #category : #visiting }
-PerformanceTextualDisplayer >> getScriptWithTime: aSavedPerformance [
+PerformanceTextualReplayer >> getScriptWithTime: aSavedPerformance [
 
-	aSavedPerformance scriptWithTimeForDisplayer: self
+	aSavedPerformance scriptWithTimeForReplayer: self
 ]
 
 { #category : #accessing }
-PerformanceTextualDisplayer >> performanceScript: anOrderedCollection [
+PerformanceTextualReplayer >> performanceScript: anOrderedCollection [
 
 performanceScript := anOrderedCollection 
 ]
 
 { #category : #accessing }
-PerformanceTextualDisplayer >> writeScriptInStonFile [
+PerformanceTextualReplayer >> replay [
 
-	| x script stream counter |
-	counter := ''.
+	| content |
+	content := '
+"###########################################################################"
+
+"OPEN SUPERCOLLIDER"
+"TYPE: SuperDirt.start;"
+"EVALUATE IT - CMD+ENTER"
+"###########################################################################"
+	
+'.
+	content := content , String cr.
+	content := content , ('' join: (performanceScript collect:[:each| each,String cr])).
+	^ StPlayground openContents: content
+]
+
+{ #category : #accessing }
+PerformanceTextualReplayer >> writeScriptInStonFile [
+
+	| x script stream |
 	x := FileLocator home / 'Documents'.
 	(x / 'PerformanceScripts') isDirectory ifFalse: [
 		(x / 'PerformanceScripts') ensureCreateDirectory ].
@@ -57,21 +70,15 @@ PerformanceTextualDisplayer >> writeScriptInStonFile [
 	script := (x / 'Performance' , 'ston') asFileReference.
 	script asFileReference isFile ifTrue: [
 		script := x / (x nextNameFor: 'Performance' extension: 'ston') ].
-
 	script := script asFileReference.
 	stream := script writeStream.
 
-	STON
-		put: {
-				{ 'p := PerformanceRecorder uniqueInstance.' } asArray.
-				{ 'p performer: PerformerSuperDirt new.' } asArray .
-				performanceScript asArray. } asJsonOnStreamPretty: stream.
+	STON put: (performanceScript collect:[:each | each, String cr]) asArray asJsonOnStreamPretty: stream.
 	stream close
-
 ]
 
 { #category : #accessing }
-PerformanceTextualDisplayer >> writeScriptInTxtFile [
+PerformanceTextualReplayer >> writeScriptInTxtFile [
 
 	| x script stream counter |
 	counter := ''.
@@ -81,20 +88,13 @@ PerformanceTextualDisplayer >> writeScriptInTxtFile [
 	x := x / 'PerformanceScripts' / DateAndTime now asDate asString.
 	x isDirectory ifFalse: [
 		(x / DateAndTime now asDate asString) ensureCreateDirectory ].
-	
+
 	script := (x / 'Performance' , 'txt') asFileReference.
 	script asFileReference isFile ifTrue: [
 		script := x / (x nextNameFor: 'Performance' extension: 'txt') ].
 
 	script := script asFileReference.
 	stream := script writeStream.
-	stream nextPutAll: 'p := PerformanceRecorder uniqueInstance.'.
-	stream
-		nextPutAll: String cr;
-		nextPutAll: String cr;
-		nextPutAll: 'p performer: PerformerSuperDirt new.';
-		nextPutAll: String cr;
-		nextPutAll: String cr.
 	performanceScript do: [ :each |
 		stream
 			nextPutAll: each;

@@ -20,17 +20,42 @@ SavedPerformance class >> new [
 ]
 
 { #category : #'as yet unclassified' }
+SavedPerformance >> absoluteToDelay [
+
+	| times |
+	times := OrderedCollection new.
+
+	1 to: collectionOfCommands size - 1 do: [ :i |
+		times add:
+			(self visitCommandToGetTime: (collectionOfCommands at: i + 1))
+				asSeconds
+			-
+			(self visitCommandToGetTime: (collectionOfCommands at: i))
+				asSeconds.
+		((self visitCommandToGetTime: (collectionOfCommands at: i + 1))
+			 asSeconds asString , ' - '
+		 , (self visitCommandToGetTime: (collectionOfCommands at: i))
+				 asSeconds asString) traceCr ].
+
+	times addFirst: 0.
+	times traceCr.
+
+	^ times
+]
+
+{ #category : #'as yet unclassified' }
 SavedPerformance >> absoluteToRelative: anOrderedCollection [
-|start absolute|
 
-start := (anOrderedCollection at: 1) asSeconds.
+	| start relative |
+	start := (anOrderedCollection at: 1) asSeconds.
 
-absolute := OrderedCollection new.
-absolute add: '0'.
-anOrderedCollection removeFirst.
-anOrderedCollection do: [:each |absolute add: (each asSeconds - start) asString ].
+	relative  := OrderedCollection new.
+	relative  add: '0'.
+	anOrderedCollection removeFirst.
+	anOrderedCollection do: [ :each |
+		relative  add: (each asSeconds - start) asString ].
 
-^  absolute
+	^ relative 
 ]
 
 { #category : #adding }
@@ -81,17 +106,41 @@ collectionOfCommands  last symbol: anAnnouncement symbol
 ]
 
 { #category : #accessing }
-SavedPerformance >> scriptForDisplayer: aDisplayer [
+SavedPerformance >> scriptForReplayer: aDisplayer [
 
 	| scripts |
-	scripts := collectionOfCommands collect: [ :each |'p '
-		           , (self visitCommandToGetScript: each) , String cr ].
+	scripts := collectionOfCommands collect: [ :each |
+		           (self visitCommandToGetScript: each) ].
+	scripts
+		addFirst:
+			'p performer: PerformerSuperDirt new.' , String cr ;
+		addFirst: 'p := PerformanceRecorder uniqueInstance.'.
 
 	aDisplayer performanceScript: scripts
 ]
 
+{ #category : #'as yet unclassified' }
+SavedPerformance >> scriptWithDelayTimeForReplayer: aReplayer [
+
+	| delay scripts |
+	delay := self absoluteToDelay.
+
+	collectionOfCommands with: delay do: [ :each :d | each delay: d ].
+
+	scripts := collectionOfCommands collect: [ :each |
+		           (self visitCommandToGetScript: each),
+		           String cr , String cr ].
+
+	scripts
+		addFirst: 'p performer: PerformerSuperDirt new.' , String cr;
+		addFirst:
+			'p := PerformanceRecorder uniqueInstance.' , String cr , String cr.
+
+	aReplayer performanceScript: scripts
+]
+
 { #category : #accessing }
-SavedPerformance >> scriptWithRelativeTimeForDisplayer: aDisplayer [
+SavedPerformance >> scriptWithRelativeTimeForReplayer: aDisplayer [
 
 	| scripts relativetimes |
 	relativetimes := self absoluteToRelative:
@@ -100,21 +149,25 @@ SavedPerformance >> scriptWithRelativeTimeForDisplayer: aDisplayer [
 	scripts := collectionOfCommands
 		           with: relativetimes
 		           collect: [ :each :time |
-			           '"#At the ' , time ,time suffixeNumber ,' second :"' , String cr , 'p '
-			           , (self visitCommandToGetScript: each) , String cr ].
-
+			           '"//At the ' , time , time suffixeNumber , ' second\\"'
+			           , String cr , (self visitCommandToGetScript: each)].
+	scripts
+		addFirst: 'p performer: PerformerSuperDirt new.' , String cr;
+		addFirst: 'p := PerformanceRecorder uniqueInstance.'.
 	aDisplayer performanceScript: scripts
 ]
 
 { #category : #accessing }
-SavedPerformance >> scriptWithTimeForDisplayer: aDisplayer [
+SavedPerformance >> scriptWithTimeForReplayer: aDisplayer [
 
 	| scripts |
 	scripts := collectionOfCommands collect: [ :each |
-		           '"#At ' , (self visitCommandToGetTime: each) asString , ' :"'
-		           , String cr , 'p ' , (self visitCommandToGetScript: each)
-		           , String cr ].
-
+		           '"#At ' , (self visitCommandToGetTime: each)asString
+		           , ' :"' , String cr
+		           , (self visitCommandToGetScript: each) ].
+	scripts
+		addFirst: 'p performer: PerformerSuperDirt new.' , String cr;
+		addFirst: 'p := PerformanceRecorder uniqueInstance.'.
 	aDisplayer performanceScript: scripts
 ]
 

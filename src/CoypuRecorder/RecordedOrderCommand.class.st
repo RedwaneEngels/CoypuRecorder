@@ -23,5 +23,12 @@ order := anOrder
 { #category : #printing }
 RecordedOrderCommand >> print [
 
-	^ self order asString
+	| p |
+	p := 'p ' , self order asString.
+	delay ifNotNil: [
+		p := (p includesSubstring: ':')
+			     ifFalse: [
+			     (p allButLast) , 'AtTime: ' , delay asString , '.' ]
+			     ifTrue: [ p allButLast , ' atTime: ' , delay asString , '.' ] ].
+	^ p
 ]

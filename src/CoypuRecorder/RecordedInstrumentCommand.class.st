@@ -26,9 +26,11 @@ dirtNotes := aDirtNotes
 RecordedInstrumentCommand >> print [
 
 	| m |
-	m := rythm , ' to: #' , symbol , '.'.
+	m := rythm , ' to: #' , symbol asString , '.'.
+	delay ifNotNil: [
+		m := m allButLast , ' atTime: ' ,delay asString , '.' ].
 	dirtNotes ifNotNil: [
-		m := m allButLast , '; ' , 'dirtNotes: ''',dirtNotes,'''. ' ].
+		m := m allButLast , '; ' , 'dirtNotes: ''' , dirtNotes , '''.' ].
 	^ m
 ]
 

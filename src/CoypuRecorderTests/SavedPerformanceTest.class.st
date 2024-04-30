@@ -64,3 +64,22 @@ SavedPerformanceTest >> testLastSymbol [
 
 	self assert: self commands last symbol equals: 'bb'
 ]
+
+{ #category : #tests }
+SavedPerformanceTest >> testRightNumberOfCommandsInSavedPerformance [
+
+	self assert: self commands isEmpty equals: true.
+
+	16 upbeats to: #bb.
+
+	performanceRecorder freq: 138 bpm.
+
+	performanceRecorder playFor: 12 bars.
+
+	performanceRecorder stop.
+
+	self assert: self commands isEmpty equals: false.
+
+	self assert: self commands size equals: 4.
+	
+]
