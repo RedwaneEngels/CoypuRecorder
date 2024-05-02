@@ -36,11 +36,10 @@ ByteString >> asDirtArray [
 ByteString >> asDirtNotes [
 	" returns a sequencer containing a trig for each integer and a rest for whatever other character and with the notes coresponding to the integeres inside the string - tokens must be separated by string"
 
-	| seq tokens gates notesAStrings notesAsNumbers dirtString a b |
-	a := PerformanceRecorder uniqueInstance announcer.
-	b := RythmAnnouncement new.
-	b rythm: '''',self asString , ''' asDirtNotes'.
-	a announce: b.
+	| seq tokens gates notesAStrings notesAsNumbers dirtString announcement|
+	announcement := RythmAnnouncement new.
+	announcement rythm: '''' , self asString , ''' asDirtNotes'.
+	PerformanceRecorder uniqueInstance announce: announcement.
 	gates := ''.
 	tokens := self splitOn: ','.
 	dirtString := ''.
@@ -72,11 +71,10 @@ ByteString >> asDirtNotes [
 ByteString >> asDirtSounds [
 	" parse a String into a Sequencer containing information to end to the SuperDirt synth for SuperCollider"
 
-	| seq tokens gates soundsAsStrings a b |
-	a := PerformanceRecorder uniqueInstance announcer.
-	b := RythmAnnouncement new.
-	b rythm:'''', self asString , ''' asDirtSounds'.
-	a announce: b.
+	| seq tokens gates soundsAsStrings announcement |
+	announcement := RythmAnnouncement new.
+	announcement rythm: '''' , self asString , ''' asDirtSounds'.
+		PerformanceRecorder uniqueInstance announce: announcement.
 	gates := ''.
 	tokens := self splitOn: ','.
 	tokens do: [ :i |
@@ -179,12 +177,11 @@ ByteString >> every: anInteger [
 ByteString >> hexBeat [
 	" convert a string with an Hexadecimal number to the Kyma array correspondong to the expression  BinaryArray ofSize: (self size) fromInteger: (self asHex)"
 
-	| strings flat rhythm a b |
+	| strings flat rhythm announcement|
 	thisContext sender selector asString = 'semibreves' ifFalse: [
-		a := PerformanceRecorder uniqueInstance announcer.
-		b := RythmAnnouncement new.
-		b rythm:'''', self asString , ''' hexBeat'.
-		a announce: b ].
+		announcement := RythmAnnouncement new.
+		announcement rythm: '''' , self asString , ''' hexBeat'.
+			PerformanceRecorder uniqueInstance announce: announcement.].
 
 	strings := (1 to: self size) collect: [ :i |
 		           (self at: i) digitValue
@@ -201,11 +198,10 @@ ByteString >> hexBeat [
 ByteString >> hexBeat: anArrayOfNoteNumbers [
 	" convert a string with an Hexadecimal number to the Kyma array corresponding to the expression  BinaryArray ofSize: (self size) fromInteger: (self asHex) , and with  anArrayOfNoteNumbers as Notes"
 
-	| strings flat a b |
-	a := PerformanceRecorder uniqueInstance announcer.
-	b := RythmAnnouncement new.
-	b rythm: self asString , ' hexBeat'.
-	a announce: b.
+	| strings flat announcement|
+	announcement := RythmAnnouncement new.
+	announcement rythm: self asString , ' hexBeat'.
+		PerformanceRecorder uniqueInstance announce: announcement.
 
 	strings := (1 to: self size) collect: [ :i |
 		           (self at: i) digitValue
@@ -221,11 +217,10 @@ ByteString >> hexBeat: anArrayOfNoteNumbers [
 ByteString >> hexBeat: anArrayOfNoteNumbers dur: anArrayOfDurations [
 	" convert a string with an Hexadecimal number to the Kyma array corresponding to the expression  BinaryArray ofSize: (self size) fromInteger: (self asHex) , and with  anArrayOfNoteNumbers as Notes and anArrayOfDurations as Durations"
 
-	| strings flat a b |
-	a := PerformanceRecorder uniqueInstance announcer.
-	b := RythmAnnouncement new.
-	b rythm: self asString , ' hexBeat'.
-	a announce: b.
+	| strings flat announcement |
+	announcement := RythmAnnouncement new.
+	announcement rythm: self asString , ' hexBeat'.
+		PerformanceRecorder uniqueInstance announce: announcement.
 
 	strings := (1 to: self size) collect: [ :i |
 		           (self at: i) digitValue

@@ -95,6 +95,11 @@ PerformanceRecorder >> add: aSequencer channel: anIntegerBetween1And16 [
 Performance uniqueInstance add: aSequencer channel: anIntegerBetween1And16
 ]
 
+{ #category : #announcer }
+PerformanceRecorder >> announce: AnAnnouncement [
+	announcer announce: AnAnnouncement.
+]
+
 { #category : #accessing }
 PerformanceRecorder >> announcer [
 

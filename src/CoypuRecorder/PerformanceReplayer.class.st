@@ -34,9 +34,8 @@ PerformanceReplayer >> performanceScript: anOrderedCollection [
 { #category : #'read/write usage' }
 PerformanceReplayer >> readScriptFromStonFile: aPathToAFile [
 
-	| x stream |
+	| stream |
 	stream := aPathToAFile asFileReference readStream.
-	x := OrderedCollection new.
 	self performanceScript: (STON fromStream: stream)
 ]
 
@@ -50,12 +49,15 @@ PerformanceReplayer >> replay [
 "OPEN SUPERCOLLIDER"
 "TYPE: SuperDirt.start;"
 "EVALUATE IT - CMD+ENTER"
-"###########################################################################"
-	
-'.
+"###########################################################################"'.
 	content := content , String cr.
 	content := content , ('' join: performanceScript).
 	^ StPlayground openContents: content
+]
+
+{ #category : #'read/write usage' }
+PerformanceReplayer >> writeScriptInStonFile [
+	^ self subclassResponsibility
 ]
 
 { #category : #'read/write usage' }
@@ -70,22 +72,18 @@ PerformanceReplayer >> writeScriptInStonFile: aNameFile [
 
 	script := (x / aNameFile , 'ston') asFileReference.
 	script asFileReference isFile ifTrue: [
-		script := x / (x nextNameFor: 'Performance' extension: 'ston') ].
+		script := x / (x nextNameFor: aNameFile extension: 'ston') ].
 	script := script asFileReference.
 	stream := script writeStream.
 
-	STON
-		put:
-		(performanceScript collect: [ :each | each , String cr ]) asArray
-		asJsonOnStreamPretty: stream.
+	STON put: performanceScript asArray asJsonOnStreamPretty: stream.
 	stream close
 ]
 
 { #category : #'read/write usage' }
 PerformanceReplayer >> writeScriptInTxtFile: aNameFile [
 
-	| x script stream counter |
-	counter := ''.
+	| x script stream |
 	x := FileLocator home / 'Documents'.
 	(x / 'PerformanceScripts') isDirectory ifFalse: [
 		(x / 'PerformanceScripts') ensureCreateDirectory ].
@@ -94,7 +92,7 @@ PerformanceReplayer >> writeScriptInTxtFile: aNameFile [
 
 	script := (x / 'TextualPerformance' , 'txt') asFileReference.
 	script asFileReference isFile ifTrue: [
-		script := x / (x nextNameFor: 'Performance' extension: 'txt') ].
+		script := x / (x nextNameFor: aNameFile extension: 'txt') ].
 
 	script := script asFileReference.
 	stream := script writeStream.

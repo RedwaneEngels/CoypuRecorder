@@ -84,7 +84,7 @@ SavedPerformance >> getScripts [
 		           self visitCommandToGetScript: each ].
 	scripts
 		addFirst: 'p performer: PerformerSuperDirt new.' , String cr;
-		addFirst: 'p := PerformanceRecorder uniqueInstance.', String cr, String cr.
+		addFirst: 'p := PerformanceRecorder uniqueInstance.'.
 
 	^ scripts
 ]
@@ -112,17 +112,17 @@ collectionOfCommands  last symbol: anAnnouncement symbol
 { #category : #visitors }
 SavedPerformance >> scriptForReplayer: aDisplayer [
 
-	aDisplayer performanceScript: self getScripts
+	aDisplayer performanceScript: (self getScripts do: [ :each | each , String cr ])
 ]
 
 { #category : #visitors }
 SavedPerformance >> scriptWithDelayTimeForReplayer: aReplayer [
 
-	| delay|
+	| delay |
 	delay := self absoluteToDelay.
 
 	collectionOfCommands with: delay do: [ :each :d | each delay: d ].
-	aReplayer performanceScript:  self getScripts.
+	aReplayer performanceScript: (self getScripts collect:[:each | each, String cr])
 ]
 
 { #category : #visitors }
@@ -130,14 +130,15 @@ SavedPerformance >> scriptWithRelativeTimeForReplayer: aDisplayer [
 
 	| scripts relativetimes |
 	relativetimes := self absoluteToRelative.
-	scripts := ( self getScripts allButFirst:2 ) with: relativetimes
+	scripts := (self getScripts allButFirst: 2)
+		           with: relativetimes
 		           collect: [ :each :time |
 			           '"//At the ' , time , time suffixeNumber , ' second\\"'
 			           , String cr , each ].
 	scripts
 		addFirst: 'p performer: PerformerSuperDirt new.' , String cr;
 		addFirst: 'p := PerformanceRecorder uniqueInstance.'.
-	aDisplayer performanceScript: scripts
+	aDisplayer performanceScript: (scripts do:[ :each | each,String cr])
 ]
 
 { #category : #visitors }
@@ -151,7 +152,7 @@ SavedPerformance >> scriptWithTimeForReplayer: aDisplayer [
 	scripts
 		addFirst: 'p performer: PerformerSuperDirt new.' , String cr;
 		addFirst: 'p := PerformanceRecorder uniqueInstance.'.
-	aDisplayer performanceScript: scripts
+	aDisplayer performanceScript: (scripts do: [ :each | each , String cr ])
 ]
 
 { #category : #visiting }

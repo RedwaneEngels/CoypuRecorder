@@ -262,12 +262,11 @@ Sequencer >> dirtMessage: anArrayOfAssociationForSuperDirt [
 Sequencer >> dirtNotes: aStringWithNotes [
 	"add into a Sequencer anotes from a String in which numbers can be multiplicated"
 
-	| a b tokens dNotes arrayOfNotes |
+	| announcement tokens dNotes arrayOfNotes |
 	thisContext sender selector asString = 'asDirtNotes' ifFalse: [
-		a := PerformanceRecorder uniqueInstance announcer.
-		b := DirtNotesAnnouncement new.
-		b newDirtNotes: aStringWithNotes.
-		a announce: b ].
+		announcement := DirtNotesAnnouncement new.
+		announcement newDirtNotes: aStringWithNotes.
+		PerformanceRecorder uniqueInstance announce: announcement].
 	tokens := aStringWithNotes splitOn: ','.
 	dNotes := ' '.
 	tokens do: [ :i |
@@ -649,8 +648,13 @@ Sequencer >> notes: anArrayOfNotesOrANote [
 
 { #category : #'as yet unclassified' }
 Sequencer >> notes: anArrayOfNotes durs: anArrayOfDurations [
-" change notes in the sequencer"
-^ (Sequencer with: (self at: 1) with: anArrayOfNotes with: anArrayOfDurations  with: 0).
+	" change notes in the sequencer"
+
+	^ Sequencer
+		  with: (self at: 1)
+		  with: anArrayOfNotes
+		  with: anArrayOfDurations
+		  with: 0
 ]
 
 { #category : #'LiveCoding - Performance' }
@@ -921,13 +925,12 @@ Sequencer >> printOn: aStream [
 
 { #category : #progressions }
 Sequencer >> progression: anArrayOfIntervals [
-
 	"return a new Sequencer that join together the original sequencer with as many transpositions of self  for as many intervals in anArrayOfIntervals"
 
 	| oldSeq newSeq |
 	oldSeq := self.
 	newSeq := self.
-	(1 to: anArrayOfIntervals size) do: [ :i | 
+	1 to: (anArrayOfIntervals size) do: [ :i |
 		newSeq := newSeq , (oldSeq transpose: (anArrayOfIntervals at: i)) ].
 	^ newSeq
 ]
@@ -1152,7 +1155,7 @@ Sequencer >> times: anInteger [
 Sequencer >> to: aSymbol [
 	" assign sequencer to the performance at aSymbol. if a sound for SuperDirt is not specified, the symbol is used for sound name"
 
-	| sampleFolder sampleIndex a b |
+	| sampleFolder sampleIndex announcement |
 	self seqKey: aSymbol asString.
 	"For SuperDirt"
 	self dirtMessage at: '_id' put: self seqKey.
@@ -1161,10 +1164,9 @@ Sequencer >> to: aSymbol [
 		ifFalse: [
 		self dirtMessage at: 's' put: aSymbol asString asDirtArray ]
 		ifTrue: [  ].
-	a := PerformanceRecorder uniqueInstance announcer.
-	b := SymbolAnnouncement new.
-	b symbol: self seqKey.
-	a announce: b.
+	announcement := SymbolAnnouncement new.
+	announcement symbol: self seqKey.
+		PerformanceRecorder uniqueInstance announce: announcement.
 
 	"For Polyphony"
 	seqChords
