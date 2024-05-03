@@ -1,3 +1,38 @@
+"
+##Class
+I represent a saved performance of a PerformanceRecorder.
+
+## Responsibility :
+
+Create and store the RecordedCommand called by the PerformanceRecorder.
+Visited by the replayer to give them the scripts of the RecordedCommands i store.
+Calcul the time of each commands in multiple ways.
+
+## Collaborators:
+Instance variable of Performance Recorder.
+RecordedCommands in an OrderedCollection, collectionOfCommands.
+Visited by replayer to get the scripts of the RecordedCommands.
+
+## Key Messages :
+
+- addInstrument, lastDirtNotes, lastSymbol : used to create a RecordedPerformance
+- script[...]forReplayer : used to give the script to the replayer that's visiting
+- absoluteTo... : Used to calculate alternative times.
+
+### Example for creating an instance :
+
+```
+SavedPerformance new
+```
+
+## Internal Representation :
+
+    Instance Variables
+	collectionOfCommands:		<OrderedCollection> collection where the RecordedCommands are stored.
+			
+
+
+"
 Class {
 	#name : #SavedPerformance,
 	#superclass : #Object,
@@ -20,7 +55,7 @@ SavedPerformance class >> new [
 
 { #category : #calculating }
 SavedPerformance >> absoluteToDelay [
-
+"Take the time of each commands and return an OrderedCollection with the delay between each of them"
 	| delays times |
 	times := self getTimes.
 	delays := OrderedCollection new.
@@ -35,10 +70,11 @@ SavedPerformance >> absoluteToDelay [
 
 { #category : #calculating }
 SavedPerformance >> absoluteToRelative [
-
+	"Take the time of each commands and return an OrderedCollection with the relative time from the start of the performance for each of them"
 	| times |
 	times := self getTimes.
-	^ times collect: [ :each | (each asSeconds - times first asSeconds ) asString ]
+	^ times collect: [ :each |
+		  (each asSeconds - times first asSeconds) asString ]
 ]
 
 { #category : #adding }
@@ -49,8 +85,10 @@ SavedPerformance >> add: anObject [
 
 { #category : #adding }
 SavedPerformance >> addInstrument: anAnnouncement [
+	"Add a new RecordedInstrumentCommand in the collectionOfCommands. This message is called when a RythmAnnouncement is announced"
 
-	collectionOfCommands add: (RecordedInstrumentCommand new rythm: anAnnouncement rythm)
+	collectionOfCommands add:
+		(RecordedInstrumentCommand new rythm: anAnnouncement rythm)
 ]
 
 { #category : #accessing }
@@ -76,9 +114,9 @@ SavedPerformance >> getCommandTime: aString [
 ^ aString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #visiting }
 SavedPerformance >> getScripts [
-
+"Visit every commands in the collectionOfCommands and return a collection of their scripts"
 	| scripts |
 	scripts := collectionOfCommands collect: [ :each |
 		           self visitCommandToGetScript: each ].
@@ -89,44 +127,50 @@ SavedPerformance >> getScripts [
 	^ scripts
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #visiting }
 SavedPerformance >> getTimes [
-
-^ collectionOfCommands collect: [ :each |
-		           self visitCommandToGetTime: each ].
-
+	"Visit every commands in the collectionOfCommands and return a collection of their times"
+	^ collectionOfCommands collect: [ :each |
+		  self visitCommandToGetTime: each ]
 ]
 
 { #category : #adding }
 SavedPerformance >> lastDirtNotes: anAnnouncement [
-
+"add to the last RecordedInstrumentCommand dirtNotes.
+This message is called when a DirtNotesAnnouncement is announced."
 	collectionOfCommands last dirtNotes: anAnnouncement newDirtNotes
 ]
 
 { #category : #adding }
 SavedPerformance >> lastSymbol: anAnnouncement [
+	"add to the last RecordedInstrumentCommand a Symbol.
+This message is called when a SymbolAnnouncement is announced."
 
-collectionOfCommands  last symbol: anAnnouncement symbol
+	collectionOfCommands last symbol: anAnnouncement symbol
 ]
 
 { #category : #visitors }
-SavedPerformance >> scriptForReplayer: aDisplayer [
-
-	aDisplayer performanceScript: (self getScripts do: [ :each | each , String cr ])
+SavedPerformance >> scriptForReplayer: aReplayer [
+"Give a script of every commands in collectionOfCommands to the replayer visiting"
+	aReplayer performanceScript:
+		(self getScripts do: [ :each | each , String cr ])
 ]
 
 { #category : #visitors }
 SavedPerformance >> scriptWithDelayTimeForReplayer: aReplayer [
+	"Give a script of every command with the delay between each of them in collectionOfCommands to the replayer visiting"
 
 	| delay |
 	delay := self absoluteToDelay.
 
 	collectionOfCommands with: delay do: [ :each :d | each delay: d ].
-	aReplayer performanceScript: (self getScripts collect:[:each | each, String cr])
+	aReplayer performanceScript:
+		(self getScripts collect: [ :each | each , String cr ])
 ]
 
 { #category : #visitors }
-SavedPerformance >> scriptWithRelativeTimeForReplayer: aDisplayer [
+SavedPerformance >> scriptWithRelativeTimeForReplayer: aReplayer [
+	"Give a script of every command with their relative time in collectionOfCommands to the replayer visiting"
 
 	| scripts relativetimes |
 	relativetimes := self absoluteToRelative.
@@ -138,12 +182,13 @@ SavedPerformance >> scriptWithRelativeTimeForReplayer: aDisplayer [
 	scripts
 		addFirst: 'p performer: PerformerSuperDirt new.' , String cr;
 		addFirst: 'p := PerformanceRecorder uniqueInstance.'.
-	aDisplayer performanceScript: (scripts do:[ :each | each,String cr])
+	aReplayer performanceScript:
+		(scripts do: [ :each | each , String cr ])
 ]
 
 { #category : #visitors }
 SavedPerformance >> scriptWithTimeForReplayer: aDisplayer [
-
+	"Give a script of every command with their time in collectionOfCommands to the replayer visiting"
 	| scripts |
 	scripts := (self getScripts allButFirst: 2)
 		           with: self getTimes
@@ -152,17 +197,18 @@ SavedPerformance >> scriptWithTimeForReplayer: aDisplayer [
 	scripts
 		addFirst: 'p performer: PerformerSuperDirt new.' , String cr;
 		addFirst: 'p := PerformanceRecorder uniqueInstance.'.
-	aDisplayer performanceScript: (scripts do: [ :each | each , String cr ])
+	aDisplayer performanceScript:
+		(scripts do: [ :each | each , String cr ])
 ]
 
 { #category : #visiting }
 SavedPerformance >> visitCommandToGetScript: aRecordedCommand [
-
+" visit a RecordedCommand to get its script"
 	^ aRecordedCommand getPrint: self
 ]
 
 { #category : #visiting }
 SavedPerformance >> visitCommandToGetTime: aRecordedCommand [
-
+	" visit a RecordedCommand to get its time"
 	^ aRecordedCommand getTime: self
 ]

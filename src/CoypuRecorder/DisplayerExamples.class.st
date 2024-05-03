@@ -1,10 +1,13 @@
+"
+## Class used to do exemples of usage for CoypuRecorder.
+"
 Class {
 	#name : #DisplayerExamples,
 	#superclass : #Object,
 	#category : #'CoypuRecorder-Examples'
 }
 
-{ #category : #examples }
+{ #category : #exemples }
 DisplayerExamples >> displayPerformanceInTranscript [
 
 	<script: ' self new displayPerformanceInTranscript'>
@@ -53,7 +56,7 @@ Transcript open.
 	^ StPlayground openContents: content
 ]
 
-{ #category : #examples }
+{ #category : #exemples }
 DisplayerExamples >> displayPerformanceInTxtFile [
 
 	<script: ' self new displayPerformanceInTxtFile'>
