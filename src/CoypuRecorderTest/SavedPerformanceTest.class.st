@@ -5,7 +5,7 @@ Class {
 		'performanceRecorder',
 		'replayer'
 	],
-	#category : #'CoypuRecorderTests-Tests'
+	#category : #'CoypuRecorderTest-Tests'
 }
 
 { #category : #tests }
@@ -144,6 +144,7 @@ SavedPerformanceTest >> testScriptForReplayer [
 
 { #category : #tests }
 SavedPerformanceTest >> testScriptWithDelayTimeForReplayer [
+
 	replayer := PerformanceMusicalReplayer new.
 	self assert: replayer performanceScript isNil equals: true.
 
@@ -157,13 +158,16 @@ SavedPerformanceTest >> testScriptWithDelayTimeForReplayer [
 
 	self
 		assert: (replayer performanceScript at: 3)
-		equals: '16 upbeats to: #bd atTime: 0.'.
+		equals: '16 upbeats to: #bd atTime: 0.
+'.
 	self
 		assert: (replayer performanceScript at: 4)
-		equals: 'p freq: 138 bpm atTime: 0.'.
+		equals: 'p freq: 138 bpm atTime: 0.
+'.
 	self
 		assert: (replayer performanceScript at: 5)
-		equals: 'p playFor: 4 bars atTime: 0.'
+		equals: 'p playFor: 4 bars atTime: 0.
+'
 ]
 
 { #category : #tests }
