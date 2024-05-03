@@ -44,8 +44,8 @@ PerformanceMusicalReplayer >> writeScriptInStonFile [
 	self writeScriptInStonFile: 'ReplayablePerformance'
 ]
 
-{ #category : #writing }
+{ #category : #'read/write usage' }
 PerformanceMusicalReplayer >> writeScriptInTxtFile [
-
+"write the contents of a performanceScript in a TxtFile"
 	self writeScriptInTxtFile: 'ReplayablePerformance'
 ]
