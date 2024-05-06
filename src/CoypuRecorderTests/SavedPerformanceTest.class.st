@@ -157,13 +157,16 @@ SavedPerformanceTest >> testScriptForReplayer [
 
 	self
 		assert: (replayer performanceScript at: 3)
-		equals: '16 upbeats to: #bd.'.
+		equals: '16 upbeats to: #bd.
+'.
 	self
 		assert: (replayer performanceScript at: 4)
-		equals: 'p freq: 138 bpm.'.
-			self
+		equals: 'p freq: 138 bpm.
+'.
+	self
 		assert: (replayer performanceScript at: 5)
-		equals: 'p playFor: 4 bars.'.
+		equals: 'p playFor: 4 bars.
+'
 ]
 
 { #category : #tests }
@@ -196,6 +199,7 @@ SavedPerformanceTest >> testScriptWithDelayTimeForReplayer [
 
 { #category : #tests }
 SavedPerformanceTest >> testScriptWithRelativeTimeForReplayer [
+
 	self assert: replayer performanceScript isNil equals: true.
 
 	16 upbeats to: #bd.
@@ -210,15 +214,18 @@ SavedPerformanceTest >> testScriptWithRelativeTimeForReplayer [
 	self
 		assert: (replayer performanceScript at: 3)
 		equals: '"//At the 0th second\\"
-16 upbeats to: #bd.'.
+16 upbeats to: #bd.
+'.
 	self
 		assert: (replayer performanceScript at: 4)
 		equals: '"//At the 0th second\\"
-p freq: 138 bpm.'.
+p freq: 138 bpm.
+'.
 	self
 		assert: (replayer performanceScript at: 5)
 		equals: '"//At the 0th second\\"
-p playFor: 4 bars.'
+p playFor: 4 bars.
+'
 ]
 
 { #category : #tests }
@@ -237,15 +244,18 @@ SavedPerformanceTest >> testScriptWithTimeForReplayer [
 	self
 		assert: (replayer performanceScript at: 3)
 		equals: '"#At ' , DateAndTime now rounded asTime asString , ' :"
-16 upbeats to: #bd.'.
+16 upbeats to: #bd.
+'.
 	self
 		assert: (replayer performanceScript at: 4)
 		equals: '"#At ' , DateAndTime now rounded asTime asString , ' :"
-p freq: 138 bpm.'.
+p freq: 138 bpm.
+'.
 	self
 		assert: (replayer performanceScript at: 5)
 		equals: '"#At ' , DateAndTime now rounded asTime asString , ' :"
-p playFor: 4 bars.'
+p playFor: 4 bars.
+'
 ]
 
 { #category : #tests }
