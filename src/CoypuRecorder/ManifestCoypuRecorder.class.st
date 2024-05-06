@@ -11,5 +11,5 @@ Class {
 ManifestCoypuRecorder class >> ruleCodeCruftLeftInMethodsRuleV1FalsePositive [
 
 	<ignoreForCoverage>
-	^ #(#(#(#RGMethodDefinition #(#DisplayerExamples #displayPerformanceInTranscript #false)) #'2024-04-29T10:08:42.546234+02:00') )
+	^ #(#(#(#RGMethodDefinition #(#ReplayerExamples #displayPerformanceInTranscript #false)) #'2024-04-29T10:08:42.546234+02:00') )
 ]
