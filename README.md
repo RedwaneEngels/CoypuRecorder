@@ -13,10 +13,10 @@ Metacello new
 
 ## Exemples of uses:
 
-#### Exemple of a Performance with a displayer writting the script back in the transcript:
+#### Exemple of a Performance with a replayer which replay the Performance with the same timing:
 
 ```smalltalk
-
+	
 |p k|
 p := PerformanceRecorder uniqueInstance .
 p performer: PerformerSuperDirt new. 
@@ -24,13 +24,13 @@ p performer: PerformerSuperDirt new.
 p freq: 138 bpm. 
 
 16 downbeats to: #bd.
-16 upbeats to: #hh; dirtNotes: '4'.
+16 upbeats to: #hh; dirtNotes: ''4''.
 
 p playFor: 512 bars.
 
-'080808080809' hexBeat to: #cp.	
+''080808080809'' hexBeat to: #cp.	
 
-'lt ~ ~ mt ~ ~ ht ~ lt ~ mt ~ ~ ~' asDirtSounds to: #toms.
+''lt ~ ~ mt ~ ~ ht ~ lt ~ mt ~ ~ ~'' asDirtSounds to: #toms.
 
 #(3 16) euclidean to: #blip.
 
@@ -42,15 +42,14 @@ p unsolo: #blip.
 
 p mute: #toms.
 
-'0 1 2 3 12' asDirtNotes to: #bass3.
+''0 1 2 3 12'' asDirtNotes to: #bass3.
 
 p stop.
 
-k := PerformanceTextualDisplayer new visitAPerformanceRecorder: p.
-k displayInTranscript.
-
+k := PerformanceMusicalReplayer new getScript: p.
+k replay.'.
 ```
-#### Exemple of another Performance with a displayer writting the script back in a txt file:
+#### Exemple of another Performance with a displayer writting the script back in a ston file:
 
 ```smalltalk
 
@@ -87,7 +86,7 @@ p mute: #supersaw.
 #(7 16) euclidean dirtNotes: '-10 9 5 -2'; to: #superhex.
 p playFor: 16 bars.
 
-k := PerformanceTextualDisplayer new visitAPerformanceRecorder: p.
-k writeScriptInTxtFile.
+k := PerformanceTextualDisplayer new getScript: p.
+k writeScriptInStonFile.
 
 ```
