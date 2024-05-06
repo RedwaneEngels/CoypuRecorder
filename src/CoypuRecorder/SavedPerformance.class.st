@@ -165,7 +165,7 @@ SavedPerformance >> scriptForReplayer: aReplayer [
 	"Give a script of every commands in collectionOfCommands to the replayer visiting"
 
 	aReplayer performanceScript:
-		(self getScripts do: [ :each | each,String cr])
+		(self getScripts collect: [ :each | each , String cr ])
 ]
 
 { #category : #visitors }
@@ -195,12 +195,13 @@ SavedPerformance >> scriptWithRelativeTimeForReplayer: aReplayer [
 		addFirst: 'p performer: PerformerSuperDirt new.' , String cr;
 		addFirst: 'p := PerformanceRecorder uniqueInstance.'.
 	aReplayer performanceScript:
-		(scripts do: [ :each | each , String cr ])
+		(scripts collect: [ :each | each , String cr ])
 ]
 
 { #category : #visitors }
 SavedPerformance >> scriptWithTimeForReplayer: aDisplayer [
 	"Give a script of every command with their time in collectionOfCommands to the replayer visiting"
+
 	| scripts |
 	scripts := (self getScripts allButFirst: 2)
 		           with: self getTimes
@@ -210,7 +211,7 @@ SavedPerformance >> scriptWithTimeForReplayer: aDisplayer [
 		addFirst: 'p performer: PerformerSuperDirt new.' , String cr;
 		addFirst: 'p := PerformanceRecorder uniqueInstance.'.
 	aDisplayer performanceScript:
-		(scripts do: [ :each | each , String cr ])
+		(scripts collect: [ :each | each , String cr ])
 ]
 
 { #category : #visiting }
