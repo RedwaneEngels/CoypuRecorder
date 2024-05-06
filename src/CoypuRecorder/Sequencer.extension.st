@@ -2,8 +2,12 @@ Extension { #name : #Sequencer }
 
 { #category : #'*CoypuRecorder' }
 Sequencer >> to: aSymbol atTime: aTime [
-	" assign sequencer to the performance at aSymbol. if a sound for SuperDirt is not specified, the symbol is used for sound name"
+	" call the message to with a delay"
 
+	| announcement |
+	announcement := DelayAnnouncement new.
+	announcement delay: aTime.
+	PerformanceRecorder uniqueInstance announce: announcement.
 	(Delay forSeconds: aTime) wait.
 	self to: aSymbol
 ]

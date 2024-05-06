@@ -76,3 +76,10 @@ RecordedCommand >> time [
 ^time 
 	
 ]
+
+{ #category : #accessing }
+RecordedCommand >> time: aDateAndTime [
+
+
+	time := aDateAndTime 
+]

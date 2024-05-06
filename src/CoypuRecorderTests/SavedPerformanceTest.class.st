@@ -5,7 +5,7 @@ Class {
 		'performanceRecorder',
 		'replayer'
 	],
-	#category : #'CoypuRecorderTest-Tests'
+	#category : #'CoypuRecorderTests-Tests'
 }
 
 { #category : #tests }
@@ -30,14 +30,16 @@ SavedPerformanceTest >> testAbsoluteToDelay [
 	self assertEmpty: self commands.
 
 	16 upbeats to: #bd.
+	16 downbeats to: #bass3.
 	(Delay forSeconds: 1) wait.
 	performanceRecorder freq: 138 bpm.
 	(Delay forSeconds: 1) wait.
 	performanceRecorder playFor: 4 bars.
 	x := performanceRecorder savedPerformance absoluteToDelay.
 	self assert: (x at: 1) equals: 0.
-	self assert: (x at: 2) equals: 1.
-	self assert: (x at: 3) equals: 1
+	self assert: (x at: 2) equals: 0.
+	self assert: (x at: 3) equals: 1.
+	self assert: (x at: 4) equals: 1
 ]
 
 { #category : #tests }
@@ -67,6 +69,28 @@ SavedPerformanceTest >> testAddInstrument [
 	self denyEmpty: self commands.
 
 	self assert: self commands last rythm equals: '16 upbeats'
+]
+
+{ #category : #tests }
+SavedPerformanceTest >> testGetScripts [
+
+	performanceRecorder freq: 138 bpm.
+	16 upbeats to: #bd.
+	16 downbeats to: #bass3.
+	performanceRecorder savedPerformance collectionOfCommands
+		with: (performanceRecorder savedPerformance getScripts allButFirst:2)
+		do: [ :x :y | self assert: x print equals: y ]
+]
+
+{ #category : #tests }
+SavedPerformanceTest >> testGetTimes [
+
+	performanceRecorder freq: 138 bpm.
+	16 upbeats to: #bd.
+	16 downbeats to: #bass3.
+	performanceRecorder savedPerformance collectionOfCommands
+		with: performanceRecorder savedPerformance getTimes
+		do: [ :x :y | self assert: x time rounded asTime equals: y ]
 ]
 
 { #category : #tests }
@@ -222,4 +246,28 @@ p freq: 138 bpm.'.
 		assert: (replayer performanceScript at: 5)
 		equals: '"#At ' , DateAndTime now rounded asTime asString , ' :"
 p playFor: 4 bars.'
+]
+
+{ #category : #tests }
+SavedPerformanceTest >> testVisitCommandToGetScript [
+
+	16 upbeats to: #bd.
+
+	self
+		assert: self commands last print
+		equals:
+			(performanceRecorder savedPerformance visitCommandToGetScript:
+				 self commands last)
+]
+
+{ #category : #tests }
+SavedPerformanceTest >> testVisitCommandToGetTime [
+
+	16 upbeats to: #bd.
+
+	self
+		assert: self commands last time rounded asTime
+		equals:
+			(performanceRecorder savedPerformance visitCommandToGetTime:
+				 self commands last)
 ]

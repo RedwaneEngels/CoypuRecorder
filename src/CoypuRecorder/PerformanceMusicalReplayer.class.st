@@ -38,6 +38,12 @@ PerformanceMusicalReplayer >> getScript: aSavedPerformance [
 	aSavedPerformance scriptWithDelayTimeForReplayer: self
 ]
 
+{ #category : #action }
+PerformanceMusicalReplayer >> replayWithoutPlayground [
+"replay the performance in performanceScript WITHOUT opening a playground"
+	performanceScript do: [ :each | Object readFromString: each ]
+]
+
 { #category : #'read/write usage' }
 PerformanceMusicalReplayer >> writeScriptInStonFile [
 "Write the contents of performanceScript in a stonFile"

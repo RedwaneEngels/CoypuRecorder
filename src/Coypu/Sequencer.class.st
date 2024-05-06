@@ -1164,8 +1164,8 @@ Sequencer >> to: aSymbol [
 		ifFalse: [
 		self dirtMessage at: 's' put: aSymbol asString asDirtArray ]
 		ifTrue: [  ].
-	announcement := SymbolAnnouncement new.
-	announcement symbol: self seqKey.
+		announcement := SymbolAnnouncement new.
+		announcement symbol: self seqKey.
 		PerformanceRecorder uniqueInstance announce: announcement.
 
 	"For Polyphony"

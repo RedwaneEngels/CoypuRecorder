@@ -91,6 +91,15 @@ SavedPerformance >> addInstrument: anAnnouncement [
 		(RecordedInstrumentCommand new rythm: anAnnouncement rythm)
 ]
 
+{ #category : #calculating }
+SavedPerformance >> appliesDelay: anAnnouncement [
+" Add the seconds of the delay to the time of the last RecordedCommands
+Only called when recording a replay of a Performance."
+	collectionOfCommands last time:
+		(collectionOfCommands last time asTime addSeconds:
+			 anAnnouncement delay)
+]
+
 { #category : #accessing }
 SavedPerformance >> collectionOfCommands [
 ^	collectionOfCommands
@@ -136,9 +145,11 @@ SavedPerformance >> getTimes [
 
 { #category : #adding }
 SavedPerformance >> lastDirtNotes: anAnnouncement [
-"add to the last RecordedInstrumentCommand dirtNotes.
+	"add to the last RecordedInstrumentCommand dirtNotes.
 This message is called when a DirtNotesAnnouncement is announced."
-	collectionOfCommands last dirtNotes: anAnnouncement newDirtNotes
+
+	collectionOfCommands last
+		dirtNotes: anAnnouncement newDirtNotes
 ]
 
 { #category : #adding }
@@ -151,9 +162,10 @@ This message is called when a SymbolAnnouncement is announced."
 
 { #category : #visitors }
 SavedPerformance >> scriptForReplayer: aReplayer [
-"Give a script of every commands in collectionOfCommands to the replayer visiting"
+	"Give a script of every commands in collectionOfCommands to the replayer visiting"
+
 	aReplayer performanceScript:
-		(self getScripts do: [ :each | each , String cr ])
+		(self getScripts do: [ :each | each,String cr])
 ]
 
 { #category : #visitors }

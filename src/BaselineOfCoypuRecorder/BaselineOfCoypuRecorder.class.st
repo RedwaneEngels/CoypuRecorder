@@ -18,7 +18,7 @@ BaselineOfCoypuRecorder >> baseline: spec [
 		spec
 			package: 'Coypu';
 			package: 'CoypuRecorder' with: [ spec requires: #( 'Coypu' ) ];
-			package: 'CoypuRecorderTest'
+			package: 'CoypuRecorderTests'
 			with: [ spec requires: #( 'CoypuRecorder' ) ] ]
 ]
 

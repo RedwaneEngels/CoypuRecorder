@@ -281,19 +281,14 @@ PerformanceRecorder >> performer: aPerformer [
 	savedPerformance := SavedPerformance new.
 	announcer := Announcer new.
 	announcer
-		when: RythmAnnouncement
-		send: #addInstrument:
-		to: savedPerformance.
-	announcer
-		when: SymbolAnnouncement
-		send: #lastSymbol:
-		to: savedPerformance.
-	announcer
+		when: RythmAnnouncement send: #addInstrument: to: savedPerformance;
+		when: SymbolAnnouncement send: #lastSymbol: to: savedPerformance;
 		when: DirtNotesAnnouncement
 		send: #lastDirtNotes:
-		to: savedPerformance.
+		to: savedPerformance;
+		when: DelayAnnouncement send: #appliesDelay: to: savedPerformance.
 
-	Performance uniqueInstance  performer: aPerformer
+	Performance uniqueInstance performer: aPerformer
 ]
 
 { #category : #playing }

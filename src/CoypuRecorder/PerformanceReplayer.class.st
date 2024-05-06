@@ -59,9 +59,10 @@ PerformanceReplayer >> readScriptFromStonFile: aPathToAFile [
 	self performanceScript: (STON fromStream: stream)
 ]
 
-{ #category : #accessing }
+{ #category : #action }
 PerformanceReplayer >> replay [
-"Write the performanceScript script in the playground"
+	"Write the performanceScript script in the playground"
+
 	| content |
 	content := '
 "###########################################################################"
