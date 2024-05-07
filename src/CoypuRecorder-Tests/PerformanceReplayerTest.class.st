@@ -3,7 +3,8 @@ Class {
 	#superclass : #TestCase,
 	#instVars : [
 		'performanceRecorder',
-		'replayer'
+		'replayer',
+		'securePerformance'
 	],
 	#category : #'CoypuRecorder-Tests-Tests'
 }
@@ -23,8 +24,15 @@ PerformanceReplayerTest >> setUp [
 	super setUp.
 	performanceRecorder := PerformanceRecorder uniqueInstance.
 	performanceRecorder performer: PerformerSuperDirt new.
-		replayer := PerformanceMusicalReplayer new. 
-
+	replayer := PerformanceMusicalReplayer new.
+	securePerformance := SavedPerformance new.
+	securePerformance
+	 add: (RecordedOrderCommand new order: 'freq: 138 bpm.');
+	 add: (RecordedInstrumentCommand new
+	 rythm: '16 upbeats';
+	 symbol: 'bd' );
+	 add: (RecordedOrderCommand new order: 'playFor: 16 bars.')
+		
 ]
 
 { #category : #tests }
@@ -38,6 +46,29 @@ PerformanceReplayerTest >> testReadScriptStonFile [
 	16 downbeats to: #bass3.
 
 	replayer getScript: performanceRecorder savedPerformance.
+
+	[
+	replayer writeScriptInStonFile: 'ReplayablePerformanceTest'.
+	oldPerformanceScript := replayer performanceScript.
+
+
+	replayer readScriptFromStonFile: x / 'ReplayablePerformanceTest.ston'.
+
+	replayer performanceScript
+		with: oldPerformanceScript
+		do: [ :w :y | self assert: w equals: y ] ] ensure: [
+		(x / 'ReplayablePerformanceTest.ston') ensureDelete ]
+]
+
+{ #category : #tests }
+PerformanceReplayerTest >> testReadScriptStonFileWithSureSavedPerformance [
+
+	| x oldPerformanceScript |
+	x := self filePath.
+
+
+
+	replayer getScript: securePerformance.
 
 	[
 	replayer writeScriptInStonFile: 'ReplayablePerformanceTest'.
@@ -112,7 +143,9 @@ PerformanceReplayerTest >> testWriteScriptStonFileWhenNameIsTaken [
 
 	| x |
 	x := self filePath.
+	performanceRecorder freq: 138 bpm.
 	16 upbeats to: #bd.
+	16 downbeats to: #bass3.
 	replayer getScript: performanceRecorder savedPerformance.
 	replayer writeScriptInStonFile: 'ReplayablePerformanceTest'.
 	self
@@ -128,10 +161,7 @@ PerformanceReplayerTest >> testWriteScriptStonFileWhenNameIsTaken [
 	self
 		assert: (x / 'ReplayablePerformanceTest.1.ston') isFile
 		equals: true.
-	performanceRecorder freq: 138 bpm.
-	16 upbeats to: #bd.
-	16 downbeats to: #bass3.
-	replayer getScript: performanceRecorder savedPerformance.
+
 	[  ] ensure: [
 		(x / 'ReplayablePerformanceTest.ston') ensureDelete.
 		(x / 'ReplayablePerformanceTest.1.ston') ensureDelete ]

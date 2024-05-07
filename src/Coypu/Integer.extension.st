@@ -53,8 +53,8 @@ Integer >> bomba [
 	" create an array of self size of  puertorican Bomba rhytm pulses. Better if the receiever is a multiple of eight."
 
 	| pattern announcement |
-	announcement  := RythmAnnouncement new.
-	announcement  rythm: self asString , ' bomba'.
+	announcement := RythmAnnouncement new.
+	announcement rythm: self asString , ' bomba'.
 	PerformanceRecorder uniqueInstance announce: announcement.
 	pattern := #( 1 0 0 1 1 1 1 0 ).
 

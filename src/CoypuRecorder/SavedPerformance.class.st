@@ -55,15 +55,16 @@ SavedPerformance class >> new [
 
 { #category : #calculating }
 SavedPerformance >> absoluteToDelay [
-"Take the time of each commands and return an OrderedCollection with the delay between each of them"
+	"Take the time of each commands and return an OrderedCollection with the delay between each of them"
+
 	| delays times |
-	times := self getTimes.
+	times := self times.
 	delays := OrderedCollection new.
 
 	1 to: times size - 1 do: [ :i |
 		delays add: (times at: i + 1) asSeconds - (times at: i) asSeconds ].
 
-	delays addFirst: 0.
+	collectionOfCommands ifNotEmpty: [ delays addFirst: 0 ].
 
 	^ delays
 ]
@@ -72,7 +73,7 @@ SavedPerformance >> absoluteToDelay [
 SavedPerformance >> absoluteToRelative [
 	"Take the time of each commands and return an OrderedCollection with the relative time from the start of the performance for each of them"
 	| times |
-	times := self getTimes.
+	times := self times.
 	^ times collect: [ :each |
 		  (each asSeconds - times first asSeconds) asString ]
 ]
@@ -100,6 +101,17 @@ Only called when recording a replay of a Performance."
 			 anAnnouncement delay)
 ]
 
+{ #category : #visiting }
+SavedPerformance >> bodyScripts [
+	"Visit every commands in the collectionOfCommands and return a collection of their scripts"
+
+	| scripts |
+	scripts := collectionOfCommands collect: [ :each |
+		           self visitCommandScript: each ].
+
+	^ scripts
+]
+
 { #category : #accessing }
 SavedPerformance >> collectionOfCommands [
 ^	collectionOfCommands
@@ -123,24 +135,12 @@ SavedPerformance >> getCommandTime: aString [
 ^ aString
 ]
 
-{ #category : #visiting }
-SavedPerformance >> getScripts [
-"Visit every commands in the collectionOfCommands and return a collection of their scripts"
-	| scripts |
-	scripts := collectionOfCommands collect: [ :each |
-		           self visitCommandToGetScript: each ].
-	scripts
+{ #category : #accessing }
+SavedPerformance >> header: 	aScript [
+	aScript
 		addFirst: 'p performer: PerformerSuperDirt new.' , String cr;
 		addFirst: 'p := PerformanceRecorder uniqueInstance.'.
-
-	^ scripts
-]
-
-{ #category : #visiting }
-SavedPerformance >> getTimes [
-	"Visit every commands in the collectionOfCommands and return a collection of their times"
-	^ collectionOfCommands collect: [ :each |
-		  self visitCommandToGetTime: each ]
+	^aScript 
 ]
 
 { #category : #adding }
@@ -165,7 +165,7 @@ SavedPerformance >> scriptForReplayer: aReplayer [
 	"Give a script of every commands in collectionOfCommands to the replayer visiting"
 
 	aReplayer performanceScript:
-		(self getScripts collect: [ :each | each , String cr ])
+		((self header:self bodyScripts) collect: [ :each | each , String cr ])
 ]
 
 { #category : #visitors }
@@ -177,7 +177,7 @@ SavedPerformance >> scriptWithDelayTimeForReplayer: aReplayer [
 
 	collectionOfCommands with: delay do: [ :each :d | each delay: d ].
 	aReplayer performanceScript:
-		(self getScripts collect: [ :each | each , String cr ])
+		((self header:self bodyScripts) collect: [ :each | each , String cr ])
 ]
 
 { #category : #visitors }
@@ -186,14 +186,12 @@ SavedPerformance >> scriptWithRelativeTimeForReplayer: aReplayer [
 
 	| scripts relativetimes |
 	relativetimes := self absoluteToRelative.
-	scripts := (self getScripts allButFirst: 2)
+	scripts := self bodyScripts 
 		           with: relativetimes
 		           collect: [ :each :time |
 			           '"//At the ' , time , time suffixeNumber , ' second\\"'
 			           , String cr , each ].
-	scripts
-		addFirst: 'p performer: PerformerSuperDirt new.' , String cr;
-		addFirst: 'p := PerformanceRecorder uniqueInstance.'.
+ scripts := (self header:	scripts).
 	aReplayer performanceScript:
 		(scripts collect: [ :each | each , String cr ])
 ]
@@ -203,25 +201,30 @@ SavedPerformance >> scriptWithTimeForReplayer: aDisplayer [
 	"Give a script of every command with their time in collectionOfCommands to the replayer visiting"
 
 	| scripts |
-	scripts := (self getScripts allButFirst: 2)
-		           with: self getTimes
+	scripts := self bodyScripts 
+		           with: self times
 		           collect: [ :each :times |
 		           '"#At ' , times asString , ' :"' , String cr , each ].
-	scripts
-		addFirst: 'p performer: PerformerSuperDirt new.' , String cr;
-		addFirst: 'p := PerformanceRecorder uniqueInstance.'.
+	self header: scripts.
 	aDisplayer performanceScript:
 		(scripts collect: [ :each | each , String cr ])
 ]
 
 { #category : #visiting }
-SavedPerformance >> visitCommandToGetScript: aRecordedCommand [
+SavedPerformance >> times [
+	"Visit every commands in the collectionOfCommands and return a collection of their times"
+	^ collectionOfCommands collect: [ :each |
+		  self visitCommandTime: each ]
+]
+
+{ #category : #visiting }
+SavedPerformance >> visitCommandScript: aRecordedCommand [
 " visit a RecordedCommand to get its script"
 	^ aRecordedCommand getPrint: self
 ]
 
 { #category : #visiting }
-SavedPerformance >> visitCommandToGetTime: aRecordedCommand [
+SavedPerformance >> visitCommandTime: aRecordedCommand [
 	" visit a RecordedCommand to get its time"
 	^ aRecordedCommand getTime: self
 ]

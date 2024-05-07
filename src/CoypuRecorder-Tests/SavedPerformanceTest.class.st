@@ -72,25 +72,15 @@ SavedPerformanceTest >> testAddInstrument [
 ]
 
 { #category : #tests }
-SavedPerformanceTest >> testGetScripts [
+SavedPerformanceTest >> testBodyScripts [
 
 	performanceRecorder freq: 138 bpm.
 	16 upbeats to: #bd.
 	16 downbeats to: #bass3.
 	performanceRecorder savedPerformance collectionOfCommands
-		with: (performanceRecorder savedPerformance getScripts allButFirst:2)
+		with:
+		(performanceRecorder savedPerformance bodyScripts)
 		do: [ :x :y | self assert: x print equals: y ]
-]
-
-{ #category : #tests }
-SavedPerformanceTest >> testGetTimes [
-
-	performanceRecorder freq: 138 bpm.
-	16 upbeats to: #bd.
-	16 downbeats to: #bass3.
-	performanceRecorder savedPerformance collectionOfCommands
-		with: performanceRecorder savedPerformance getTimes
-		do: [ :x :y | self assert: x time rounded asTime equals: y ]
 ]
 
 { #category : #tests }
@@ -259,25 +249,36 @@ p playFor: 4 bars.
 ]
 
 { #category : #tests }
-SavedPerformanceTest >> testVisitCommandToGetScript [
+SavedPerformanceTest >> testTimes [
+
+	performanceRecorder freq: 138 bpm.
+	16 upbeats to: #bd.
+	16 downbeats to: #bass3.
+	performanceRecorder savedPerformance collectionOfCommands
+		with: performanceRecorder savedPerformance times
+		do: [ :x :y | self assert: x time rounded asTime equals: y ]
+]
+
+{ #category : #tests }
+SavedPerformanceTest >> testVisitCommandScript [
 
 	16 upbeats to: #bd.
 
 	self
 		assert: self commands last print
 		equals:
-			(performanceRecorder savedPerformance visitCommandToGetScript:
+			(performanceRecorder savedPerformance visitCommandScript:
 				 self commands last)
 ]
 
 { #category : #tests }
-SavedPerformanceTest >> testVisitCommandToGetTime [
+SavedPerformanceTest >> testVisitCommandTime [
 
 	16 upbeats to: #bd.
 
 	self
 		assert: self commands last time rounded asTime
 		equals:
-			(performanceRecorder savedPerformance visitCommandToGetTime:
+			(performanceRecorder savedPerformance visitCommandTime:
 				 self commands last)
 ]
