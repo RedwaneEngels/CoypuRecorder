@@ -40,7 +40,7 @@ PerformanceReplayerTest >> testReadScriptStonFile [
 
 	| x oldPerformanceScript |
 	x := self filePath.
-	
+
 	performanceRecorder freq: 138 bpm.
 	16 upbeats to: #bd.
 	16 downbeats to: #bass3.
@@ -50,7 +50,7 @@ PerformanceReplayerTest >> testReadScriptStonFile [
 	[
 	replayer writeScriptInStonFile: 'ReplayablePerformanceTest'.
 	oldPerformanceScript := replayer performanceScript.
-
+	self denyEmpty: oldPerformanceScript.
 
 	replayer readScriptFromStonFile: x / 'ReplayablePerformanceTest.ston'.
 
@@ -98,7 +98,7 @@ PerformanceReplayerTest >> testReplaySameAsOriginal [
 	replayer getScript: performanceRecorder savedPerformance.
 
 	performance := replayer performanceScript.
-
+	self denyEmpty: performance.
 	replayer replayWithoutPlayground.
 
 	replayer getScript: performanceRecorder savedPerformance.
