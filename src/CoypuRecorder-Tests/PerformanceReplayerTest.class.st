@@ -111,6 +111,33 @@ PerformanceReplayerTest >> testReplaySameAsOriginal [
 ]
 
 { #category : #tests }
+PerformanceReplayerTest >> testReplaySameAsOriginalWithSureSavedPerformance [
+
+	| performance replayedPerformance |
+	performanceRecorder freq: 138 bpm.
+	(Delay forSeconds: 1) wait.
+	16 upbeats to: #bd.
+	(Delay forSeconds: 2) wait.
+	16 downbeats
+		to: #bass3;
+		dirtNotes: '4'.
+
+	replayer getScript: securePerformance.
+
+	performance := replayer performanceScript.
+
+	replayer replayWithoutPlayground.
+
+	replayer getScript: performanceRecorder savedPerformance.
+
+	replayedPerformance := replayer performanceScript.
+
+	performance
+		with: replayedPerformance
+		do: [ :perf1 :perf2 | self assert: perf1 equals: perf2 ]
+]
+
+{ #category : #tests }
 PerformanceReplayerTest >> testWriteScriptStonFile [
 
 	| x oldPerformanceScript stream |
