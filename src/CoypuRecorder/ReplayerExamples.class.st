@@ -58,7 +58,7 @@ p mute: #supersaw.
 #(7 16) euclidean dirtNotes: ''-10 9 5 -2''; to: #superhex.
 p playFor: 16 bars.
 
-k := PerformanceTextualDisplayer new getScript: p.
+k := PerformanceTextualReplayer new getScript: p savedPerformance.
 k writeScriptInStonFile.
 '.
 
@@ -108,7 +108,7 @@ p mute: #toms.
 
 p stop.
 
-k := PerformanceTextualDisplayer new getScript: p.
+k := PerformanceTextualReplayer new getScript: p savedPerformance.
 k displayInTranscript.'.
 	Transcript open.
 	^ StPlayground openContents: content
@@ -157,7 +157,7 @@ p mute: #toms.
 
 p stop.
 
-k := PerformanceMusicalReplayer new getScript: p.
+k := PerformanceMusicalReplayer new getScript: p savedPerformance.
 k replayWithoutPlayground.'.
 
 	^ StPlayground openContents: content
@@ -206,7 +206,7 @@ p mute: #toms.
 
 p stop.
 
-k := PerformanceMusicalReplayer new getScript: p.
+k := PerformanceMusicalReplayer new getScript: p savedPerformance.
 k replay.'.
 	^ StPlayground openContents: content
 ]
