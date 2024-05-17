@@ -75,10 +75,6 @@ RecorderPlayground >> codeEditorInitialize [
 	^ album
 ]
 
-{ #category : #'command line' }
-RecorderPlayground >> hello [
-]
-
 { #category : #initialization }
 RecorderPlayground >> initialize [
 
@@ -130,10 +126,21 @@ RecorderPlayground >> playgroundInitialize [
 { #category : #actions }
 RecorderPlayground >> save [
 
-	replayer performanceScript:
-		(codeEditor text asString substrings: String cr).
+	| x title path |
+	x := UIManager default.
+	title := x
+		         request: 'The name of the save:'
+		         initialAnswer:
+		         'Performance of the ' , DateAndTime now asDate asString.
+	path := x
+		        chooseDirectory: 'Select the Directory to save the file'
+		        path: FileLocator home.
 		
-	replayer writeScriptInStonFile
+	replayer performanceScript:
+		((codeEditor text asString substrings: String cr) collect:[:each| each, String cr]).
+
+
+	replayer writeScriptInStonFile: title filePath: path
 ]
 
 { #category : #accessing }
@@ -165,21 +172,19 @@ RecorderPlayground >> toolBarInitialize [
 	bar addChild: button.
 	button := ToButton new.
 	button label: (ToLabel text: 'Stop').
-	button icon:
-		(ToImage inner: (Smalltalk ui icons iconNamed: #stop)).
+	button icon: (ToImage inner: (Smalltalk ui icons iconNamed: #stop)).
 	button addEventHandlerOn: BlMouseDownEvent do: [ :e | self stop ].
 	bar addChild: button.
 	button := ToButton new.
 	button label: (ToLabel text: 'Load').
-	button icon:
-		(ToImage inner: (Smalltalk ui icons iconNamed: #open)).
+	button icon: (ToImage inner: (Smalltalk ui icons iconNamed: #open)).
 	button addEventHandlerOn: BlMouseDownEvent do: [ :e | self load ].
 	bar addChild: button.
-		button := ToButton new.
+	button := ToButton new.
 	button label: (ToLabel text: 'Save').
 	button icon:
 		(ToImage inner: (Smalltalk ui icons iconNamed: #glamorousSave)).
-	button addEventHandlerOn: BlMouseDownEvent do: [ :e | self hello ].
+	button addEventHandlerOn: BlMouseDownEvent do: [ :e | self save ].
 	bar addChild: button.
 	^ bar
 ]
