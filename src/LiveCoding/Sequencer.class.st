@@ -141,6 +141,13 @@ Sequencer >> allNotes: anInteger [
 	self notes: newNotes.
 ]
 
+{ #category : 'LiveCoding-Kyma' }
+Sequencer >> amount: aNumberOrAnArray [
+	"set the amount to a collection of value in array or to to the numbe"
+
+	self extra: #amount values: aNumberOrAnArray asDirtArray
+]
+
 { #category : 'converting' }
 Sequencer >> asPolySeq [
 	
@@ -424,6 +431,32 @@ Sequencer >> extra2String [
 Sequencer >> extra2String: aString [
 "allows the definition of extra1 sufffix"
 extra2String := aString.
+]
+
+{ #category : 'LiveCoding-Kyma' }
+Sequencer >> extra: aSymbol values: aNumberorAnArray [
+
+"stores extra values to control synths parameters on Kyma"
+
+self extraParams at: aSymbol put: aNumberorAnArray asDirtArray
+
+]
+
+{ #category : 'accessing' }
+Sequencer >> extraParams [
+
+	^ extraParams
+]
+
+{ #category : 'accessing' }
+Sequencer >> extraParams: anArrayWithASymbolAndAnrrayOfValues [
+
+
+|parameter value |
+parameter := anArrayWithASymbolAndAnrrayOfValues at: 1.
+value := anArrayWithASymbolAndAnrrayOfValues at: 2.
+
+	extraParams at: parameter put: value asDirtArray 
 ]
 
 { #category : 'Sequencer - transformation' }

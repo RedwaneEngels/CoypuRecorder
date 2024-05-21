@@ -355,6 +355,20 @@ Performance >> pacaDance [
 ]
 
 { #category : 'accessing' }
+Performance >> perfVisualizer [
+
+	^ perfVisualizer
+]
+
+{ #category : 'accessing' }
+Performance >> perfVisualizer: aPerfVisualizer [
+	"assing a perfVisualzier and initialize a new Dictionary for trackVisualziers"
+
+	perfVisualizer := aPerfVisualizer.
+	self trackVisualizers: Dictionary new.
+]
+
+{ #category : 'accessing' }
 Performance >> performer [
 
 	^ performer
@@ -679,6 +693,18 @@ Performance >> swap: firstKey with: secondKey [
 	tempValue := self at: firstKey.
 	self at: firstKey put: (self at: secondKey).
 	self at: secondKey put: tempValue
+]
+
+{ #category : 'accessing' }
+Performance >> trackVisualizers [
+
+	^ trackVisualizers
+]
+
+{ #category : 'accessing' }
+Performance >> trackVisualizers: aDictionary [
+
+	trackVisualizers := aDictionary
 ]
 
 { #category : 'accessing' }
