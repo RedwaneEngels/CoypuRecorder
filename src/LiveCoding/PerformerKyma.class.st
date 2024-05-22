@@ -2,19 +2,17 @@
 Performer for  Symbolic Sound Kyma
 "
 Class {
-	#name : 'PerformerKyma',
-	#superclass : 'Performer',
-	#category : 'LiveCoding-Performance',
-	#package : 'LiveCoding',
-	#tag : 'Performance'
+	#name : #PerformerKyma,
+	#superclass : #Performer,
+	#category : 'LiveCoding-Performance'
 }
 
-{ #category : 'playing' }
+{ #category : #playing }
 PerformerKyma >> play [
 self playKymaSequencFor: fourDaysAt120BPM 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 PerformerKyma >> playFor: aNumberOfSteps [
 	"with this method you can chane the Performance speed in real time! "
 
@@ -47,7 +45,7 @@ an OSC with the address /vcs/BPM/1 with the rate converted in BeatsPerMinutes"
 			 Processor timingPriority)
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 PerformerKyma >> playForOld: aNumberOfSteps [
 
 "with this method you can chane the Performance speed in real time! "
@@ -125,7 +123,7 @@ performance  activeProcess: ([
 		  step := step + 1 ] ] forkAt: Processor timingPriority)
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 PerformerKyma >> playKymaSequencFor: aNumberOfSteps [
 
 "with this method you can chane the Performance speed in real time! "

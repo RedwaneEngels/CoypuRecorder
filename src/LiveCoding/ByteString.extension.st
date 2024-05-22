@@ -1,6 +1,6 @@
-Extension { #name : 'ByteString' }
+Extension { #name : #ByteString }
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> * aNumber [
 
 " returns a string with aNumber repetiotion of self separated by space"
@@ -12,7 +12,7 @@ ByteString >> * aNumber [
 ^ result
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> / anInteger [
 
 
@@ -26,13 +26,13 @@ ByteString >> / anInteger [
 	
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> asDirtArray [
 "convenience method to send OSC messages to SuperDirt"
 ^ Array with: self
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> asDirtNotes [
 " returns a sequncer containing a trig for each integer and a rest for whatever other character and with the notes coresponding to the integeres inside the string - tokens must be separated by string"
 | seq tokens gates notesAStrings  notesAsNumbers announcement |
@@ -59,7 +59,7 @@ seq notes: notesAsNumbers asArray.
 
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> asDirtSounds [
 
 	" parse a String into a Sequencer containing information to end to the SuperDirt synth for SuperCollider"
@@ -89,7 +89,7 @@ seq sound: soundsAsStrings  .
 ^ seq
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> asLocalGate: gateTimeInSeconds note: aNoteNumber [
 " gate-like OSC messsage with multiple arguments"
 	" send an OSC message that mimics the behaviour oa MIDI note on message.
@@ -106,7 +106,7 @@ ByteString >> asLocalGate: gateTimeInSeconds note: aNoteNumber [
 	(OSCMessage for: { label  . 0.0  }) sendToAddressString: localAddress  port: 8000.] fork
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> asPacaAddress [
 
 
@@ -119,7 +119,7 @@ serialNumber := 'beslime-51.local'.
 		  (NetNameResolver addressForName: serialNumber )
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> asSeqGates [
 	
 | gates tokens|
@@ -133,7 +133,7 @@ tokens do: [ :i | i = '~' ifTrue: [ gates add: 0]  ifFalse: [ gates add: 1  ]  ]
 
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> asVerticalFaderLocal: aRange [
 
 	| fader |
@@ -144,7 +144,7 @@ ByteString >> asVerticalFaderLocal: aRange [
 		 
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> chordsToArrays [
 	
 | chordsAsStrings chordAsArrays|
@@ -154,7 +154,7 @@ chordAsArrays := chordsAsStrings collect: [ :i| i parseChord  ].
 
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> every: anInteger [ 
 
 " return a string with self and anInteger minus one  number of breaks - to be used to construct patterns for SuperDirt"
@@ -166,7 +166,7 @@ ByteString >> every: anInteger [
 	
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> hexBeat [
 
 " convert a string with an Hexadecimal number to the Kyma array correspondong to the expression  BinaryArray ofSize: (self size) fromInteger: (self asHex)"
@@ -182,7 +182,7 @@ rhythm := ((( 1 to: (flat size)) collect: [ :i | (flat at: i ) digitValue ]) asR
 ^ rhythm asSeq.
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> hexBeat: anArrayOfNoteNumbers [ 
 " convert a string with an Hexadecimal number to the Kyma array corresponding to the expression  BinaryArray ofSize: (self size) fromInteger: (self asHex) , and with  anArrayOfNoteNumbers as Notes"
 |   strings flat announcement|
@@ -196,7 +196,7 @@ flat := strings flatCollect: [ :each | each ].
 ^ ((( 1 to: (flat size)) collect: [ :i | (flat at: i ) digitValue ]) asRhythm ) and: anArrayOfNoteNumbers  .
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> hexBeat: anArrayOfNoteNumbers dur: anArrayOfDurations [
 " convert a string with an Hexadecimal number to the Kyma array corresponding to the expression  BinaryArray ofSize: (self size) fromInteger: (self asHex) , and with  anArrayOfNoteNumbers as Notes and anArrayOfDurations as Durations"
 |   strings flat announcement|
@@ -209,13 +209,13 @@ flat := strings flatCollect: [ :each | each ].
 ^ ((( 1 to: (flat size)) collect: [ :i | (flat at: i ) digitValue ]) asRhythm ) and: anArrayOfNoteNumbers and: anArrayOfDurations .
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> inWords [
 " return an Ordered collection separating all the words inside the string"
 	^ self findBetweenSubstrings: ' '
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> index: anArrayOfIndexes to: aKeyInAPerformance [
 	
 "convenience method to avoid extra parenthesis when sending an HEX rhythm pattern to aKeyInPerformance"
@@ -223,13 +223,13 @@ ByteString >> index: anArrayOfIndexes to: aKeyInAPerformance [
 self pattern index: anArrayOfIndexes to: aKeyInAPerformance 
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> midiCh: anInteger to: aKeyInPerformance [
 	"conveneience method to avoid extra parenthesis"
 (self pattern  midiChannel: anInteger) to: aKeyInPerformance 
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> multiplyStringsInString [
 "multiply the string before the * fro the integer after the *"
 | tokens |
@@ -239,7 +239,7 @@ ByteString >> multiplyStringsInString [
 ^ tokens first * tokens second asInteger
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> notes: anArrayOfNotes index: anArrayOfIndexes to: aKeyInAPerformance [
 	
 "convenience method to avoid extra parenthesis when sending an HEX rhythm pattern to aKeyInPerformance"
@@ -247,7 +247,7 @@ ByteString >> notes: anArrayOfNotes index: anArrayOfIndexes to: aKeyInAPerforman
 self pattern notes: anArrayOfNotes index: anArrayOfIndexes to: aKeyInAPerformance
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> notes: anArrayOfNotes  to: aKeyInAPerformance [
 	
 "convenience method to avoid extra parenthesis when sending an HEX rhythm pattern to aKeyInPerformance"
@@ -255,7 +255,7 @@ ByteString >> notes: anArrayOfNotes  to: aKeyInAPerformance [
 self pattern notes: anArrayOfNotes to: aKeyInAPerformance .
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> once [
 "play the sound from the SuperDirt audio engine once at the desired index if any -
 for exampe cp:4 sound the 3rd sample of the /Library/Application\ Support/SuperCollider/downloaded-quarks/Dirt-Samples/cp folder"
@@ -267,7 +267,7 @@ message := OSCMessage for: { '/dirt/play' . 's' . sound . 'n' . note}.
 (OSCBundle for: { message } )sendToAddressString:  '127.0.0.1' port: 57120. 
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> onceAtSpeed: aFloat [
 "play the soundfrom the SuperDirt audio engine once at the desired speed"
 | sound note message parsedString condition|
@@ -282,7 +282,7 @@ message := OSCMessage for: { '/dirt/play' . 's' . sound . 'n' . note . 'speed' .
 
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> onceAtSpeed: aFloat withNote: aNote [
 "play the soundfrom the SuperDirt audio engine once at the desired speed"
 | sound message parsedString condition|
@@ -297,7 +297,7 @@ message := OSCMessage for: { '/dirt/play' . 's' . sound . 'n' . aNote . 'speed' 
 
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> parseChord [
 	|root chord notes|
 	root := (self findBetweenSubstrings: '-') at: 1.
@@ -307,7 +307,7 @@ ByteString >> parseChord [
 		^ (Chord list at: chord asLowercase  asSymbol) + (notes indexOf: root asLowercase  ) - 1.
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> pattern [ 
 " convert a string with an Hexadecimal number to the Kyma array correspondong to the expression  BinaryArray ofSize: (self size) fromInteger: (self asHex)"
 |   strings flat announcement |
@@ -321,7 +321,7 @@ flat := strings flatCollect: [ :each | each ].
 ^ ((( 1 to: (flat size)) collect: [ :i | (flat at: i ) digitValue ]) asRhythm ) asSeq.
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> pattern: anArrayOfNoteNumbers [ 
 " convert a string with an Hexadecimal number to the Kyma array corresponding to the expression  BinaryArray ofSize: (self size) fromInteger: (self asHex) , and with  anArrayOfNoteNumbers as Notes"
 |   strings flat announcement|
@@ -334,7 +334,7 @@ flat := strings flatCollect: [ :each | each ].
 ^ ((( 1 to: (flat size)) collect: [ :i | (flat at: i ) digitValue ]) asRhythm ) and: anArrayOfNoteNumbers  .
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> pattern: anArrayOfNoteNumbers and: anArrayOfDurations [
 " convert a string with an Hexadecimal number to the Kyma array corresponding to the expression  BinaryArray ofSize: (self size) fromInteger: (self asHex) , and with  anArrayOfNoteNumbers as Notes and anArrayOfDurations as Durations"
 |   strings flat announcement|
@@ -347,7 +347,7 @@ flat := strings flatCollect: [ :each | each ].
 ^ ((( 1 to: (flat size)) collect: [ :i | (flat at: i ) digitValue ]) asRhythm ) and: anArrayOfNoteNumbers and: anArrayOfDurations .
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> randomNotesFromFolder [
 "returns a random number (between 2 and 512) of indexes from the folder wit self name"
 | randIndex folder folderSize|
@@ -357,7 +357,7 @@ ByteString >> randomNotesFromFolder [
 	^ randIndex randomInts: folderSize .
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> to: aKeyInPerformance [ 
 	"convenience method to insert at aKeyInPerformance a pattern from the hex string"
 	
@@ -367,7 +367,7 @@ p := Performance uniqueInstance .
 self pattern to: aKeyInPerformance 
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> toKymaAsGate [
 	" send an OSC message that mimics the behaviour oa MIDI note on message, note is held for a default duration of 2 seconds"
 	| vcslabel  |
@@ -379,7 +379,7 @@ ByteString >> toKymaAsGate [
 	(OSCMessage for: { vcslabel  . 0.0  }) sendToAddressString: PacaAddress address  port: 8000.
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> toKymaAsGate: gateTimeInSeconds [
 	" send an OSC message that mimics the behaviour oa MIDI note on message.
 	gateTime is expressed in seconds"
@@ -393,7 +393,7 @@ ByteString >> toKymaAsGate: gateTimeInSeconds [
 	] fork
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> toKymaAsGate: gateTimeInSeconds note: aNoteNumber [
 
 	" send an OSC message that mimics the behaviour oa MIDI note on message.
@@ -422,7 +422,7 @@ ByteString >> toKymaAsGate: gateTimeInSeconds note: aNoteNumber [
 			 0.0 }) sendToAddressString: pacaAddress port: 8000 ] fork
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> toKymaAsGateOld: gateTimeInSeconds note: aNoteNumber [
 
 	" send an OSC message that mimics the behaviour oa MIDI note on message.
@@ -448,7 +448,7 @@ ByteString >> toKymaAsGateOld: gateTimeInSeconds note: aNoteNumber [
 			   0.0 }) sendToAddressString: PacaAddress address port: 8000 ] fork
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> toKymaAsNoteOff: aNoteNumber [
 	" send an OSC message that mimics the behaviour oa MIDI note on message."
 	| vcsGatelabel  vcsNoteLabel|
@@ -462,7 +462,7 @@ ByteString >> toKymaAsNoteOff: aNoteNumber [
 
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> toKymaAsNoteOn: aNoteNumber [
 	" send an OSC message that mimics the behaviour oa MIDI note on message.
 	gateTime is expressed in seconds"
@@ -477,7 +477,7 @@ ByteString >> toKymaAsNoteOn: aNoteNumber [
 
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> toKymaAsTrig [
 
 	" send an OSC message acting as a 10ms dutyCycle trigger"
@@ -495,14 +495,14 @@ ByteString >> toKymaAsTrig [
 			   0.0 }) sendToAddressString: PacaAddress address port: 8000 ] fork
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> toLocalAsGate [
 
 	" send an OSC message that mimics the behaviour of MIDI note on message, note is held for a default duration of 0.25 second and midi NN is 60"
 self toLocalAsGate: 0.25 note: 60 
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> toLocalAsGate: gateTimeInSeconds [
 
 	" send an OSC message that mimics the behaviour oa MIDI note on message.
@@ -511,7 +511,7 @@ ByteString >> toLocalAsGate: gateTimeInSeconds [
 self toLocalAsGate: gateTimeInSeconds note: 60.
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> toLocalAsGate: gateTimeInSeconds note: aNoteNumber [
 
 	" send an OSC message that mimics the behaviour oa MIDI note on message.
@@ -536,7 +536,7 @@ ByteString >> toLocalAsGate: gateTimeInSeconds note: aNoteNumber [
 			 0.0 }) sendToAddressString: localAddress port: 57120
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> toLocalFor: gateTimeInSeconds note: aNoteNumber [
 
 	" gate-like OSC messsage with multiple arguments"
@@ -563,7 +563,7 @@ ByteString >> toLocalFor: gateTimeInSeconds note: aNoteNumber [
 			   0.0 }) sendToAddressString: localAddress port: 8000 ] fork
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> toSCAsGate [
 
 	" send an OSC message that mimics the behaviour oa MIDI note on message, note is held for a default duration of 2 seconds"
@@ -581,7 +581,7 @@ ByteString >> toSCAsGate [
 			 0.0 }) sendToAddressString: localAddress port: 57110
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> toSCAsGate: gateTimeInSeconds [
 
 	" send an OSC message that mimics the behaviour oa MIDI note on message.
@@ -600,7 +600,7 @@ ByteString >> toSCAsGate: gateTimeInSeconds [
 			   0.0 }) sendToAddressString: localAddress port: 57110 ] fork
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> toSCAsGate: gateTimeInSeconds note: aNoteNumber [
 
 	" send an OSC message that mimics the behaviour oa MIDI note on message.
@@ -627,7 +627,7 @@ ByteString >> toSCAsGate: gateTimeInSeconds note: aNoteNumber [
 			   0.0 }) sendToAddressString: localAddress port: 57110 ] fork
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> toSCFor: gateTimeInSeconds note: aNoteNumber [
 
 	" gate-like OSC messsage with multiple arguments"
@@ -654,7 +654,7 @@ ByteString >> toSCFor: gateTimeInSeconds note: aNoteNumber [
 			   0.0 }) sendToAddressString: localAddress port: 57110 ] fork
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteString >> withNRests [
 	" add rests to a string divided by an Integer inside a String"
 	

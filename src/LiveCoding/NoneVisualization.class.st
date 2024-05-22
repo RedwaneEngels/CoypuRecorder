@@ -1,12 +1,10 @@
 Class {
-	#name : 'NoneVisualization',
-	#superclass : 'Object',
-	#category : 'LiveCoding-Graph',
-	#package : 'LiveCoding',
-	#tag : 'Graph'
+	#name : #NoneVisualization,
+	#superclass : #Object,
+	#category : 'LiveCoding-Graph'
 }
 
-{ #category : 'rendering' }
+{ #category : #rendering }
 NoneVisualization >> showSound: soundName withNote: note [
 
 	"Do nothing"
@@ -14,7 +12,7 @@ NoneVisualization >> showSound: soundName withNote: note [
 	
 ]
 
-{ #category : 'initialize' }
+{ #category : #initialize }
 NoneVisualization >> startWith: bpm [
 
 	"Do nothing"

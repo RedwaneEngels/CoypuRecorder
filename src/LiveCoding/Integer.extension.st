@@ -1,6 +1,6 @@
-Extension { #name : 'Integer' }
+Extension { #name : #Integer }
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> adowa [
 " create an array of self size of  sikyi (by Ashanti people of Ghana) rhytm pulses. Better if the receiever is a multiple of 8."
 | pattern announcement |
@@ -13,7 +13,7 @@ pattern := #(0 0 0 1 0 1 0 1).
 
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> aksak [
 " create an array of self size of Balcan pseudo aksak rhytm pulses. Better if used with self = 8 x anInteger "
 | pattern announcement|
@@ -27,7 +27,7 @@ pattern := #(1 0 1 0 0 0 1 0 0 0).
 "implement shifting to the left"
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> banda [
 " create an array of self size of Banda (Haiti/Vodoo) rhytm pulses. Better if used with self = 8 x anInteger . it is the same rhythm played in the moribayasa rhythm among the Malinke people of Guinea and in Cuba it is called cinquillo"
 | pattern announcement|
@@ -41,7 +41,7 @@ pattern := #(1 0 1 1 0 1 1 0).
 "implement shifting to the left"
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> bomba [
 " create an array of self size of  puertorican Bomba rhytm pulses. Better if the receiever is a multiple of eight."
 | pattern announcement |
@@ -54,7 +54,7 @@ pattern := #(1 0 0 1 1 1 1 0 ).
 
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> bossa [
 " create an array of self size of  bossanova rhytm pulses. Better if used with self = 16 x anInteger "
 | pattern announcement|
@@ -68,13 +68,13 @@ pattern := #(1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 ).
 "implement shifting to the left"
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> bpm [
 "return the duration of 1/16th at self bpm"
 ^ ((60/  self) /4).
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> breves [
 " returns self number of brevesin the first position of the bars"
 | result |
@@ -83,7 +83,7 @@ result durations: 32.
 ^ result
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> claveSon [
 " create an array of self size of  Cuban clave Son rhytm pulses. Better if the receiever is a multiple of 16."
 | pattern announcement|
@@ -96,13 +96,13 @@ pattern := #(1 0 0 1 0 0 1 0 0 0 1 0 1 0 0 0).
 
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> copiesOf: anInteger [
 " retuns an array of self size with all  anInteger"
 ^ Array new: self withAll: anInteger.
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> copiesOfEach: anArray [
 " retuns an array of self repetitions of each element of anArray"
 | result  resultSize|
@@ -114,14 +114,14 @@ resultSize := result  size.
 ^ result
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> dirtNoteToSpeed [
 " for SUperDirt, convert a note into speed, for sample playback"
 ^ 2 raisedTo: (self /12)
 
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> downbeats [ 
 |announcement|
 	announcement := RythmAnnouncement new.
@@ -130,7 +130,7 @@ Integer >> downbeats [
  ^ ((1 to: self) collect: [ :i | (((i rem: 4) = 1)) asBit ]) asRhythm asSeq. 
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> gahu [
 " create an array of self size of gahu (from Ewe people) rhytm pulses. Better if used with self = 8 x anInteger "
 | pattern announcement |
@@ -144,13 +144,13 @@ pattern := #(1 0 0 1 0 0 1 0 0 0 1 0 0 0 1 0 ).
 "implement shifting to the left"
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> into: anArray [
 
 ^ anArray fullScale asArray wrap: self
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> melodyFrom: aScale [
 
 	| array |
@@ -163,7 +163,7 @@ Integer >> melodyFrom: aScale [
 	^ array
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> modulo: anInteger [
 
 	"convenience method to index arrays after incrementing"
@@ -171,7 +171,7 @@ Integer >> modulo: anInteger [
 	^ self - 1 % anInteger  + 1
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> pattern [ 
 	| arrayOfCharacters s|
 	arrayOfCharacters := (self printStringBase: 2) asArray.
@@ -180,7 +180,7 @@ Integer >> pattern [
 	
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> quavers [
 "creates an Array of aNumber of values (0,1) with 1 to the position corresponding to a rhtyhm of quavers (downbeat + upbeat)"
 |announcement|
@@ -190,7 +190,7 @@ Integer >> quavers [
 	^ ((1 to: self) collect: [ :i | ((((i rem: 4) = 1)) | (((i rem: 4) = 3)) ) asBit ]) asRhythm asSeq .
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> randomDiv: aDivision [
 "return an array of size=self random values in the range of 0,1 , with a subdivision of 1/aDivision steps with 2 decimal places"
 	| r array|
@@ -199,7 +199,7 @@ Integer >> randomDiv: aDivision [
 	^ (1 to: self) collect: [ :i | (array at: (r nextInt: (array size))) printShowingDecimalPlaces: 2 ].
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> randomFrom: anArray [
 
 	"return an array of self size of random notes from anArray"
@@ -208,7 +208,7 @@ Integer >> randomFrom: anArray [
 		  anArray at: (Random new nextInteger: anArray size) ]
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> randomInts: aNumber [
 "return an array of self size with random integers with range [0, aNumber]"
 | floatsArray result |
@@ -217,7 +217,7 @@ result := floatsArray collect: [ :i | i rounded ].
 ^ result
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> randomNotes: anArray [
 
 	"answer an Array of size=self with random note numbers between "
@@ -230,7 +230,7 @@ Integer >> randomNotes: anArray [
 		  (Random new nextInteger: range) + min - 1 ]
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> randomNotesFrom: anArray [
 
 	"return an array of self size of random notes from anArray"
@@ -239,7 +239,7 @@ Integer >> randomNotesFrom: anArray [
 		  anArray at: (Random new nextInteger: anArray size) ]
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> randomNotesFrom: anArray octaves: aNumber [
 
 	"return an array of self size of a random note from anArray + a random octave between 0 and aNumber"
@@ -249,7 +249,7 @@ Integer >> randomNotesFrom: anArray octaves: aNumber [
 		  + ((Random new nextInteger: aNumber + 1) - 1 * 12) ]
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> randomSamplesFromFolder: aStringForAFolderOfSamples [
 "return a Sequencer witha random number (between 2 and 512) of trigs and of samples fro the selected folder"
 | randIndex folder folderSize|
@@ -259,7 +259,7 @@ Integer >> randomSamplesFromFolder: aStringForAFolderOfSamples [
 	^ self randomTrigs sound: aStringForAFolderOfSamples ; dirtNotes: (randIndex  randomInts: folderSize) .
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> randomSamplesFromFolder: aStringForAFolderOfSamples withProbability: aProbability [
 "return a Sequencer witha random number (between 2 and 512) of trigs and of samples fro the selected folder"
 | randIndex folder folderSize|
@@ -269,7 +269,7 @@ Integer >> randomSamplesFromFolder: aStringForAFolderOfSamples withProbability: 
 	^ (self randomTrigsWithProbability: aProbability ) sound: aStringForAFolderOfSamples ; dirtNotes: (randIndex  randomInts: folderSize) .
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> randomTrigs [
 "generates an Array of random 0s and 1s of size: aNumber"
 | announcement r|
@@ -280,7 +280,7 @@ Integer >> randomTrigs [
 	^ ((1 to: self) collect: [ :i | (r next ) rounded]) asRhythm asSeq .
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> randomTrigsWithProbability: anIntegerProbability [
 "generates an Array of random 0s and 1s of size: aNumber with a probability of having a trig of anIntegerProbability "
 	| r rytm announcement|
@@ -296,7 +296,7 @@ Integer >> randomTrigsWithProbability: anIntegerProbability [
 ^ rytm asRhythm asSeq
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> randomWalksOn: anArrayOfNotes [
 
 	"random walk inside an array of notes"
@@ -318,7 +318,7 @@ Integer >> randomWalksOn: anArrayOfNotes [
 	^ randomWalker
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> randoms [
 "generates an Array of random values in the range (0,1) of size: aNumber, whith only 2 decimal places"
 	| r |
@@ -326,7 +326,7 @@ Integer >> randoms [
 	^ (1 to: self) collect: [ :i | ((r next ) printShowingDecimalPlaces: 2) asNumber].
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> rumba [
 " create an array of self size of Cuban rumba rhytm pulses. Better if used with self = 16 x anInteger "
 | pattern announcement|
@@ -340,7 +340,7 @@ pattern := #(1 0 0 1 0 0 0 1 0 0 1 0 1 0 0 0 ).
 "implement shifting to the left"
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> semibreves [
 " returns self number of semibrevesin the first position of the bars"
 | result announcement |
@@ -352,7 +352,7 @@ result durations: 16.
 ^ result
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> semiquavers [ 
 |announcement|
 	announcement := RythmAnnouncement new.
@@ -361,7 +361,7 @@ Integer >> semiquavers [
 ^ (Array new: self withAll: 1) asRhythm asSeq.
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> semitonesToSpeed [
 
  "Convert semitones to playback speed factor"
@@ -375,7 +375,7 @@ Integer >> semitonesToSpeed [
         ^semitoneFactor.
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> shiko [
 " create an array of self size of shiko (West-African / Caribbean) rhytm pulses. Better if used with self = 16 x anInteger "
 | pattern announcement |
@@ -389,7 +389,7 @@ pattern := #(1 0 0 0 1 0 1 0 0 0 1 0 1 0 0 0).
 "implement shifting to the left"
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> sikyi [
 " create an array of self size of  sikyi (by Ashanti people of Ghana) rhytm pulses. Better if the receiever is a multiple of 8."
 | pattern announcement|
@@ -402,7 +402,7 @@ pattern := #(0 0 0 1 0 1 0 1).
 
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> soukous [
 " create an array of self size of Central Africa soukous rhytm pulses. Better if used with self = 8 x anInteger "
 | pattern announcement|
@@ -416,7 +416,7 @@ pattern := #(1 0 0 1 0 0 1 0 0 0 1 1 0 0 0 0 ).
 "implement shifting to the left"
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> spreadOver: anInteger [
 
 | result |
@@ -424,7 +424,7 @@ result := (0 to: self by: self/anInteger) asArray collect: [:i | i asFloat].
 ^ result
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> toSCAsGate [
 
 	" send an OSC message to superCollider that mimics the behaviour oa MIDI note on message, note is held for a default duration of 2 seconds"
@@ -448,7 +448,7 @@ Integer >> toSCAsGate [
 			 0 }) sendToAddressString: '127.0.0.1' port: 57110
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> toSCAsGate: aDurationInSeconds note: aNoteNumber [
 
 	"send a note-on MIDI-like message to supercollider via OSC"
@@ -475,7 +475,7 @@ Integer >> toSCAsGate: aDurationInSeconds note: aNoteNumber [
 			] fork
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> tresillo [
 " create an array of self size of  tresillo rhytm pulses. Better if used with self = 8 x anInteger "
 | pattern newArray rhythm announcement |
@@ -498,7 +498,7 @@ pattern := #(1 0 0 1 0 0 1 0 ).
 "implement shifting to the left"
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> trigs [
 	
 	" retuns a Sequencer of gates size = self with all ones - same as semiquavers"
@@ -509,7 +509,7 @@ Integer >> trigs [
 ^ (Array new: self withAll: 1) asRhythm asSeq.
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> trueAksak [
 " create an array of self size of Balcan aksak rhytm pulses. Better if used with self = 13 x anInteger "
 | pattern announcement |
@@ -523,7 +523,7 @@ pattern := #(1 0 1 0 1 0 1 0 0 1 0 1 0).
 "implement shifting to the left"
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> tumbao [
 " create an array of self size of  habanera/tumbao rhytm pulses. Better if the receiever is a multiple of eight."
 | pattern rhythm announcement|
@@ -537,7 +537,7 @@ rhythm := ((0 to: (self -1) ) collect: [ :i | pattern at: ((i rem: pattern size)
 
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> upbeats [
 "creates an Array of size=self  of values (0,1) with 1 to the position corresponding to a 4/4 upbeat rhythm"
 |announcement|
@@ -547,7 +547,7 @@ Integer >> upbeats [
 	^ ((1 to: self) collect: [ :i | (((i rem: 4) = 3)) asBit ]) asRhythm asSeq.
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 Integer >> zeros [
 	" retuns a Sequencer of gates size = self with all zeros / to create long rests "
 	|announcement|

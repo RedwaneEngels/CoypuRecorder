@@ -2,9 +2,9 @@
 ""Creates a Chord as an array of MIDI note numbers""
 "
 Class {
-	#name : 'Chord',
-	#superclass : 'Object',
-	#type : 'variable',
+	#name : #Chord,
+	#superclass : #Object,
+	#type : #variable,
 	#instVars : [
 		'list',
 		'ChordLists'
@@ -12,12 +12,10 @@ Class {
 	#classInstVars : [
 		'ChordLists'
 	],
-	#category : 'LiveCoding-ScalesAndChords',
-	#package : 'LiveCoding',
-	#tag : 'ScalesAndChords'
+	#category : 'LiveCoding-ScalesAndChords'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 Chord class >> list [
 
 	"retrurn the list of all Chords"
@@ -35,7 +33,7 @@ list at: #major put: #(0 4 7); at: #minor put: #(0 3 7); at: #aug put: #( 0 4 8)
 	^ list
 ]
 
-{ #category : 'creating' }
+{ #category : #creating }
 Chord class >> major [ 
 	| notes |
 	notes := Scale major.
@@ -44,7 +42,7 @@ Chord class >> major [
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 Chord class >> major11 [
 	| notes |
 	notes := Scale major.
@@ -53,7 +51,7 @@ Chord class >> major11 [
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 Chord class >> major13 [
 
 	| notes chord|
@@ -66,7 +64,7 @@ Chord class >> major13 [
 
 ]
 
-{ #category : 'creating' }
+{ #category : #creating }
 Chord class >> major7 [
 	| notes |
 	notes := Scale major.
@@ -75,7 +73,7 @@ Chord class >> major7 [
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 Chord class >> major9 [
 	| notes |
 	notes := Scale major.
@@ -84,7 +82,7 @@ Chord class >> major9 [
 
 ]
 
-{ #category : 'creating' }
+{ #category : #creating }
 Chord class >> minor [ 
 	| notes |
 	notes := Scale minor.
@@ -93,7 +91,7 @@ Chord class >> minor [
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 Chord class >> minor11 [
 
 	| notes |
@@ -103,7 +101,7 @@ Chord class >> minor11 [
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 Chord class >> minor13 [
 
 	| notes chord|
@@ -116,7 +114,7 @@ Chord class >> minor13 [
 
 ]
 
-{ #category : 'creating' }
+{ #category : #creating }
 Chord class >> minor7 [
 	| notes |
 	notes := Scale minor.
@@ -125,7 +123,7 @@ Chord class >> minor7 [
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 Chord class >> minor9 [
 
 	| notes |
@@ -135,7 +133,7 @@ Chord class >> minor9 [
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 Chord class >> traceList [
 
 "open a Transcript and show a list of all available chords".
@@ -144,14 +142,14 @@ self list keysDo:  [ :i | i traceCr ].
 Transcript open.
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 Chord >> initialize [ 
 super initialize .
 
 
 ]
 
-{ #category : 'generating' }
+{ #category : #generating }
 Chord >> randomize: aNumber [
 	
 	| r s|
@@ -161,7 +159,7 @@ Chord >> randomize: aNumber [
 	^ (1 to: aNumber) collect: [ :i | self at: (( (r next) * s) rounded) + 1 ].
 ]
 
-{ #category : 'generating' }
+{ #category : #generating }
 Chord >> randomize: aNumber range: aRange [
 	
 	| r  s|
@@ -173,7 +171,7 @@ Chord >> randomize: aNumber range: aRange [
 	^ (1 to: aNumber) collect: [ :i | (self at: (r nextInt: s)) + ((r nextInt: aRange) * ((r nextInt: 2) -2) )].
 ]
 
-{ #category : 'generating' }
+{ #category : #generating }
 Chord >> randomize: aNumber range: aRange root: aRoot [
 	
 	| r  s|
@@ -185,7 +183,7 @@ Chord >> randomize: aNumber range: aRange root: aRoot [
 	^ (1 to: aNumber) collect: [ :i | ((self at: (r nextInt: s)) + ((r nextInt: aRange) * ((r nextInt: 2) -2) )) + aRoot].
 ]
 
-{ #category : 'generating' }
+{ #category : #generating }
 Chord >> randomize: aNumber range: aRange withRoot: aRoot [
 	
 	| r  s|
@@ -197,7 +195,7 @@ Chord >> randomize: aNumber range: aRange withRoot: aRoot [
 	^ (1 to: aNumber) collect: [ :i | ((self at: (r nextInt: s)) + ((r nextInt: aRange) * ((r nextInt: 2) -2) )) + aRoot].
 ]
 
-{ #category : 'generating' }
+{ #category : #generating }
 Chord >> randomize: aNumber withRoot: aRoot [
 	
 	| r s|
@@ -207,7 +205,7 @@ Chord >> randomize: aNumber withRoot: aRoot [
 	^ (1 to: aNumber) collect: [ :i | (self at: (( (r next) * s) rounded) + 1) + aRoot ].
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 Chord >> root: aNumber [
 " return a Chord with aNumber nn as root"
 ^ (self + aNumber).

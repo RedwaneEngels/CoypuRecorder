@@ -3,14 +3,12 @@ Minimal Playground for programming music on-the fly.
 
 "
 Class {
-	#name : 'Playground4LiveCoding',
-	#superclass : 'StPlaygroundPagePresenter',
-	#category : 'LiveCoding-Playground',
-	#package : 'LiveCoding',
-	#tag : 'Playground'
+	#name : #Playground4LiveCoding,
+	#superclass : #StPlaygroundPagePresenter,
+	#category : 'LiveCoding-Playground'
 }
 
-{ #category : 'layout' }
+{ #category : #layout }
 Playground4LiveCoding class >> defaultLayout [
 
 	^ SpBoxLayout newTopToBottom
@@ -20,13 +18,13 @@ Playground4LiveCoding class >> defaultLayout [
 		  yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 Playground4LiveCoding class >> defaultTitle [
 
 	^ 'Programming music on-the-fly'
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 Playground4LiveCoding >> initializeWindow: aWindowPresenter [
 
 	super initializeWindow: aWindowPresenter.

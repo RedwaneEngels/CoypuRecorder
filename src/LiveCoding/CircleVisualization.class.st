@@ -1,22 +1,20 @@
 Class {
-	#name : 'CircleVisualization',
-	#superclass : 'Object',
+	#name : #CircleVisualization,
+	#superclass : #Object,
 	#instVars : [
 		'clock',
 		'ellipses'
 	],
-	#category : 'LiveCoding-Graph',
-	#package : 'LiveCoding',
-	#tag : 'Graph'
+	#category : 'LiveCoding-Graph'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CircleVisualization >> clock [
 
 	^ clock
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CircleVisualization >> ellipses [
 
 	ellipses ifNotNil: [ ^ ellipses ].
@@ -26,7 +24,7 @@ CircleVisualization >> ellipses [
 		              yourself
 ]
 
-{ #category : 'rendering' }
+{ #category : #rendering }
 CircleVisualization >> showSound: soundName withNote: note [
 
 	| color |
@@ -35,7 +33,7 @@ CircleVisualization >> showSound: soundName withNote: note [
 	self ellipses color: color; update
 ]
 
-{ #category : 'initialize' }
+{ #category : #initialize }
 CircleVisualization >> startWith: bpm [
 
 	clock := Clock new
