@@ -25,5 +25,5 @@ BaselineOfCoypuRecorder >> baseline: spec [
 				package: 'CoypuRecorder-Tests'
 				with: [ spec requires: #( 'CoypuRecorder' ) ] ];
 		package: 'CoypuRecorder_Graphics'
-		with: [ spec requires: #( 'Toplo''CoypuRecorder' ) ]
+		with: [ spec requires: #( 'Toplo' ) ]
 ]
