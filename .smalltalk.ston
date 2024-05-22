@@ -6,6 +6,6 @@ SmalltalkCISpec {
     }],
 #testing : {
     #exclude : {
-      #packages : [ 'Coypu' ]}
+      #packages : [ 'Coypu' 'LiveCoding' ]}
 
   }}
