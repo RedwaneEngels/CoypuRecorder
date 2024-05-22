@@ -1,6 +1,6 @@
-Extension { #name : #SequenceableCollection }
+Extension { #name : 'SequenceableCollection' }
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 SequenceableCollection >> asOSCMessageForSuperDirt [
 
 

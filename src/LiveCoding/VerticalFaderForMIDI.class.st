@@ -2,8 +2,8 @@
 Creates a Vertical Fader to send MIDI COntrol CHange messages to the selected MIDI Channel.
 "
 Class {
-	#name : #VerticalFaderForMIDI,
-	#superclass : #VerticalFader,
+	#name : 'VerticalFaderForMIDI',
+	#superclass : 'VerticalFader',
 	#instVars : [
 		'ccNumber',
 		'midiSender',
@@ -11,10 +11,12 @@ Class {
 		'faderLabel',
 		'visualization'
 	],
-	#category : 'LiveCoding-GUI'
+	#category : 'LiveCoding-GUI',
+	#package : 'LiveCoding',
+	#tag : 'GUI'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 VerticalFaderForMIDI class >> new: anArray [
 
 	"shortcut to create MIDI faderLabel #(aCCNumber aMIDISender a channel)"
@@ -31,7 +33,7 @@ VerticalFaderForMIDI class >> new: anArray [
 		  yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 VerticalFaderForMIDI class >> newWithCC: aCCNumber forSender: aMIDISender [
 " the fader label is also the OSC address"
 ^ (self new) 
@@ -43,7 +45,7 @@ VerticalFaderForMIDI class >> newWithCC: aCCNumber forSender: aMIDISender [
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 VerticalFaderForMIDI class >> newWithCC: aCCNumber forSender: aMIDISender channel: aMIDIChannel [
 
 
@@ -56,48 +58,48 @@ VerticalFaderForMIDI class >> newWithCC: aCCNumber forSender: aMIDISender channe
 		  yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 VerticalFaderForMIDI >> ccNumber [
 ^ ccNumber 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 VerticalFaderForMIDI >> ccNumber: aCCNumber [
 
 ccNumber := aCCNumber .
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 VerticalFaderForMIDI >> faderLabel [
 ^ faderLabel 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 VerticalFaderForMIDI >> faderLabel: aString [
 faderLabel := aString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 VerticalFaderForMIDI >> midiChannel [ 
 ^ midiChannel 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 VerticalFaderForMIDI >> midiChannel: aChannelNumber [ 
 midiChannel := aChannelNumber 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 VerticalFaderForMIDI >> midiSender [
 ^ midiSender 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 VerticalFaderForMIDI >> midiSender: aMIDISender [
 midiSender  := aMIDISender .
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 VerticalFaderForMIDI >> mouseMove: anEvent [
 
 	| newLocation mappedY cursorY faderBottom faderTop |
@@ -120,7 +122,7 @@ VerticalFaderForMIDI >> mouseMove: anEvent [
 		ifFalse: [ "for debug" nil ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 VerticalFaderForMIDI >> visualization: aVisualization [
 visualization := aVisualization .
 ]

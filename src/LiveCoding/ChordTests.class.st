@@ -1,10 +1,12 @@
 Class {
-	#name : #ChordTests,
-	#superclass : #TestCase,
-	#category : 'LiveCoding-Tests'
+	#name : 'ChordTests',
+	#superclass : 'TestCase',
+	#category : 'LiveCoding-Tests',
+	#package : 'LiveCoding',
+	#tag : 'Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ChordTests >> testChordsToArrays [
 
 | result | 
@@ -15,7 +17,7 @@ self assert: 'C-minor D-major' chordsToArrays asArray equals: result
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ChordTests >> testParseChord [
 
 self assert: 'D-Major' parseChord equals: #(2 6 9)

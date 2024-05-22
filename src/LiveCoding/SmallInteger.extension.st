@@ -1,6 +1,6 @@
-Extension { #name : #SmallInteger }
+Extension { #name : 'SmallInteger' }
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 SmallInteger >> asInt8 [
 
 	| bitArray firsComplement binaryString secondComplementAsString secondComplement result |
@@ -16,13 +16,13 @@ SmallInteger >> asInt8 [
 	^ result
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 SmallInteger >> bars [
 	"return number of steps in self bars"
 	^ self*16
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 SmallInteger >> isVoiceMessage [
 	"In MIDI communication, each MIDI message consists of a status byte followed by one or two data bytes. The status byte contains information about the type of message being sent, such as note-on, note-off, control change, etc.
 The status byte has a specific format: The most significant nibble (the leftmost 4 bits) indicates the type of message. The least significant nibble (the rightmost 4 bits) typically represents the MIDI channel. For example, in the MIDI protocol:
@@ -37,7 +37,7 @@ The reason for performing bitwise AND with 16rF0 (which is 11110000 in binary) i
 	^ (self bitAnd: 16rf0) = self
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 SmallInteger >> saw [
 
 	"fill an array of self steps with values representing a sawtooth with range 0 - 1"
@@ -45,7 +45,7 @@ SmallInteger >> saw [
 	^ (0 to: 1 by: 1 / (self -1)) asDirtArray
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 SmallInteger >> sawCC: aRange [
 
 	"fill an array of self steps with values representing a sawtooth with aRange 1"
@@ -59,7 +59,7 @@ SmallInteger >> sawCC: aRange [
 ^ result
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 SmallInteger >> triangle [
 
 	"return an array of self size with a triangle wave with range 0 -1"
@@ -72,7 +72,7 @@ SmallInteger >> triangle [
 	^ result
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 SmallInteger >> triangleCC: aRange [
 
 	"return an array of self size with a triangle wave with aRange suited for MIDI ccs"

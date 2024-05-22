@@ -15,13 +15,15 @@ Metacello new
 	load. during: 
 "
 Class {
-	#name : #Rhythm,
-	#superclass : #Array,
-	#type : #variable,
-	#category : 'LiveCoding-Sequencers'
+	#name : 'Rhythm',
+	#superclass : 'Array',
+	#type : 'variable',
+	#category : 'LiveCoding-Sequencers',
+	#package : 'LiveCoding',
+	#tag : 'Sequencers'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 Rhythm class >> list [
 
 	"return all the possible Rhythms obtainable sending messages to integers"
@@ -35,7 +37,7 @@ Rhythm class >> list [
 Transcript clear. rhythmList do: [ :i | i traceCr  ]. Transcript open.
 ]
 
-{ #category : #responses }
+{ #category : 'responses' }
 Rhythm class >> random: aNumber [
 "generates an Array of random values in the range (0,1) of size: aNumber, whith only 2 decimal places"
 	| r |
@@ -43,20 +45,20 @@ Rhythm class >> random: aNumber [
 	^ (1 to: aNumber) collect: [ :i | (r next ) printShowingDecimalPlaces: 2].
 ]
 
-{ #category : #'bit manipulation' }
+{ #category : 'bit manipulation' }
 Rhythm >> >> anArray [
 " same as and: anArray, but rewritten to test precedence improvement"
 "returns Sequencer with default note 60nn and default durations 1/16th and noteIndex = 0"
 ^ (Sequencer with: self with: anArray with: #(0.125) with: 0 )
 ]
 
-{ #category : #controlling }
+{ #category : 'controlling' }
 Rhythm >> and: anArray [
 "returns Sequencer with default note 60nn and default durations 1/16th and noteIndex = 0"
 ^ (Sequencer with: self with: anArray with: #(0.125) with: 0 )
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 Rhythm >> and: anArrayOfNotes and: anArrayOfDurations [
 
 	"returns Sequencer with default note 60nn and default durations 1/16th"
@@ -64,7 +66,7 @@ Rhythm >> and: anArrayOfNotes and: anArrayOfDurations [
 	^ Sequencer new gates: self ; notes: anArrayOfNotes; durations: anArrayOfDurations
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 Rhythm >> asDirtArray [ 
 "convert Rhythm into an Array"
 | array |
@@ -73,13 +75,13 @@ array := Array new: (self size).
 ^ array
 ]
 
-{ #category : #'sequencer creation' }
+{ #category : 'sequencer creation' }
 Rhythm >> notes: anArray [
 
 	^ Sequencer new gates: self; notes: anArray
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 Rhythm >> offset: aNumber [
 "offset the rhythm by aNumber of 'steps' wrapping it around its size"
 | newRhythm |
@@ -89,13 +91,13 @@ newRhythm := Rhythm new: (self size).
 
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 Rhythm >> printOn: aStream [
 
 	aStream print: self asDirtArray 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 Rhythm >> randomInts: anArrayWithRangeAndMin [
 
 	"return an array of self size with random integers with range [anArrayWithRangeAndMin at: 1 +  anArrayWithRangeAndMin at: 2]"
@@ -109,7 +111,7 @@ Rhythm >> randomInts: anArrayWithRangeAndMin [
 	^ Sequencer new gates: self; notes: result
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 Rhythm >> randomNotesFrom: anArray [
 
 	"return an array of self size of random notes from anArray"
@@ -121,7 +123,7 @@ Rhythm >> randomNotesFrom: anArray [
 	^ Sequencer new notes: self; gates: result
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 Rhythm >> randomNotesFrom: anArray octaves: aNumber [
 
 	"return an array of self size of a random note from anArray + a random octave between 0 and aNumber"

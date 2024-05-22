@@ -1,15 +1,17 @@
 Class {
-	#name : #KeyboardToKyma,
-	#superclass : #KeyboardToOSC,
-	#category : 'LiveCoding-KeyboardControl'
+	#name : 'KeyboardToKyma',
+	#superclass : 'KeyboardToOSC',
+	#category : 'LiveCoding-KeyboardControl',
+	#package : 'LiveCoding',
+	#tag : 'KeyboardControl'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 KeyboardToKyma >> initialize [ 
 super initialize.
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 KeyboardToKyma >> keyDown: anEvent [
 
 
@@ -20,7 +22,7 @@ key := self keyAsMIDINoteNumber: anEvent.
 ((key ~= -1) & isHandlingKeyDown) ifTrue: [  address toKymaAsNoteOn: key + (octave * 12)] ifFalse:[nil]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 KeyboardToKyma >> keyUp: anEvent [
 
 

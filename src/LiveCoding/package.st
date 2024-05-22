@@ -1,1 +1,1 @@
-Package { #name : #LiveCoding }
+Package { #name : 'LiveCoding' }

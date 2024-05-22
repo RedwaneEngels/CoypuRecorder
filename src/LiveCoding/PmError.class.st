@@ -1,6 +1,6 @@
 Class {
-	#name : #PmError,
-	#superclass : #FFIEnumeration,
+	#name : 'PmError',
+	#superclass : 'FFIEnumeration',
 	#classVars : [
 		'pmBadData',
 		'pmBadPtr',
@@ -13,10 +13,11 @@ Class {
 		'pmNoError',
 		'pmNotImplemented'
 	],
-	#category : 'LiveCoding'
+	#category : 'LiveCoding',
+	#package : 'LiveCoding'
 }
 
-{ #category : #'enum declaration' }
+{ #category : 'enum declaration' }
 PmError class >> enumDecl [
 	^ #(
 	pmNoError 0

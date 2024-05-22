@@ -1,6 +1,6 @@
-Extension { #name : #Array }
+Extension { #name : 'Array' }
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> * aNumber [
 "returns an Array with all the elements of self multiplicated for aNumber"
 
@@ -9,7 +9,7 @@ result := ( 1to: (self size)) collect: [ :i | (self at: i) * aNumber ].
 ^ result
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> + aNumber [ 
 " sum aNumber to each element of the array"
 | result |
@@ -17,7 +17,7 @@ result := (1 to: (self size)) collect: [ :i | (self at: i ) + aNumber ].
 ^ result
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> - aNumber [ 
 " sum aNumber to each element of the array"
 | result |
@@ -25,13 +25,13 @@ result := (1 to: (self size)) collect: [ :i | (self at: i ) - aNumber ].
 ^ result
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> > aString [
 "experimental"
 Transcript show: aString; open.
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> @ anArrayWithARootNoteAndAnOctave [
 
 	| x anIntegerRoot anIntegerOctave |
@@ -43,19 +43,19 @@ Array >> @ anArrayWithARootNoteAndAnOctave [
 	^ x
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> and: anArray [
 
 ^ Sequencer with: self with: anArray
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> and: anArray and: anotherArray [
 
 ^ Sequencer with: self with: anArray with: anotherArray 
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> arp: anArrayOfIntervals [
 
 	"STILL NOT AT ITS BEST"
@@ -74,13 +74,13 @@ Array >> arp: anArrayOfIntervals [
 	^ finalResult asDirtArray
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> asDirtArray [
 "convenience method to send OSC messages to SuperDirt"
 ^ self
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> asMonoSeq [
 
 	"returns Sequencer with default note 60nn and default durations 1/16th and noteIndex = 0"
@@ -98,7 +98,7 @@ Array >> asMonoSeq [
 
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> asRhythm [
 " convert Array into a Rhythm"
 | rhythm |
@@ -107,7 +107,7 @@ rhythm := Rhythm new: (self size).
 ^ rhythm
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> asSeq [
 	"returns Sequencer with default note 60nn and default durations = self size / numberOfTrigs and noteIndex = 0"
 
@@ -123,7 +123,7 @@ Array >> asSeq [
 	^ seq
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> euclidean [
 
 	"generates an euclidean rhythm with (self at: 1) onsets and (self at: 2) pulses. 
@@ -148,7 +148,7 @@ algorithm based on the Bresenham approach"
 	^ result asDirtArray asRhythm asSeq
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> fullScale [
 | x numberOfOctaves|
 numberOfOctaves := 6.
@@ -158,7 +158,7 @@ x  := OrderedCollection  new.
 ^  x
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> innestedWithTrigs: anotherArray [
 " add trigs in self if anotherArray has trigs at indexes where self have not"
 (1 to: (self size)) do: [ :i  |  self at: i put: (1 min: ((self at: i) + (anotherArray at: i)))].
@@ -166,7 +166,7 @@ Array >> innestedWithTrigs: anotherArray [
 ^ self
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> into: anotherArray [
 
 	"return a new array with anotherArray at the desired indexes; if the index is out of bound, the last element of another array is collected.
@@ -175,13 +175,13 @@ Array >> into: anotherArray [
 	^ self collect: [ :i | i~= 0 ifTrue: [   anotherArray at: (i min: anotherArray size) ] ifFalse: [0]]
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> isSequencer [
 
 	^ false
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> notes [
 
 	"convert an array of MIDI note numbers into a Sequencer where 0 corresponds to rests"
@@ -203,7 +203,7 @@ Array >> notes [
 	^ seq
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> numberOfGates [ 
 "return number of elements in the array that are greater than 0"
 | result size |
@@ -212,7 +212,7 @@ size := result size.
 ^ size
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> of: anotherArray [
 " economic implementation of self collect: [:i | anotherArray at: i]"
 | result |
@@ -220,7 +220,7 @@ result := self collect: [ :i | anotherArray  at: i ].
 ^ result
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> offset: aNumber [
 "offset the rhythm by aNumber of 'steps' wrapping it around its size"
 | newArray |
@@ -230,7 +230,7 @@ newArray := self class new: (self size).
 
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> randomOctaves: anInteger [
 
 	| newArray |
@@ -240,7 +240,7 @@ Array >> randomOctaves: anInteger [
 	^ newArray
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> root: anIntegerRoot octaves: anIntegerOctave [
 | x |
 x := OrderedCollection new.
@@ -249,7 +249,7 @@ x := OrderedCollection new.
 
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> times: aNumber [
 "returns an Array containing aNumber repetition of self"
 
@@ -260,13 +260,13 @@ newArray := Array new: newSize.
 ^ newArray
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> to: aPerformance at: aKey [
 
 aPerformance add: aKey -> self
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> toKyma: aString [
 	"sends and array of oscmessages with the values of the array to the vcs labels with array indexes"
 	
@@ -281,7 +281,7 @@ Array >> toKyma: aString [
 	
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> trigs [
 
 	"return the number of trigs (value  = 1),  of the array"
@@ -295,7 +295,7 @@ Array >> trigs [
 	^ result
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : '*LiveCoding' }
 Array >> wrap: anInteger [
 
 	"inspire by Cmajor language wrap<int> always wrap the index of the array to the array size"

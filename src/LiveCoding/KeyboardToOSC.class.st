@@ -2,8 +2,8 @@
 A bodered morph thats when mouse is over sends OSC messages in a MIDI keyboard fashion to the desired OSC adddress.
 "
 Class {
-	#name : #KeyboardToOSC,
-	#superclass : #SimpleSwitchMorph,
+	#name : 'KeyboardToOSC',
+	#superclass : 'SimpleSwitchMorph',
 	#instVars : [
 		'noteArray',
 		'noteDictionary',
@@ -13,10 +13,12 @@ Class {
 		'key',
 		'mouseWheelValue'
 	],
-	#category : 'LiveCoding-KeyboardControl'
+	#category : 'LiveCoding-KeyboardControl',
+	#package : 'LiveCoding',
+	#tag : 'KeyboardControl'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 KeyboardToOSC class >> newWithAddress: anAddress [
 
 	^ (self new) 
@@ -25,18 +27,18 @@ KeyboardToOSC class >> newWithAddress: anAddress [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 KeyboardToOSC >> address [
 ^ address.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 KeyboardToOSC >> address: aStringAddress [
 address := aStringAddress.
 ^ aStringAddress.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 KeyboardToOSC >> fillNoteListDictionary [
 
 
@@ -100,7 +102,7 @@ noteArray at: $= asciiValue put: 65. "F"
 noteArray at: $] asciiValue put: 67.
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 KeyboardToOSC >> handlesKeyDown: anEvent [
 | debug kv |
 "keyboard up arrow = 30, keyboard down arrow = 31"
@@ -113,28 +115,28 @@ kv :=  anEvent keyValue.
 ^ true
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 KeyboardToOSC >> handlesKeyUp: anEvent [
 
 ^ true
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 KeyboardToOSC >> handlesMouseDown: anEvent [
 ^ true
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 KeyboardToOSC >> handlesMouseOver: anEvent [
 ^ true
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 KeyboardToOSC >> handlesMouseWheel: anEvent [
 ^ true
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 KeyboardToOSC >> initialize [
 super initialize.
 
@@ -153,7 +155,7 @@ mouseWheelValue := 0.
 self fillNoteListDictionary .
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 KeyboardToOSC >> keyAsMIDINoteNumber: anEvent [
 "if the key pressed corresponds to a MIDI note, returns the MIDI note otherwise returns -1"
 | keyPressed result |
@@ -170,7 +172,7 @@ keyPressed := anEvent keyCharacter asciiValue .
 
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 KeyboardToOSC >> keyDown: anEvent [
 
 
@@ -180,7 +182,7 @@ key := self keyAsMIDINoteNumber: anEvent.
 ((key ~= -1) & isHandlingKeyDown) ifTrue: [  address toLocalAsGate: 0.1 note: key + (octave * 12)] ifFalse:[nil]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 KeyboardToOSC >> mouseDown: anEvent [
 super mouseDown: anEvent.
 
@@ -188,29 +190,29 @@ isHandlingKeyDown := isHandlingKeyDown not.
 isHandlingKeyDown ifTrue: [ anEvent hand newKeyboardFocus: self. ] ifFalse: [ anEvent hand releaseKeyboardFocus: self ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 KeyboardToOSC >> mouseEnter: anEvent [
 "anEvent hand newKeyboardFocus: self"
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 KeyboardToOSC >> mouseLeave: anEvent [
 anEvent hand newKeyboardFocus: self
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 KeyboardToOSC >> mouseWheel: anEvent [
 
 anEvent isUp ifTrue: [ mouseWheelValue  := mouseWheelValue  -1. mouseWheelValue  toKyma: 'SawDetune'] ifFalse: [ nil ].
 anEvent isDown ifTrue: [ mouseWheelValue  := mouseWheelValue  +1. mouseWheelValue  toKyma: 'SawDetune'] ifFalse: [ nil ].
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 KeyboardToOSC >> noteDictionary [
 ^ noteDictionary
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 KeyboardToOSC >> openInWindow [
 
 	| buttonWidth buttonHeight positionLeft positionTop |

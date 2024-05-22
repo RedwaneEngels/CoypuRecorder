@@ -1,10 +1,12 @@
 Class {
-	#name : #FaderWindow,
-	#superclass : #SystemWindow,
-	#category : 'LiveCoding-GUI'
+	#name : 'FaderWindow',
+	#superclass : 'SystemWindow',
+	#category : 'LiveCoding-GUI',
+	#package : 'LiveCoding',
+	#tag : 'GUI'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 FaderWindow class >> countFadersInWorld [
 
 	| fadersInWorld  |

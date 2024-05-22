@@ -2,27 +2,29 @@
 Monophonic sequencer. 
 "
 Class {
-	#name : #SequencerMono,
-	#superclass : #Sequencer,
-	#type : #variable,
-	#category : 'LiveCoding-Sequencers'
+	#name : 'SequencerMono',
+	#superclass : 'Sequencer',
+	#type : 'variable',
+	#category : 'LiveCoding-Sequencers',
+	#package : 'LiveCoding',
+	#tag : 'Sequencers'
 }
 
-{ #category : #arithmetic }
+{ #category : 'arithmetic' }
 SequencerMono >> + anInteger [
 	"transpose up the sequencer notes by anInteger semitones"
 
 	self notes: self notes + anInteger
 ]
 
-{ #category : #arithmetic }
+{ #category : 'arithmetic' }
 SequencerMono >> - anInteger [
 	"transpose the sequencer notes by anInteger semitones"
 
 	self notes: self notes - anInteger
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 SequencerMono >> arpeggiate: aStringOfChords [ 
 	| arpNotes |
 	
@@ -31,7 +33,7 @@ aStringOfChords chordsToArrays do: [ :i | arpNotes addAll: i ].
 self dirtMessage at: 'n' put: arpNotes .
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 SequencerMono >> arpeggiate: aStringOfChords octave: anIntegerOrAnArray [
 	| arpNotes |
 	
@@ -40,7 +42,7 @@ aStringOfChords chordsToArrays do: [ :i | arpNotes addAll: i ].
 self dirtMessage at: 'n' put: arpNotes + (anIntegerOrAnArray * 12) .
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 SequencerMono >> asPolySeq [ 
 
 | polySeq | 
@@ -51,7 +53,7 @@ polySeq isPoly: true.
 ^ polySeq 
 ]
 
-{ #category : #LiveCoding }
+{ #category : 'LiveCoding' }
 SequencerMono >> extra: anArray [
 
 	self kymaMessage
@@ -60,12 +62,12 @@ SequencerMono >> extra: anArray [
 		self kymaMessage at: (anArray at: 1) put: (anArray at: 2) ]
 ]
 
-{ #category : #'LiveCoding - sequencer' }
+{ #category : 'LiveCoding - sequencer' }
 SequencerMono >> isPolySeq [ 
 ^ false
 ]
 
-{ #category : #'LiveCoding  - SuperDirt' }
+{ #category : 'LiveCoding  - SuperDirt' }
 SequencerMono >> playFullDirtEventAt: anIndex [
 
 	"sends a mesaage to SuperDirt with all the desired OSC arguments and values" 
@@ -84,7 +86,7 @@ dirtMessage keysAndValuesDo:  [ :key :value | message add: key; add: (value asDi
 	^ true 
 ]
 
-{ #category : #'LiveCoding  - SuperDirt' }
+{ #category : 'LiveCoding  - SuperDirt' }
 SequencerMono >> playFullKymaEventAt: anIndex [
 	"sends a mesaage to SuperDirt with all the desired OSC arguments and values"
 
@@ -104,7 +106,7 @@ SequencerMono >> playFullKymaEventAt: anIndex [
 	^ true
 ]
 
-{ #category : #'LiveCoding  - SuperDirt' }
+{ #category : 'LiveCoding  - SuperDirt' }
 SequencerMono >> playLocalEventAt: anIndex [
 
 	"sends a mesaage to SuperDirt with all the desired OSC arguments and values" 
@@ -123,7 +125,7 @@ dirtMessage keysAndValuesDo:  [ :key :value | message add: key; add: (value asDi
 	^ true 
 ]
 
-{ #category : #'LiveCoding  - SuperDirt' }
+{ #category : 'LiveCoding  - SuperDirt' }
 SequencerMono >> playMIDIEventAt: anIndex [
 
 	"sends a mesaage to SuperDirt with all the desired OSC arguments and values" 
@@ -141,7 +143,7 @@ midiSender playNote:  midiNote   onChannel: mch duration: dur * freq * gateTime 
 	^ true 
 ]
 
-{ #category : #'LiveCoding  - SuperDirt' }
+{ #category : 'LiveCoding  - SuperDirt' }
 SequencerMono >> playPhaustEventAt: anIndex [
 	"sends a message to Phausto / the DSP api must be written in a sensible way "
 
@@ -161,7 +163,7 @@ SequencerMono >> playPhaustEventAt: anIndex [
 	^ true
 ]
 
-{ #category : #highlighting }
+{ #category : 'highlighting' }
 SequencerMono >> reverse [
   " reverese gates"
 	self gates: self gates reverse.

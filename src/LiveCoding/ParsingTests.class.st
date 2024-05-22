@@ -1,23 +1,25 @@
 Class {
-	#name : #ParsingTests,
-	#superclass : #TestCase,
-	#category : 'LiveCoding-Tests'
+	#name : 'ParsingTests',
+	#superclass : 'TestCase',
+	#category : 'LiveCoding-Tests',
+	#package : 'LiveCoding',
+	#tag : 'Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ParsingTests >> testCharacterMultiplication [
 
 
 self assert: 'a' * 3 equals: 'a a a'.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ParsingTests >> testMultiplyStringsInString [
 
 self assert: 'bd cp:4 ~ * 2' multiplyStringsInString equals: 'bd cp:4 ~  bd cp:4 ~ '
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ParsingTests >> testNotesFromNotatedString [
 
 | seq |
@@ -27,13 +29,13 @@ seq := 8 semiquavers.
 		equals: #(40 40 40 40 88 88 88 88)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ParsingTests >> testStringsWitNRests [
 
 self assert: 'bd / 4' withNRests  equals: 'bd  ~ ~ ~'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ParsingTests >> testasSeqGates [
 
 self assert: 'bd cp:4 ~ sd' asSeqGates equals: #(1 1 0 1).

@@ -2,12 +2,14 @@
 Convenience class to interface with and get information on the SuperDirt audioEngine for SuperCollider
 "
 Class {
-	#name : #SuperDirt,
-	#superclass : #Object,
-	#category : 'LiveCoding-SuperDirt'
+	#name : 'SuperDirt',
+	#superclass : 'Object',
+	#category : 'LiveCoding-SuperDirt',
+	#package : 'LiveCoding',
+	#tag : 'SuperDirt'
 }
 
-{ #category : #'SuperDirt-List' }
+{ #category : 'SuperDirt-List' }
 SuperDirt class >> listOfDrumSynth [
 
 
@@ -19,7 +21,7 @@ drumList add: (SuperDirtSynth name: 'superkick' parameters: #('n' 'accelerate' '
 ^ drumList 
 ]
 
-{ #category : #'SuperDirt-List' }
+{ #category : 'SuperDirt-List' }
 SuperDirt class >> listOfDrums [
 
 
@@ -31,13 +33,13 @@ drumList add: (SuperDirtSynth name: 'superkick' parameters: #('n' 'accelerate' '
 ^ drumList 
 ]
 
-{ #category : #'SuperDirt-List' }
+{ #category : 'SuperDirt-List' }
 SuperDirt class >> listOfSamples [
 
 	^ SamplesFolderInspectorPresenter new
 ]
 
-{ #category : #'SuperDirt-List' }
+{ #category : 'SuperDirt-List' }
 SuperDirt class >> listOfSynths [
 "print on Transcript the list of SuperDirt available Synths"
 | synthList  cr |
@@ -53,7 +55,7 @@ synthList := #( '##### SYNTHS #####' 'supermandolin' 'supergong' ' superpiano' '
 ^ synthList 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 SuperDirt class >> listOfSynths2 [
 "print on Transcript the list of SuperDirt available Synths"
 | synthList  |
@@ -83,7 +85,7 @@ add: (SuperDirtSynth name: 'supercomparator' parameters: #('voice' 'decya' 'acce
 ^ synthList 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 SuperDirt class >> openListOfSynths [
 
 	| instrumentsTable drumsTable presenter |
@@ -113,7 +115,7 @@ SuperDirt class >> openListOfSynths [
 	^ presenter
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 SuperDirt class >> samplesFolder [
  "return the path to the folder where the superdirt samples are located"
 | home folder |

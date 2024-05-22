@@ -1,32 +1,34 @@
 Class {
-	#name : #ElasticEllipses,
-	#superclass : #Object,
+	#name : 'ElasticEllipses',
+	#superclass : 'Object',
 	#instVars : [
 		'color',
 		'canvas'
 	],
-	#category : 'LiveCoding-Graph'
+	#category : 'LiveCoding-Graph',
+	#package : 'LiveCoding',
+	#tag : 'Graph'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ElasticEllipses >> color [
 
 	^ color
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ElasticEllipses >> color: anObject [
 
 	color := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ElasticEllipses >> initialize [
 
 	color := Color black
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ElasticEllipses >> start [
 
 	canvas := RSCanvas new.
@@ -35,7 +37,7 @@ ElasticEllipses >> start [
 	canvas open
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ElasticEllipses >> update [
 
 	| c1 c2 random realColor |
