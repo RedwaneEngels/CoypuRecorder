@@ -49,9 +49,8 @@ PerformanceMusicalReplayer >> replayWithoutPlayground [
 |x|
 x := ''.
 	performanceScript do: [ :each | 
-		"Object readFromString: each" x :=x,each].
+		Object readFromString: each].
 	
-Object readFromString: x
 ]
 
 { #category : #'read/write usage' }
