@@ -27,12 +27,12 @@ PerformanceReplayerTest >> setUp [
 	replayer := PerformanceMusicalReplayer new.
 	securePerformance := SavedPerformance new.
 	securePerformance
-	add: (RecordedOrderCommand new order: 'performer:  PerformerSuperDirt new.');
-	 add: (RecordedOrderCommand new order: 'freq: 138 bpm.');
+	add: (RecordedInstructionCommand new order: 'performer:  PerformerSuperDirt new.');
+	 add: (RecordedInstructionCommand new order: 'freq: 138 bpm.');
 	 add: (RecordedInstrumentCommand new
 	 rythm: '16 upbeats';
 	 symbol: 'bd' );
-	 add: (RecordedOrderCommand new order: 'playFor: 16 bars.')
+	 add: (RecordedInstructionCommand new order: 'playFor: 16 bars.')
 		
 ]
 

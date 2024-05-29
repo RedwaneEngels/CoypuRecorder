@@ -33,7 +33,7 @@ Internal Representation and Key Implementation Points.
 
 "
 Class {
-	#name : #RecordedOrderCommand,
+	#name : #RecordedInstructionCommand,
 	#superclass : #RecordedCommand,
 	#type : #variable,
 	#instVars : [
@@ -43,19 +43,19 @@ Class {
 }
 
 { #category : #accessing }
-RecordedOrderCommand >> order [
+RecordedInstructionCommand >> order [
 
 	^order
 ]
 
 { #category : #accessing }
-RecordedOrderCommand >> order: anOrder [
+RecordedInstructionCommand >> order: anOrder [
 
 order := anOrder
 ]
 
 { #category : #printing }
-RecordedOrderCommand >> print [
+RecordedInstructionCommand >> print [
 "Print the command into the same way it has been used in the original performance"
 	| p |
 	p := 'p ' , self order asString.

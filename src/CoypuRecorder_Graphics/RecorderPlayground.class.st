@@ -153,10 +153,12 @@ RecorderPlayground >> stop [
 { #category : #'as yet unclassified' }
 RecorderPlayground >> toolBarInitialize [
 
-	| bar button |
+	| bar button x |
+	x:= 10.
 	bar := ToElement new.
+	bar background: Color lightYellow.
 	bar geometry: BlRectangleGeometry new.
-	bar size: 350 @ 30.
+	bar size: 1000 @ 30.
 	bar layout: (BlLinearLayout horizontal cellSpacing: 0).
 	"bar
 		addChild: (self button: 'Play' icon: #glamorousGo event: self play);
@@ -186,5 +188,8 @@ RecorderPlayground >> toolBarInitialize [
 		(ToImage inner: (Smalltalk ui icons iconNamed: #glamorousSave)).
 	button addEventHandlerOn: BlMouseDownEvent do: [ :e | self save ].
 	bar addChild: button.
+	bar childrenDo: [ :c |
+		c transformDo: [ :cc |  cc translateBy: x@0.
+		x := x + 5  ] ].
 	^ bar
 ]
