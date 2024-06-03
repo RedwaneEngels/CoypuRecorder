@@ -3,19 +3,17 @@ EXPERIMENTAL!!!!!
 Sends OSC mesages to SuperDirt port and to port 8000 to use for visual with Processing or Hydra or Jitter (just to name a few)
 "
 Class {
-	#name : 'PerformerSuperDirtAndVisual',
-	#superclass : 'Performer',
-	#category : 'LiveCoding-Performance',
-	#package : 'LiveCoding',
-	#tag : 'Performance'
+	#name : #PerformerSuperDirtAndVisual,
+	#superclass : #Performer,
+	#category : 'LiveCoding-Performance'
 }
 
-{ #category : 'playing' }
+{ #category : #playing }
 PerformerSuperDirtAndVisual >> play [ 
 self playDirtAndVisual 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 PerformerSuperDirtAndVisual >> playDirtAndVisual [
 
 	"play the performance to SuperDIrt/SuperCollider audio engine - default freq is 132 bpm 

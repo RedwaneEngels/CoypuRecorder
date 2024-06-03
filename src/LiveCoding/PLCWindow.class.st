@@ -1,18 +1,16 @@
 Class {
-	#name : 'PLCWindow',
-	#superclass : 'SpWindow',
-	#category : 'LiveCoding-Playground',
-	#package : 'LiveCoding',
-	#tag : 'Playground'
+	#name : #PLCWindow,
+	#superclass : #SpWindow,
+	#category : 'LiveCoding-Playground'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 PLCWindow >> defaultColor [
 
 	^ Color red
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 PLCWindow >> initialize [ 
 super initialize 
 ]

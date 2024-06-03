@@ -2,17 +2,15 @@
 Play the slound on SuperDirt with the computer keyboard
 "
 Class {
-	#name : 'KeyboardToSuperDirt',
-	#superclass : 'KeyboardToOSC',
+	#name : #KeyboardToSuperDirt,
+	#superclass : #KeyboardToOSC,
 	#instVars : [
 		'sound'
 	],
-	#category : 'LiveCoding-KeyboardControl',
-	#package : 'LiveCoding',
-	#tag : 'KeyboardControl'
+	#category : 'LiveCoding-KeyboardControl'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 KeyboardToSuperDirt class >> new: aStringWithASound [
 
 	^ (self new) 
@@ -24,7 +22,7 @@ KeyboardToSuperDirt class >> new: aStringWithASound [
 		yourself
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 KeyboardToSuperDirt >> keyDown: anEvent [
 
 | bundle |
@@ -36,13 +34,13 @@ bundle := OSCBundle for: {OSCMessage for: { '/dirt/play' . 's' . self sound . 'n
 ((key ~= -1) & isHandlingKeyDown) ifTrue: [  bundle sendToAddressString: '127.0.0.1' port: 57120] ifFalse:[nil]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 KeyboardToSuperDirt >> sound [
 
 	^ sound
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 KeyboardToSuperDirt >> sound: anObject [
 
 	sound := anObject

@@ -2,14 +2,12 @@
 VerticalFader to slow down or speed up the Performance speed
 "
 Class {
-	#name : 'VerticalFaderFreq',
-	#superclass : 'VerticalFader',
-	#category : 'LiveCoding-GUI',
-	#package : 'LiveCoding',
-	#tag : 'GUI'
+	#name : #VerticalFaderFreq,
+	#superclass : #VerticalFader,
+	#category : 'LiveCoding-GUI'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 VerticalFaderFreq >> initialize [ 
 super initialize .
 destination := 'BPM'.
@@ -19,7 +17,7 @@ maxValue := 190.
 "cursor postion should be at the current freq"
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 VerticalFaderFreq >> mouseMove: anEvent [
 " the VerticalFaderForSuperDirt modify the contents of the Sequencer in Performance named as destination"
 	| newLocation mappedY cursorY faderBottom range faderTop |

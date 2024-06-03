@@ -2,14 +2,12 @@
 Vertical Fader for Kyma
 "
 Class {
-	#name : 'VerticalFaderForKyma',
-	#superclass : 'VerticalFader',
-	#category : 'LiveCoding-GUI',
-	#package : 'LiveCoding',
-	#tag : 'GUI'
+	#name : #VerticalFaderForKyma,
+	#superclass : #VerticalFader,
+	#category : 'LiveCoding-GUI'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 VerticalFaderForKyma >> mouseMove: anEvent [
 
 	| newLocation mappedY cursorY faderBottom range faderTop|

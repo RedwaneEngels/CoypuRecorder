@@ -1,12 +1,10 @@
 Class {
-	#name : 'MidiMessageParseTests',
-	#superclass : 'TestCase',
-	#category : 'LiveCoding-Tests',
-	#package : 'LiveCoding',
-	#tag : 'Tests'
+	#name : #MidiMessageParseTests,
+	#superclass : #TestCase,
+	#category : 'LiveCoding-Tests'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 MidiMessageParseTests >> testIsVoiceMessage [
 
 self assert: 16r90 isVoiceMessage equals: true

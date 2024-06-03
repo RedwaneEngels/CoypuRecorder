@@ -1,13 +1,13 @@
-Extension { #name : 'ByteSymbol' }
+Extension { #name : #ByteSymbol }
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteSymbol >> asDirtArray [ 
 " convenience method to send messages to SuperDirt"
 
 ^ Array with: self.
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteSymbol >> bw: anArrayOfBw [
 
 	"set anArrayOfBw as extra1 of the sequencer in the performance at self"
@@ -19,7 +19,7 @@ ByteSymbol >> bw: anArrayOfBw [
 			anArrayOfBw }
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteSymbol >> extra1: anArrayWithASymbolAndAnArray [
 
 	" change the value of extra1 in the Performance at self key"
@@ -30,7 +30,7 @@ ByteSymbol >> extra1: anArrayWithASymbolAndAnArray [
 	(p at: self) extra1: anArrayWithASymbolAndAnArray
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteSymbol >> extra2: anArrayWithASymbolAndAnArray [
 
 	" change the value of extra1 in the Performance at self key"
@@ -41,7 +41,7 @@ ByteSymbol >> extra2: anArrayWithASymbolAndAnArray [
 	(p at: self) extra2: anArrayWithASymbolAndAnArray
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteSymbol >> for: anArray [
 
 "creates a Dictionary with the symbol as key and the array as value"
@@ -57,7 +57,7 @@ d add: self -> anArray.
 "
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteSymbol >> indexes: anArrayOfIndexes [
 
 	"change the sample indexes of a seuquencer in a performance at self key"
@@ -69,17 +69,17 @@ ByteSymbol >> indexes: anArrayOfIndexes [
 			anArrayOfIndexes }
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteSymbol >> mute [
 
 	" remove the key from the Performance, if any active key in the Performance correspond to the symbol"
 
 	| perf |
-	perf := PerformanceRecorder uniqueInstance.
+	perf := Performance uniqueInstance.
 	perf removeKey: self ifAbsent: [ nil ]
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteSymbol >> notes: anArrayOfNotes [
 
 	" change the notes of a Sequencer at self key in a Performance"
@@ -89,7 +89,7 @@ ByteSymbol >> notes: anArrayOfNotes [
 	(p at: self) notes: anArrayOfNotes
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteSymbol >> number: anArrayOfNumbers [
 
 	" set the extra2 slot of the sequencer in the performance at self key with the values of anArrayOfNumbers and the string #Number - to be used with muultikits"
@@ -101,27 +101,27 @@ ByteSymbol >> number: anArrayOfNumbers [
 			anArrayOfNumbers }
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteSymbol >> solo [
 
 	"shorthand for p solo: aKeyInperformance"
 
 	| p |
-	p := PerformanceRecorder uniqueInstance.
+	p := Performance uniqueInstance.
 	p solo: self
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteSymbol >> unsolo [
 
 	"shorthand for p unsolo: aKeyInPerformance"
 
 	| p |
-	p := PerformanceRecorder uniqueInstance.
+	p := Performance uniqueInstance.
 	p unsolo: self
 ]
 
-{ #category : '*LiveCoding' }
+{ #category : #'*LiveCoding' }
 ByteSymbol >> x: anArrayOfXs [
 
 	"set anArrayOfX as extra1 of the sequencer in the performance at self
