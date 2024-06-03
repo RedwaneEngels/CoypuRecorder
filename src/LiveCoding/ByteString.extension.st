@@ -35,26 +35,35 @@ ByteString >> asDirtArray [
 { #category : #'*LiveCoding' }
 ByteString >> asDirtNotes [
 " returns a sequncer containing a trig for each integer and a rest for whatever other character and with the notes coresponding to the integeres inside the string - tokens must be separated by string"
-| seq tokens gates notesAStrings  notesAsNumbers |
+	| seq tokens gates notesAStrings notesAsNumbers dirtString announcement|
+	announcement := RythmAnnouncement new.
+	announcement rythm: '''' , self asString , ''' asDirtNotes'.
+	PerformanceRecorder uniqueInstance announce: announcement.
+	gates := ''.
+	tokens := self splitOn: ','.
+	dirtString := ''.
+	tokens do: [ :i |
+		(i includes: $*)
+			ifTrue: [ gates := gates , i multiplyStringsInString ]
+			ifFalse: [
+				(i includes: $/)
+					ifTrue: [ gates := gates , i withNRests ]
+					ifFalse: [ gates := gates , i ] ] ].
 
-gates := ''.
-tokens := self splitOn: ','.
-tokens do: [ :i | (i  includes: $* ) ifTrue: [gates := gates,  i multiplyStringsInString ] ifFalse: [(i includes: $/) ifTrue: [gates := gates,  i withNRests ]
-	ifFalse:  [gates := gates,  i]
-	]].
+	notesAStrings := (gates copyReplaceAll: '~' with: '')
+		                 findBetweenSubstrings: ' '.
 
-notesAStrings := (gates copyReplaceAll: '~' with: '') findBetweenSubstrings: ' '. 
+	notesAsNumbers := notesAStrings collect: [ :i |
+		                  i ~= ' ' ifTrue: [ i asInteger ] ].
 
-notesAsNumbers := notesAStrings collect: [ :i | i ~= ' ' ifTrue: [i asInteger] ].
+	notesAsNumbers do: [ :i |
+		dirtString := dirtString , i asString , ' ' ].
 
+	seq := gates asSeqGates asSeq.
+	seq dirtNotes: dirtString.
+	seq notes: notesAsNumbers asArray.
 
-
-seq := gates asSeqGates  asSeq.
-seq dirtNotes: notesAsNumbers  asArray .
-seq notes: notesAsNumbers asArray.
-
-^ seq
-
+	^ seq
 ]
 
 { #category : #'*LiveCoding' }
@@ -65,8 +74,10 @@ ByteString >> asDirtSounds [
 
 
 
-
-| seq tokens gates soundsAsStrings |
+| seq tokens gates soundsAsStrings announcement |
+	announcement := RythmAnnouncement new.
+	announcement rythm: '''' , self asString , ''' asDirtSounds'.
+		PerformanceRecorder uniqueInstance announce: announcement.
 
 gates := ''.
 tokens := self splitOn: ','.
@@ -166,8 +177,11 @@ ByteString >> every: anInteger [
 ByteString >> hexBeat [
 
 " convert a string with an Hexadecimal number to the Kyma array correspondong to the expression  BinaryArray ofSize: (self size) fromInteger: (self asHex)"
-|   strings flat rhythm|
-
+|   strings flat rhythm announcement|
+	thisContext sender selector asString = 'semibreves' ifFalse: [
+		announcement := RythmAnnouncement new.
+		announcement rythm: '''' , self asString , ''' hexBeat'.
+			PerformanceRecorder uniqueInstance announce: announcement.].
 strings := (1 to: (self size)) collect: [ :i | 
 ((self at: i) digitValue printStringBase: 2 length: 4 padded: true ) ].
 flat := strings flatCollect: [ :each | each ].
@@ -178,7 +192,10 @@ rhythm := ((( 1 to: (flat size)) collect: [ :i | (flat at: i ) digitValue ]) asR
 { #category : #'*LiveCoding' }
 ByteString >> hexBeat: anArrayOfNoteNumbers [ 
 " convert a string with an Hexadecimal number to the Kyma array corresponding to the expression  BinaryArray ofSize: (self size) fromInteger: (self asHex) , and with  anArrayOfNoteNumbers as Notes"
-|   strings flat |
+|   strings flat announcement|
+	announcement := RythmAnnouncement new.
+	announcement rythm: self asString , ' hexBeat: ',anArrayOfNoteNumbers asString.
+		PerformanceRecorder uniqueInstance announce: announcement.
 
 strings := (1 to: (self size)) collect: [ :i | 
 ((self at: i) digitValue printStringBase: 2 length: 4 padded: true ) ].
@@ -189,8 +206,10 @@ flat := strings flatCollect: [ :each | each ].
 { #category : #'*LiveCoding' }
 ByteString >> hexBeat: anArrayOfNoteNumbers dur: anArrayOfDurations [
 " convert a string with an Hexadecimal number to the Kyma array corresponding to the expression  BinaryArray ofSize: (self size) fromInteger: (self asHex) , and with  anArrayOfNoteNumbers as Notes and anArrayOfDurations as Durations"
-|   strings flat |
-
+|   strings flat announcement|
+	announcement := RythmAnnouncement new.
+	announcement rythm: self asString , ' hexBeat: ',anArrayOfNoteNumbers asString,' dur: ', anArrayOfDurations asString .
+		PerformanceRecorder uniqueInstance announce: announcement.
 strings := (1 to: (self size)) collect: [ :i | 
 ((self at: i) digitValue printStringBase: 2 length: 4 padded: true ) ].
 flat := strings flatCollect: [ :each | each ].
@@ -298,7 +317,10 @@ ByteString >> parseChord [
 { #category : #'*LiveCoding' }
 ByteString >> pattern [ 
 " convert a string with an Hexadecimal number to the Kyma array correspondong to the expression  BinaryArray ofSize: (self size) fromInteger: (self asHex)"
-|   strings flat |
+|   strings flat announcement |
+		announcement := RythmAnnouncement new.
+		announcement rythm: '''' , self asString , ''' pattern'.
+			PerformanceRecorder uniqueInstance announce: announcement.
 
 strings := (1 to: (self size)) collect: [ :i | 
 ((self at: i) digitValue printStringBase: 2 length: 4 padded: true ) ].
@@ -309,8 +331,10 @@ flat := strings flatCollect: [ :each | each ].
 { #category : #'*LiveCoding' }
 ByteString >> pattern: anArrayOfNoteNumbers [ 
 " convert a string with an Hexadecimal number to the Kyma array corresponding to the expression  BinaryArray ofSize: (self size) fromInteger: (self asHex) , and with  anArrayOfNoteNumbers as Notes"
-|   strings flat |
-
+|   strings flat announcement|
+		announcement := RythmAnnouncement new.
+		announcement rythm: '''' , self asString , ''' pattern: ',anArrayOfNoteNumbers asString.
+			PerformanceRecorder uniqueInstance announce: announcement.
 strings := (1 to: (self size)) collect: [ :i | 
 ((self at: i) digitValue printStringBase: 2 length: 4 padded: true ) ].
 flat := strings flatCollect: [ :each | each ].
@@ -320,8 +344,10 @@ flat := strings flatCollect: [ :each | each ].
 { #category : #'*LiveCoding' }
 ByteString >> pattern: anArrayOfNoteNumbers and: anArrayOfDurations [
 " convert a string with an Hexadecimal number to the Kyma array corresponding to the expression  BinaryArray ofSize: (self size) fromInteger: (self asHex) , and with  anArrayOfNoteNumbers as Notes and anArrayOfDurations as Durations"
-|   strings flat |
-
+|   strings flat announcement|
+		announcement := RythmAnnouncement new.
+		announcement rythm: '''' , self asString , ''' pattern: ',anArrayOfNoteNumbers asString,' and: ',anArrayOfDurations asString.
+			PerformanceRecorder uniqueInstance announce: announcement.
 strings := (1 to: (self size)) collect: [ :i | 
 ((self at: i) digitValue printStringBase: 2 length: 4 padded: true ) ].
 flat := strings flatCollect: [ :each | each ].

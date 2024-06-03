@@ -129,7 +129,10 @@ Array >> euclidean [
 	"generates an euclidean rhythm with (self at: 1) onsets and (self at: 2) pulses. 
 algorithm based on the Bresenham approach"
 
-	| onsets pulses slope result previous current |
+	| onsets pulses slope result previous current announcement |
+		announcement := RythmAnnouncement new.
+	announcement rythm: self asString , ' euclidean'.
+		PerformanceRecorder uniqueInstance announce: announcement.
 	current := 0.
 	onsets := self at: 1.
 	pulses := self at: 2.

@@ -262,13 +262,18 @@ Sequencer >> dirtMessage: anArrayOfAssociationForSuperDirt [
 Sequencer >> dirtNotes: aStringWithNotes [
 	"add into a Sequencer anotes from a String in which numbers can be multiplicated"
 
-	| tokens dNotes arrayOfNotes |
+	| tokens dNotes arrayOfNotes announcement |
+	announcement := DirtNotesAnnouncement new.
+	announcement newDirtNotes: aStringWithNotes.
+	PerformanceRecorder uniqueInstance announce: announcement.
 	tokens := aStringWithNotes splitOn: ','.
 	dNotes := ' '.
-	tokens do: [ :i |
-		(i includes: $*)
+	tokens do: [ :i | "(i includes: $*)
 			ifTrue: [ dNotes := dNotes , i multiplyStringsInString ]
-			ifFalse: [ [ dNotes := dNotes , i ] ] ].
+			ifFalse: [ [ dNotes := dNotes , i ] ]"
+		dNotes := dNotes , ((i includes: $*)
+			           ifTrue: [ i multiplyStringsInString ]
+			           ifFalse: [ i ]) ].
 
 	arrayOfNotes := (dNotes findBetweenSubstrings: '  ') collect: [ :each |
 		                each asNumber ].
@@ -1144,9 +1149,14 @@ Sequencer >> times: anInteger [
 Sequencer >> to: aSymbol [
 " assign sequencer to the performance at aSymbol. if a sound for SuperDirt is not specified, the symbol is used for sound name"
 	
-	| sampleFolder sampleIndex |
+	| sampleFolder sampleIndex announcement|
+
+
 	self seqKey: aSymbol asString .
-	
+	"Performance uniqueInstance visualizer addInstrument: self seqKey."
+				announcement := SymbolAnnouncement new.
+		announcement symbol: self seqKey.
+		PerformanceRecorder uniqueInstance announce: announcement.
 	"For SuperDirt"
 	self dirtMessage  at: '_id' put: self seqKey.
 	self dirtMessage  at: 'orbit' put: self orbit.
