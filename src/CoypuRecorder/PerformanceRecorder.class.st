@@ -48,7 +48,7 @@ PerformanceRecorder class >> new [
 PerformanceRecorder class >> uniqueInstance [
 
 	^ uniqueInstance
-		  ifNil: [ uniqueInstance := super new ]
+		  ifNil: [ uniqueInstance := super new announcer: Announcer new. ]
 ]
 
 { #category : #accessing }
@@ -66,7 +66,16 @@ PerformanceRecorder >> activeDSP [
 { #category : #accessing }
 PerformanceRecorder >> activeDSP: aDSP [
 
-Performance uniqueInstance activeDSP: aDSP
+	savedPerformance add: (RecordedInstructionCommand new order:
+			 'activeDSP: ' , aDSP asString , '.').
+	Performance uniqueInstance activeDSP: aDSP
+]
+
+{ #category : #accessing }
+PerformanceRecorder >> activeDSP: aDSP atTime: aTime [
+
+	(Delay forMilliseconds: aTime) wait.
+	Performance uniqueInstance activeDSP: aDSP
 ]
 
 { #category : #accessing }
@@ -100,6 +109,12 @@ PerformanceRecorder >> announcer [
 ]
 
 { #category : #accessing }
+PerformanceRecorder >> announcer: anAnnouncer [
+
+	announcer := anAnnouncer
+]
+
+{ #category : #accessing }
 PerformanceRecorder >> at: key put: anObject [
 
 Performance uniqueInstance at: key put: anObject
@@ -126,13 +141,17 @@ PerformanceRecorder >> bpm [
 { #category : #accessing }
 PerformanceRecorder >> bpm: aRateInSeconds [
 
-Performance uniqueInstance bpm: aRateInSeconds
+
+	savedPerformance add: (RecordedInstructionCommand new order:
+			 'bpm: ', aRateInSeconds  asString , '.').
+	Performance uniqueInstance bpm: aRateInSeconds
 ]
 
 { #category : #accessing }
 PerformanceRecorder >> bpm: aRateInSeconds atTime: aTime [
-"Call the message bpm with a atTime delay"
-	(Delay forSeconds: aTime) wait.
+	"Call the message bpm with a atTime delay"
+
+	(Delay forMilliseconds: aTime) wait.
 
 	self bpm: aRateInSeconds
 ]
@@ -185,10 +204,11 @@ PerformanceRecorder >> freq: aDurationInSeconds [
 
 { #category : #accessing }
 PerformanceRecorder >> freq: aDurationInSeconds atTime: aTime [
-"Call the message freq: with a atTime delay"
-(Delay forSeconds: aTime) wait.
+	"Call the message freq: with a atTime delay"
 
-self freq: aDurationInSeconds 
+	(Delay forMilliseconds: aTime) wait.
+
+	self freq: aDurationInSeconds
 ]
 
 { #category : #'LiveCoding - Performance' }
@@ -226,10 +246,11 @@ PerformanceRecorder >> mute: aKeyOrAnArrayOfKeys [
 
 { #category : #'muting and soloing' }
 PerformanceRecorder >> mute: aKeyOrAnArrayOfKeys atTime: aTime [
-"Call the mute method with a atTime delay"
-	(Delay forSeconds: aTime) wait.
+	"Call the mute method with a atTime delay"
 
-self mute: aKeyOrAnArrayOfKeys
+	(Delay forMilliseconds: aTime) wait.
+
+	self mute: aKeyOrAnArrayOfKeys
 ]
 
 { #category : #'muting and soloing' }
@@ -244,10 +265,11 @@ PerformanceRecorder >> muteAll [
 
 { #category : #'muting and soloing' }
 PerformanceRecorder >> muteAllAtTime: aTime [
-"Call the message muteAll with a atTime delay"
-	(Delay forSeconds: aTime) wait.
+	"Call the message muteAll with a atTime delay"
 
-self muteAll.
+	(Delay forMilliseconds: aTime) wait.
+
+	self muteAll
 ]
 
 { #category : #'LiveCoding - satelliteEvent' }
@@ -261,10 +283,9 @@ PerformanceRecorder >> pacaDance [
 
 { #category : #'LiveCoding - satelliteEvent' }
 PerformanceRecorder >> pacaDanceAtTime: aTime [
-
 	"call the pacaDanceAtTime: method with a aTime delay"
 
-	(Delay forSeconds: aTime) wait.
+	(Delay forMilliseconds: aTime) wait.
 
 	self pacaDance
 ]
@@ -298,17 +319,19 @@ PerformanceRecorder >> performer: aPerformer [
 		when: DirtNotesAnnouncement
 		send: #lastDirtNotes:
 		to: savedPerformance;
-		when: DelayAnnouncement send: #appliesDelay: to: savedPerformance.
+		when: DelayAnnouncement send: #appliesDelay: to: savedPerformance;
+		when: DoubleRythmAnnouncement send: #lastSymbol: to: savedPerformance;
+		when: NotesAnnouncement send: #appliesNotes: to: savedPerformance.
 
 	savedPerformance add: (RecordedInstructionCommand new order:
-			 'performer: ' , (aPerformer asString allButFirst), ' new.').
+			 'performer: ' , aPerformer asString allButFirst , ' new.').
 	Performance uniqueInstance performer: aPerformer
 ]
 
 { #category : #accessing }
 PerformanceRecorder >> performer: aPerformer atTime: aDelay [
 
-	(Delay forSeconds: aDelay) wait.
+	(Delay forMilliseconds: aDelay) wait.
 	self performer: aPerformer
 ]
 
@@ -330,7 +353,8 @@ PerformanceRecorder >> playFor: aNumberOfSteps [
 { #category : #playing }
 PerformanceRecorder >> playFor: aNumberOfSteps atTime: aTime [
 	"call the playFor: method with a aTime delay"
-	(Delay forSeconds: aTime) wait.
+
+	(Delay forMilliseconds: aTime) wait.
 
 	self playFor: aNumberOfSteps
 ]
@@ -346,7 +370,8 @@ PerformanceRecorder >> playKymaSequencFor: aNumberOfSteps [
 { #category : #'muting and soloing' }
 PerformanceRecorder >> playKymaSequencFor: aNumberOfSteps atTime: aTime [
 	"call the playKymaSequencFor: method with a aTime delay"
-	(Delay forSeconds: aTime) wait.
+
+	(Delay forMilliseconds: aTime) wait.
 
 	Performance uniqueInstance playKymaSequencFor: aNumberOfSteps
 ]
@@ -367,7 +392,7 @@ PerformanceRecorder >> playKymaSequenceAt: aRateInSeconds for: aNumberOfSteps [
 PerformanceRecorder >> playKymaSequenceAt: aRateInSeconds for: aNumberOfSteps atTime: aTime [
 	"call the playKymaSequenceAt: method with a aTime delay"
 
-	(Delay forSeconds: aTime) wait.
+	(Delay forMilliseconds: aTime) wait.
 	self playKymaSequenceAt: aRateInSeconds for: aNumberOfSteps
 ]
 
@@ -387,7 +412,7 @@ PerformanceRecorder >> playLocalSequenceAt: aRateInSeconds for: aNumberOfSteps [
 PerformanceRecorder >> playLocalSequenceAt: aRateInSeconds for: aNumberOfSteps atTime: aTime [
 	"call the playLocalSequenceAt:for: method with a aTime delay"
 
-	(Delay forSeconds: aTime) wait.
+	(Delay forMilliseconds: aTime) wait.
 
 	self playLocalSequenceAt: aRateInSeconds for: aNumberOfSteps
 ]
@@ -396,8 +421,7 @@ PerformanceRecorder >> playLocalSequenceAt: aRateInSeconds for: aNumberOfSteps a
 PerformanceRecorder >> playatTime: aTime [
 	"call the play method with a aTime delay"
 
-
-	(Delay forSeconds: aTime) wait.
+	(Delay forMilliseconds: aTime) wait.
 	self play
 ]
 
@@ -411,7 +435,7 @@ PerformanceRecorder >> remove: aKey [
 PerformanceRecorder >> remove: aKey atTime: aTime [
 	"call the remove: method with a aTime delay"
 
-	(Delay forSeconds: aTime) wait.
+	(Delay forMilliseconds: aTime) wait.
 
 	self remove: aKey
 ]
@@ -433,7 +457,7 @@ PerformanceRecorder >> restore [
 PerformanceRecorder >> restoreAtTime: aTime [
 	"call the remove: method with a aTime delay"
 
-	(Delay forSeconds: aTime) wait.
+	(Delay forMilliseconds: aTime) wait.
 
 	self restore
 ]
@@ -468,9 +492,10 @@ PerformanceRecorder >> solo: aKeyOrAnArrayOfKeys [
 { #category : #'muting and soloing' }
 PerformanceRecorder >> solo: aKeyOrAnArrayOfKeys atTime: aTime [
 	"call the solo: method with a aTime delay"
-	(Delay forSeconds: aTime) wait.
 
-	self solo: aKeyOrAnArrayOfKeys 
+	(Delay forMilliseconds: aTime) wait.
+
+	self solo: aKeyOrAnArrayOfKeys
 ]
 
 { #category : #accessing }
@@ -485,7 +510,7 @@ PerformanceRecorder >> stop [
 PerformanceRecorder >> stopAtTime: aTime [
 	"call the stop method with a aTime delay"
 
-	(Delay forSeconds: aTime) wait.
+	(Delay forMilliseconds: aTime) wait.
 
 	self stop
 ]
@@ -532,9 +557,9 @@ PerformanceRecorder >> unsolo: aKeyOrAnArrayOfKeys [
 PerformanceRecorder >> unsolo: aKeyOrAnArrayOfKeys atTime: aTime [
 	"call the unsolo: method with a aTime delay"
 
-	(Delay forSeconds: aTime) wait.
+	(Delay forMilliseconds: aTime) wait.
 
-self unsolo: aKeyOrAnArrayOfKeys
+	self unsolo: aKeyOrAnArrayOfKeys
 ]
 
 { #category : #accessing }

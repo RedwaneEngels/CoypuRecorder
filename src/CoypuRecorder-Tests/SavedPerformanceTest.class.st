@@ -39,8 +39,8 @@ SavedPerformanceTest >> testAbsoluteToDelay [
 	self assert: (x at: 1) equals: 0.
 	self assert: (x at: 2) equals: 0.
 	self assert: (x at: 3) equals: 0.
-	self assert: (x at: 4) equals: 1.
-	self assert: (x at: 5) equals: 1.
+	self assert: (x at: 4) equals: 1000.
+	self assert: (x at: 5) equals: 1000
 ]
 
 { #category : #tests }
@@ -56,8 +56,8 @@ SavedPerformanceTest >> testAbsoluteToRelative [
 	performanceRecorder playFor: 4 bars.
 	x := performanceRecorder savedPerformance absoluteToRelative.
 	self assert: (x at: 2) equals: '0'.
-	self assert: (x at: 3) equals: '1'.
-	self assert: (x at: 4) equals: '2'
+	self assert: (x at: 3) equals: '1000'.
+	self assert: (x at: 4) equals: '2000'
 ]
 
 { #category : #tests }
@@ -201,17 +201,17 @@ SavedPerformanceTest >> testScriptWithRelativeTimeForReplayer [
 
 	self
 		assert: (replayer performanceScript at: 4)
-		equals: '"//At the 0th second\\"
+		equals: '"//At 0 milliseconds\\"
 16 upbeats to: #bd.
 '.
 	self
 		assert: (replayer performanceScript at: 5)
-		equals: '"//At the 0th second\\"
+		equals: '"//At 0 milliseconds\\"
 p freq: 138 bpm.
 '.
 	self
 		assert: (replayer performanceScript at: 6)
-		equals: '"//At the 0th second\\"
+		equals: '"//At 0 milliseconds\\"
 p playFor: 4 bars.
 '
 ]
@@ -231,7 +231,7 @@ SavedPerformanceTest >> testScriptWithTimeForReplayer [
 
 	self
 		assert: (replayer performanceScript at: 4)
-		equals: '"#At ' , DateAndTime now rounded asTime asString , ' :"
+		equals: '"#At ' , DateAndTime now asTime asString , ' :"
 16 upbeats to: #bd.
 '.
 	self
@@ -254,7 +254,7 @@ SavedPerformanceTest >> testTimes [
 	16 downbeats to: #bass3.
 	performanceRecorder savedPerformance collectionOfCommands
 		with: performanceRecorder savedPerformance times
-		do: [ :x :y | self assert: x time rounded asTime equals: y ]
+		do: [ :x :y | self assert: x time asTime equals: y ]
 ]
 
 { #category : #tests }
@@ -275,7 +275,7 @@ SavedPerformanceTest >> testVisitCommandTime [
 	16 upbeats to: #bd.
 
 	self
-		assert: self commands last time rounded asTime
+		assert: self commands last time asTime
 		equals:
 			(performanceRecorder savedPerformance visitCommandTime:
 				 self commands last)

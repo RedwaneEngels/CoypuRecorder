@@ -42,7 +42,8 @@ Class {
 	#instVars : [
 		'dirtNotes',
 		'rythm',
-		'symbol'
+		'symbol',
+		'notes'
 	],
 	#category : #'CoypuRecorder-RecordedCommand'
 }
@@ -59,13 +60,59 @@ RecordedInstrumentCommand >> dirtNotes: aDirtNotes [
 dirtNotes := aDirtNotes
 ]
 
+{ #category : #testing }
+RecordedInstrumentCommand >> isRecordedInstructionCommand [
+
+	^ false
+]
+
+{ #category : #testing }
+RecordedInstrumentCommand >> isRecordedInstrumentCommand [
+
+^true
+]
+
+{ #category : #accessing }
+RecordedInstrumentCommand >> notes [
+
+^notes 
+]
+
+{ #category : #accessing }
+RecordedInstrumentCommand >> notes: anArrayOfNotes [
+
+notes := anArrayOfNotes
+]
+
 { #category : #printing }
 RecordedInstrumentCommand >> print [
-"Print the command into the same way it has been used in the original performance"
+	"Print the command in the same way it has been used in the original performance"
+
 	| m |
-	m := rythm , ' to: #' , symbol asString , '.'.
-	delay ifNotNil: [
-		m := m allButLast , ' atTime: ' , delay asString , '.' ].
+	rythm ifNil: [
+		delay
+			ifNotNil: [
+				(symbol includesSubstring: 'onceAtSpeed:')
+					ifTrue: [
+					^ symbol allButFirst , ' atTime: ' , delay asString , '.' ]
+					ifFalse: [
+					^ symbol allButFirst , 'AtTime: ' , delay asString , '.' ] ]
+			ifNil: [ ^ symbol allButFirst , '.' ] ].
+	m := rythm.
+	notes ifNotNil: [ m := m , notes ].
+
+	symbol
+		ifNotNil: [
+			m := m , ' to: #' , symbol asString
+			     ,
+			     (delay
+				      ifNotNil: [ ' atTime: ' , delay asString , '.' ]
+				      ifNil: [ '.' ]) ]
+		ifNil: [
+			m := ('' join: m substrings allButLast) , ' delayed: '''
+			     , m substrings last asString , ''' atTime: ' , delay asString , '.'
+			"m := m , (delay ifNotNil: [ 'AtTime: ' , delay asString ]) , '.'" ].
+
 	dirtNotes ifNotNil: [
 		m := m allButLast , '; ' , 'dirtNotes: ''' , dirtNotes , '''.' ].
 	^ m

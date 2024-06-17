@@ -61,7 +61,7 @@ RecordedCommand >> getTime: aSavedPerformance [
 RecordedCommand >> initialize [
 
 	super initialize.
-	time := DateAndTime now rounded
+	time := DateAndTime now asTime 
 ]
 
 { #category : #printing }

@@ -42,6 +42,18 @@ Class {
 	#category : #'CoypuRecorder-RecordedCommand'
 }
 
+{ #category : #testing }
+RecordedInstructionCommand >> isRecordedInstructionCommand [
+
+	^ true
+]
+
+{ #category : #testing }
+RecordedInstructionCommand >> isRecordedInstrumentCommand [
+
+	^ false
+]
+
 { #category : #accessing }
 RecordedInstructionCommand >> order [
 

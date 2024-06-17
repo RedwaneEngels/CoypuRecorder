@@ -291,13 +291,17 @@ Sequencer >> dirtMessage: anArrayOfAssociationForSuperDirt [
 Sequencer >> dirtNotes: aStringWithNotes [
 	"add into a Sequencer anotes from a String in which numbers can be multiplicated"
 
-	| tokens dNotes arrayOfNotes |
+	| tokens dNotes arrayOfNotes announcement |
+	thisContext sender selector asString = 'asDirtNotes' ifFalse:[ 
+	announcement := DirtNotesAnnouncement new.
+	announcement newDirtNotes: aStringWithNotes.
+	PerformanceRecorder uniqueInstance announce: announcement].
 	tokens := aStringWithNotes splitOn: ','.
 	dNotes := ' '.
 	tokens do: [ :i |
 		(i includes: $*)
 			ifTrue: [ dNotes := dNotes , i multiplyStringsInString ]
-			ifFalse: [  dNotes := dNotes , i  ] ].
+			ifFalse: [ dNotes := dNotes , i ] ].
 
 	arrayOfNotes := (dNotes findBetweenSubstrings: '  ') collect: [ :each |
 		                each asNumber ].
@@ -648,13 +652,22 @@ Sequencer >> notes1: anObject [
 Sequencer >> notes: anArrayOfNotesOrANoteorAstring [
 	" change notes in the sequencer"
 
+	| announcement |
+	thisContext sender selector traceCr = 'notes:' ifTrue:[
+			announcement := NotesAnnouncement new notes:
+				                ' notes: '
+				                , anArrayOfNotesOrANoteorAstring asString , ';'.
+			PerformanceRecorder uniqueInstance announce: announcement ].
+
 	anArrayOfNotesOrANoteorAstring isArray
 		ifTrue: [ notes := anArrayOfNotesOrANoteorAstring ]
 		ifFalse: [
-			anArrayOfNotesOrANoteorAstring isByteString ifTrue: [ notes := anArrayOfNotesOrANoteorAstring asDirtPureNotes  ] ifFalse: 
-		[  	notes := Array
-				         new: self numberOfTrigs
-				         withAll: anArrayOfNotesOrANoteorAstring]]
+			anArrayOfNotesOrANoteorAstring isByteString
+				ifTrue: [ notes := anArrayOfNotesOrANoteorAstring asDirtPureNotes ]
+				ifFalse: [
+					notes := Array
+						         new: self numberOfTrigs
+						         withAll: anArrayOfNotesOrANoteorAstring ] ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -1189,9 +1202,17 @@ Sequencer >> times: anInteger [
 { #category : #'LiveCoding - Performance' }
 Sequencer >> to: aSymbol [
 	" assign sequencer to the performance at aSymbol. if a sound for SuperDirt is not specified, the symbol is used for sound name"
-   
-   self noteIndex: 1.
+
+	| announcement |
+	self noteIndex: 1.
 	self seqKey: aSymbol asString.
+	announcement := (self notesSize > 4 and: [
+		                 (self notes at: 1) = 60 and: [
+			                 (self notes at: 5) = 60 ] ])
+		                ifTrue: [ DoubleRythmAnnouncement new ]
+		                ifFalse: [ SymbolAnnouncement new ].
+	announcement symbol: self seqKey.
+	PerformanceRecorder uniqueInstance announce: announcement.
 
 	"For SuperDirt"
 	self dirtMessage at: '_id' put: self seqKey.

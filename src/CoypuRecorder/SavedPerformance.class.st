@@ -60,11 +60,12 @@ SavedPerformance >> absoluteToDelay [
 	| delays times |
 	times := self times.
 	delays := OrderedCollection new.
-
-	1 to: times size - 1 do: [ :i |
-		delays add: (times at: i + 1) asSeconds - (times at: i) asSeconds ].
-
 	collectionOfCommands ifNotEmpty: [ delays addFirst: 0 ].
+	1 to: times size - 1 do: [ :i |
+		delays add:
+			(times at: i + 1) asMilliSeconds - (times at: i) asMilliSeconds
+			- (((times at: i + 1) asMilliSeconds - (times at: i) asMilliSeconds)
+			% 10) ].
 
 	^ delays
 ]
@@ -72,10 +73,11 @@ SavedPerformance >> absoluteToDelay [
 { #category : #calculating }
 SavedPerformance >> absoluteToRelative [
 	"Take the time of each commands and return an OrderedCollection with the relative time from the start of the performance for each of them"
+
 	| times |
 	times := self times.
 	^ times collect: [ :each |
-		  (each asSeconds - times first asSeconds) asString ]
+		  ((each asMilliSeconds - times first asMilliSeconds) - ((each asMilliSeconds - times first asMilliSeconds) % 10)) asString ]
 ]
 
 { #category : #adding }
@@ -88,17 +90,31 @@ SavedPerformance >> add: anObject [
 SavedPerformance >> addInstrument: anAnnouncement [
 	"Add a new RecordedInstrumentCommand in the collectionOfCommands. This message is called when a RythmAnnouncement is announced"
 
+	"(collectionOfCommands last isRecordedInstrumentCommand and: [
+		 collectionOfCommands last symbol isNil ]) ifTrue: [
+		collectionOfCommands last rythm:
+			collectionOfCommands last rythm , ', ' , anAnnouncement rythm.
+		^ self ]."
+
 	collectionOfCommands add:
 		(RecordedInstrumentCommand new rythm: anAnnouncement rythm)
 ]
 
 { #category : #calculating }
 SavedPerformance >> appliesDelay: anAnnouncement [
-" Add the seconds of the delay to the time of the last RecordedCommands
+	" Add the seconds of the delay to the time of the last RecordedCommands
 Only called when recording a replay of a Performance."
+
 	collectionOfCommands last time:
-		(collectionOfCommands last time asTime addSeconds:
-			 anAnnouncement delay)
+		(collectionOfCommands last time asTime addMilliSeconds: anAnnouncement delay).
+]
+
+{ #category : #calculating }
+SavedPerformance >> appliesNotes: anAnnouncement [
+	" Add the seconds of the delay to the time of the last RecordedCommands
+Only called when recording a replay of a Performance."
+
+	collectionOfCommands last notes: anAnnouncement notes.
 ]
 
 { #category : #visiting }
@@ -157,8 +173,18 @@ This message is called when a DirtNotesAnnouncement is announced."
 SavedPerformance >> lastSymbol: anAnnouncement [
 	"add to the last RecordedInstrumentCommand a Symbol.
 This message is called when a SymbolAnnouncement is announced."
-
-	collectionOfCommands last symbol: anAnnouncement symbol
+|x|
+anAnnouncement class = SymbolAnnouncement ifTrue:[
+	(anAnnouncement symbol includesSubstring: 'once')
+		ifTrue: [
+			collectionOfCommands add:
+				(RecordedInstrumentCommand new symbol: anAnnouncement symbol) ]
+		ifFalse: [ collectionOfCommands last symbol: anAnnouncement symbol ]]
+	ifFalse:[x := collectionOfCommands allButLast last rythm,', ',collectionOfCommands last rythm.
+		self collectionOfCommands: collectionOfCommands allButLast.
+		collectionOfCommands last
+		rythm: x;
+		symbol: anAnnouncement symbol]
 ]
 
 { #category : #visitors }
@@ -187,12 +213,12 @@ SavedPerformance >> scriptWithRelativeTimeForReplayer: aReplayer [
 
 	| scripts relativetimes |
 	relativetimes := self absoluteToRelative.
-	scripts := self bodyScripts 
+	scripts := self bodyScripts
 		           with: relativetimes
 		           collect: [ :each :time |
-			           '"//At the ' , time , time suffixeNumber , ' second\\"'
-			           , String cr , each ].
- scripts := (self header:	scripts).
+			           '"//At ' , time
+			           , ' milliseconds\\"' , String cr , each ].
+	scripts := self header: scripts.
 	aReplayer performanceScript:
 		(scripts collect: [ :each | each , String cr ])
 ]

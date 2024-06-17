@@ -89,9 +89,9 @@ PerformanceReplayerTest >> testReplaySameAsOriginal [
 
 	| performance replayedPerformance |
 	performanceRecorder freq: 138 bpm.
-	(Delay forSeconds: 1) wait.
+	(Delay forMilliseconds: 500) wait.
 	16 upbeats to: #bd.
-	(Delay forSeconds: 2) wait.
+	(Delay forMilliseconds: 1000) wait.
 	16 downbeats
 		to: #bass3;
 		dirtNotes: '4'.
