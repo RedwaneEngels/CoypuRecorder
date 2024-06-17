@@ -19,9 +19,8 @@ BaselineOfCoypuRecorder >> baseline: spec [
 			"Packages"
 			spec
 				package: 'Coypu' with: [ spec requires: #( 'OSC' ) ];
-				package: 'LiveCoding' with: [ spec requires: #( 'Coypu' ) ];
 				package: 'CoypuRecorder'
-				with: [ spec requires: #( 'LiveCoding' ) ];
+				with: [ spec requires: #( 'Coypu' ) ];
 				package: 'CoypuRecorder-Tests'
 				with: [ spec requires: #( 'CoypuRecorder' ) ] ];
 		package: 'CoypuRecorder_Graphics'
