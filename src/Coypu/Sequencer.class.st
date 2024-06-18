@@ -653,11 +653,11 @@ Sequencer >> notes: anArrayOfNotesOrANoteorAstring [
 	" change notes in the sequencer"
 
 	| announcement |
-	thisContext sender selector traceCr = 'notes:' ifTrue:[
-			announcement := NotesAnnouncement new notes:
-				                ' notes: '
-				                , anArrayOfNotesOrANoteorAstring asString , ';'.
-			PerformanceRecorder uniqueInstance announce: announcement ].
+	thisContext sender selector traceCr = 'notes:' ifTrue: [
+		announcement := NotesAnnouncement new notes:
+			                ' notes: '
+			                , anArrayOfNotesOrANoteorAstring asString.
+		PerformanceRecorder uniqueInstance announce: announcement ].
 
 	anArrayOfNotesOrANoteorAstring isArray
 		ifTrue: [ notes := anArrayOfNotesOrANoteorAstring ]
@@ -1209,7 +1209,7 @@ Sequencer >> to: aSymbol [
 	announcement := (self notesSize > 4 and: [
 		                 (self notes at: 1) = 60 and: [
 			                 (self notes at: 5) = 60 ] ])
-		                ifTrue: [ DoubleRythmAnnouncement new ]
+		                ifTrue: [ DoubleRhythmAnnouncement new ]
 		                ifFalse: [ SymbolAnnouncement new ].
 	announcement symbol: self seqKey.
 	PerformanceRecorder uniqueInstance announce: announcement.

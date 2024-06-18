@@ -22,6 +22,19 @@ PerformanceRecorderTest >> setUp [
 ]
 
 { #category : #tests }
+PerformanceRecorderTest >> testActiveDSP [
+
+	| grooveBox |
+	performanceRecorder activeDSP: 'grooveBox'.
+
+	self denyEmpty: self commands.
+
+	self
+		assert: self commands last print
+		equals: 'p activeDSP: grooveBox.'
+]
+
+{ #category : #tests }
 PerformanceRecorderTest >> testFreq [
 
 

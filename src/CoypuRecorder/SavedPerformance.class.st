@@ -97,7 +97,7 @@ SavedPerformance >> addInstrument: anAnnouncement [
 		^ self ]."
 
 	collectionOfCommands add:
-		(RecordedInstrumentCommand new rythm: anAnnouncement rythm)
+		(RecordedInstrumentCommand new rhythm: anAnnouncement rhythm)
 ]
 
 { #category : #calculating }
@@ -180,10 +180,10 @@ anAnnouncement class = SymbolAnnouncement ifTrue:[
 			collectionOfCommands add:
 				(RecordedInstrumentCommand new symbol: anAnnouncement symbol) ]
 		ifFalse: [ collectionOfCommands last symbol: anAnnouncement symbol ]]
-	ifFalse:[x := collectionOfCommands allButLast last rythm,', ',collectionOfCommands last rythm.
+	ifFalse:[x := collectionOfCommands allButLast last rhythm,', ',collectionOfCommands last rhythm.
 		self collectionOfCommands: collectionOfCommands allButLast.
 		collectionOfCommands last
-		rythm: x;
+		rhythm: x;
 		symbol: anAnnouncement symbol]
 ]
 
@@ -228,10 +228,10 @@ SavedPerformance >> scriptWithTimeForReplayer: aDisplayer [
 	"Give a script of every command with their time in collectionOfCommands to the replayer visiting"
 
 	| scripts |
-	scripts := self bodyScripts 
+	scripts := self bodyScripts
 		           with: self times
 		           collect: [ :each :times |
-		           '"#At ' , times asString , ' :"' , String cr , each ].
+		           '"#At ' , times print24 , ' :"' , String cr , each ].
 	self header: scripts.
 	aDisplayer performanceScript:
 		(scripts collect: [ :each | each , String cr ])

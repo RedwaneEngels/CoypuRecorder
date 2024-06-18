@@ -16,7 +16,7 @@ RythmAnnouncement new.
 ```
 "
 Class {
-	#name : #RythmAnnouncement,
+	#name : #RhythmAnnouncement,
 	#superclass : #Announcement,
 	#instVars : [
 		'rythm'
@@ -25,13 +25,13 @@ Class {
 }
 
 { #category : #accessing }
-RythmAnnouncement >> rythm [
+RhythmAnnouncement >> rhythm [
 
 	^ rythm
 ]
 
 { #category : #accessing }
-RythmAnnouncement >> rythm: aRythm [
+RhythmAnnouncement >> rhythm: aRythm [
 
 	rythm := aRythm
 ]

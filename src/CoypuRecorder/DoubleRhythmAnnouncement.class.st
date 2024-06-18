@@ -1,5 +1,5 @@
 Class {
-	#name : #DoubleRythmAnnouncement,
+	#name : #DoubleRhythmAnnouncement,
 	#superclass : #Announcement,
 	#instVars : [
 		'symbol'
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-DoubleRythmAnnouncement >> symbol [
+DoubleRhythmAnnouncement >> symbol [
 
 	^symbol
 ]
 
 { #category : #accessing }
-DoubleRythmAnnouncement >> symbol: aSymbol [
+DoubleRhythmAnnouncement >> symbol: aSymbol [
 
 symbol := aSymbol
 ]

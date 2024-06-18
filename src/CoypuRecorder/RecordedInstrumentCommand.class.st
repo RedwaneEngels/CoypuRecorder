@@ -109,9 +109,13 @@ RecordedInstrumentCommand >> print [
 				      ifNotNil: [ ' atTime: ' , delay asString , '.' ]
 				      ifNil: [ '.' ]) ]
 		ifNil: [
-			m := ('' join: m substrings allButLast) , ' delayed: '''
-			     , m substrings last asString , ''' atTime: ' , delay asString , '.'
-			"m := m , (delay ifNotNil: [ 'AtTime: ' , delay asString ]) , '.'" ].
+			delay
+				ifNotNil: [
+					m := ('' join: m substrings allButLast) , ' delayed: '''
+					     , m substrings last asString , ''' atTime: '
+					     , delay asString , '.' ]
+				ifNil: [ "m := m , (delay ifNotNil: [ 'AtTime: ' , delay asString ]) , '.'"
+					m :=m , '.' ] ].
 
 	dirtNotes ifNotNil: [
 		m := m allButLast , '; ' , 'dirtNotes: ''' , dirtNotes , '''.' ].
@@ -119,12 +123,12 @@ RecordedInstrumentCommand >> print [
 ]
 
 { #category : #'instance creation' }
-RecordedInstrumentCommand >> rythm [
+RecordedInstrumentCommand >> rhythm [
 ^rythm 
 ]
 
 { #category : #'instance creation' }
-RecordedInstrumentCommand >> rythm: aRythm [ 
+RecordedInstrumentCommand >> rhythm: aRythm [ 
 
 	rythm := aRythm.
 

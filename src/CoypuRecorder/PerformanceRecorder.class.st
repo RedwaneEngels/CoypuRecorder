@@ -66,6 +66,7 @@ PerformanceRecorder >> activeDSP [
 { #category : #accessing }
 PerformanceRecorder >> activeDSP: aDSP [
 
+
 	savedPerformance add: (RecordedInstructionCommand new order:
 			 'activeDSP: ' , aDSP asString , '.').
 	Performance uniqueInstance activeDSP: aDSP
@@ -314,13 +315,13 @@ PerformanceRecorder >> performer: aPerformer [
 	savedPerformance := SavedPerformance new.
 	announcer := Announcer new.
 	announcer
-		when: RythmAnnouncement send: #addInstrument: to: savedPerformance;
+		when: RhythmAnnouncement send: #addInstrument: to: savedPerformance;
 		when: SymbolAnnouncement send: #lastSymbol: to: savedPerformance;
 		when: DirtNotesAnnouncement
 		send: #lastDirtNotes:
 		to: savedPerformance;
 		when: DelayAnnouncement send: #appliesDelay: to: savedPerformance;
-		when: DoubleRythmAnnouncement send: #lastSymbol: to: savedPerformance;
+		when: DoubleRhythmAnnouncement send: #lastSymbol: to: savedPerformance;
 		when: NotesAnnouncement send: #appliesNotes: to: savedPerformance.
 
 	savedPerformance add: (RecordedInstructionCommand new order:

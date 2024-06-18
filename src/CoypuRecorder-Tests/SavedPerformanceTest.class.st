@@ -68,7 +68,7 @@ SavedPerformanceTest >> testAddInstrument [
 
 	self denyEmpty: self commands.
 
-	self assert: self commands last rythm equals: '16 upbeats'
+	self assert: self commands last rhythm equals: '16 upbeats'
 ]
 
 { #category : #tests }
@@ -81,6 +81,19 @@ SavedPerformanceTest >> testBodyScripts [
 		with:
 		(performanceRecorder savedPerformance bodyScripts)
 		do: [ :x :y | self assert: x print equals: y ]
+]
+
+{ #category : #tests }
+SavedPerformanceTest >> testDoubleRhythmesCatched [
+
+	16 upbeats , 16 downbeats to: #bass3.
+
+	self denyEmpty: self commands.
+	self
+		assert: self commands last print
+		equals: '16 upbeats, 16 downbeats to: #bass3.'
+		
+	
 ]
 
 { #category : #tests }
@@ -110,6 +123,38 @@ SavedPerformanceTest >> testLastSymbol [
 	self denyEmpty: self commands.
 
 	self assert: self commands last symbol equals: 'bb'
+]
+
+{ #category : #tests }
+SavedPerformanceTest >> testNotesAdded [
+
+	16 upbeats notes: #( 43 45 67 ) to: #bb.
+
+	self denyEmpty: self commands.
+
+	self assert: self commands last notes equals: ' notes: #(43 45 67)'.
+
+]
+
+{ #category : #tests }
+SavedPerformanceTest >> testNotesNotAdded [
+
+	16 downbeats to: #bass3.
+
+	self denyEmpty: self commands.
+
+	self assert: self commands last notes equals: nil.
+]
+
+{ #category : #tests }
+SavedPerformanceTest >> testOnceCatched [
+
+	'bass3' once.
+
+	self denyEmpty: self commands.
+
+	self assert: self commands last rhythm equals: nil.
+	self assert: self commands last symbol equals: ' ''bass3'' once'
 ]
 
 { #category : #tests }
@@ -226,22 +271,22 @@ SavedPerformanceTest >> testScriptWithTimeForReplayer [
 	performanceRecorder playFor: 4 bars.
 
 	replayer getScriptWithTime: performanceRecorder savedPerformance.
-	" The size of performanceScript is 5 because of the added line of Performance & Performer"
+	" The size of performanceScript is 6 because of the added line of Performance & Performer"
 	self assert: replayer performanceScript size equals: 6.
 
 	self
 		assert: (replayer performanceScript at: 4)
-		equals: '"#At ' , DateAndTime now asTime asString , ' :"
+		equals: '"#At ' , DateAndTime now asTime print24 asString , ' :"
 16 upbeats to: #bd.
 '.
 	self
 		assert: (replayer performanceScript at: 5)
-		equals: '"#At ' , DateAndTime now rounded asTime asString , ' :"
+		equals: '"#At ' , DateAndTime now asTime print24 asString , ' :"
 p freq: 138 bpm.
 '.
 	self
 		assert: (replayer performanceScript at: 6)
-		equals: '"#At ' , DateAndTime now rounded asTime asString , ' :"
+		equals: '"#At ' , DateAndTime now asTime print24 asString , ' :"
 p playFor: 4 bars.
 '
 ]
@@ -255,6 +300,18 @@ SavedPerformanceTest >> testTimes [
 	performanceRecorder savedPerformance collectionOfCommands
 		with: performanceRecorder savedPerformance times
 		do: [ :x :y | self assert: x time asTime equals: y ]
+]
+
+{ #category : #tests }
+SavedPerformanceTest >> testTwoSimpleRhythmsInARowNotCatchedAsDoubleRhythmes [
+
+	16 upbeats.
+	16 downbeats to: #bd.
+
+	self
+		denyEmpty: self commands;
+		assert: self commands allButLast last print equals: '16 upbeats.';
+		assert: self commands last print equals: '16 downbeats to: #bd.'
 ]
 
 { #category : #tests }
