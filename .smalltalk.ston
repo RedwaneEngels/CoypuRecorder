@@ -6,6 +6,6 @@ SmalltalkCISpec {
     }],
 #testing : {
     #exclude : {
-      #packages : [ 'Coypu','LiveCoding' ]}
+      #packages : [ 'Coypu','CoypuRecorder_Graphics-Tests' ]}
 
   }}
