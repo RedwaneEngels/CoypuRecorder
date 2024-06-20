@@ -5,10 +5,18 @@ Class {
 		'codeEditor',
 		'toolBar',
 		'playground',
-		'replayer'
+		'replayer',
+		'lastButtonPressed'
 	],
 	#category : #'CoypuRecorder_Graphics'
 }
+
+{ #category : #'instance creation' }
+RecorderPlayground class >> open [
+|x|
+x := self new.
+x playground openInSpace
+]
 
 { #category : #'as yet unclassified' }
 RecorderPlayground >> button: aName icon: aPathToAnIcon event: aMessage [
@@ -20,6 +28,12 @@ RecorderPlayground >> button: aName icon: aPathToAnIcon event: aMessage [
 		(ToImage inner: (Smalltalk ui icons iconNamed: aPathToAnIcon)).
 	button addEventHandlerOn: BlMouseDownEvent do: [ :e | self load ].
 	^ button
+]
+
+{ #category : #accessing }
+RecorderPlayground >> codeEditor [
+
+^codeEditor 
 ]
 
 { #category : #'as yet unclassified' }
@@ -86,31 +100,45 @@ RecorderPlayground >> initialize [
 	toolBar := self toolBarInitialize.
 	playground addChild: toolBar.
 	playground addChild: codeEditor.
-	playground openInSpace
+]
+
+{ #category : #accessing }
+RecorderPlayground >> lastButtonPressed [
+
+^lastButtonPressed 
 ]
 
 { #category : #actions }
 RecorderPlayground >> load [
 
 	| x |
-	'hello' traceCr.
-	x := UIManager default
-		     chooseExistingFileReference: 'Select the ston file'
-		     extensions: #( 'ston' )
-		     path: FileLocator home.
-	replayer readScriptFromStonFile: x.
-	codeEditor text: ''.
-	replayer performanceScript do: [ :each |
-		codeEditor text: codeEditor text asString , each ]
+	lastButtonPressed := 'load'.
+	thisContext sender sender selector traceCr.
+	thisContext sender selector = 'testLoadButton' ifFalse: [
+		x := UIManager default
+			     chooseExistingFileReference: 'Select the ston file'
+			     extensions: #( 'ston' )
+			     path: FileLocator home.
+		replayer readScriptFromStonFile: x.
+		codeEditor text: ''.
+		replayer performanceScript do: [ :each |
+			codeEditor text: codeEditor text asString , each ] ]
 ]
 
 { #category : #playing }
 RecorderPlayground >> play [
-'hello play' traceCr.
+
+lastButtonPressed := 'play'.
 	replayer performanceScript:
 		(codeEditor text asString substrings: String cr).
 
 	replayer replayWithoutPlayground
+]
+
+{ #category : #accessing }
+RecorderPlayground >> playground [
+
+	^ playground 
 ]
 
 { #category : #'as yet unclassified' }
@@ -127,6 +155,7 @@ RecorderPlayground >> playgroundInitialize [
 RecorderPlayground >> save [
 
 	| x title path |
+	lastButtonPressed := 'save'.
 	x := UIManager default.
 	title := x
 		         request: 'The name of the save:'
@@ -135,9 +164,10 @@ RecorderPlayground >> save [
 	path := x
 		        chooseDirectory: 'Select the Directory to save the file'
 		        path: FileLocator home.
-		
+
 	replayer performanceScript:
-		((codeEditor text asString substrings: String cr) collect:[:each| each, String cr]).
+		((codeEditor text asString substrings: String cr) collect: [ :each |
+			 each , String cr ]).
 
 
 	replayer writeScriptInStonFile: title filePath: path
@@ -145,9 +175,14 @@ RecorderPlayground >> save [
 
 { #category : #accessing }
 RecorderPlayground >> stop [
-
-	'hello stop' traceCr.
+	lastButtonPressed := 'stop'.
 	Performance uniqueInstance stop
+]
+
+{ #category : #accessing }
+RecorderPlayground >> toolBar [
+
+	^ toolBar 
 ]
 
 { #category : #'as yet unclassified' }

@@ -137,13 +137,13 @@ SavedPerformanceTest >> testNotesAdded [
 ]
 
 { #category : #tests }
-SavedPerformanceTest >> testNotesNotAdded [
+SavedPerformanceTest >> testNotesNotAddedIfNotCalled [
 
 	16 downbeats to: #bass3.
 
 	self denyEmpty: self commands.
 
-	self assert: self commands last notes equals: nil.
+	self assert: self commands last notes equals: nil
 ]
 
 { #category : #tests }
