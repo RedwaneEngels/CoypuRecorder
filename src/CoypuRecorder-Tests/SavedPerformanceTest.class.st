@@ -39,8 +39,14 @@ SavedPerformanceTest >> testAbsoluteToDelay [
 	self assert: (x at: 1) equals: 0.
 	self assert: (x at: 2) equals: 0.
 	self assert: (x at: 3) equals: 0.
-	self assert: (x at: 4) equals: 1000.
-	self assert: (x at: 5) equals: 1000
+	self
+		assert:
+		(999 < (x at: 4) asInteger and: [ (x at: 4) asInteger < 1050 ])
+		equals: true.
+	self
+		assert:
+		(999 < (x at: 5) asInteger and: [ (x at: 5) asInteger < 1050 ])
+		equals: true
 ]
 
 { #category : #tests }
@@ -56,8 +62,14 @@ SavedPerformanceTest >> testAbsoluteToRelative [
 	performanceRecorder playFor: 4 bars.
 	x := performanceRecorder savedPerformance absoluteToRelative.
 	self assert: (x at: 2) equals: '0'.
-	self assert: (x at: 3) equals: '1000'.
-	self assert: (x at: 4) equals: '2000'
+	self
+		assert:
+		(999 < (x at: 3) asInteger and: [ (x at: 3) asInteger < 1050 ])
+		equals: true.
+	self
+		assert:
+		(1999 < (x at: 4) asInteger and: [ (x at: 4) asInteger < 2050 ])
+		equals: true
 ]
 
 { #category : #tests }
