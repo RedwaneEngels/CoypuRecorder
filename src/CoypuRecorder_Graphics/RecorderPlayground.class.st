@@ -113,7 +113,6 @@ RecorderPlayground >> load [
 
 	| x |
 	lastButtonPressed := 'load'.
-	thisContext sender sender selector traceCr.
 	thisContext sender selector = 'testLoadButton' ifFalse: [
 		x := UIManager default
 			     chooseExistingFileReference: 'Select the ston file'

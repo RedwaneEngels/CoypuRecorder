@@ -8,6 +8,8 @@ Class {
 	#superclass : #Dictionary,
 	#type : #variable,
 	#instVars : [
+		'visualizer',
+		'stepVisualizer',
 		'performer',
 		'canvas',
 		'freq',
@@ -184,6 +186,7 @@ Performance >> freq [
 { #category : #accessing }
 Performance >> freq: aDurationInSeconds [
 	"use for playback speed"
+
 	freq := aDurationInSeconds asFloat
 ]
 
@@ -362,16 +365,12 @@ Performance >> play [
 
 { #category : #playing }
 Performance >> playFor: aNumberOfSteps [
-
-
 	" reset all the Sequencers"
 	self resetAllSequencers.
-	
+
 	"just on performance at once"
-	( self activeProcess isTerminated) 
-		ifTrue: [ self performer playFor: aNumberOfSteps  ]
-
-
+	self activeProcess isTerminated ifTrue: [
+		self performer playFor: aNumberOfSteps ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -635,6 +634,7 @@ Performance >> solo: aKeyOrAnArrayOfKeys [
 
 { #category : #accessing }
 Performance >> stop [
+
 	self activeProcess terminate
 ]
 

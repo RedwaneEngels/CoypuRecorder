@@ -19,10 +19,11 @@ BaselineOfCoypuRecorder >> baseline: spec [
 			"Packages"
 			spec
 				package: 'Coypu' with: [ spec requires: #( 'OSC' ) ];
-				package: 'CoypuRecorder'
-				with: [ spec requires: #( 'Coypu' ) ];
+				package: 'CoypuRecorder' with: [ spec requires: #( 'Coypu' ) ];
 				package: 'CoypuRecorder-Tests'
 				with: [ spec requires: #( 'CoypuRecorder' ) ] ];
 		package: 'CoypuRecorder_Graphics'
-		with: [ spec requires: #( 'Toplo' ) ]
+		with: [ spec requires: #( 'Toplo' ) ];
+		package: 'CoypuRecorder_Graphics-Tests'
+		with: [ spec requires: #( 'CoypuRecorder_Graphics' ) ].
 ]
