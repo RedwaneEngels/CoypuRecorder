@@ -1,15 +1,17 @@
 Class {
-	#name : #PerformanceReplayerTest,
-	#superclass : #TestCase,
+	#name : 'PerformanceReplayerTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'performanceRecorder',
 		'replayer',
 		'securePerformance'
 	],
-	#category : #'CoypuRecorder-Tests-Tests'
+	#category : 'CoypuRecorder-Tests-Tests',
+	#package : 'CoypuRecorder-Tests',
+	#tag : 'Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 PerformanceReplayerTest >> filePath [
 
 	| x |
@@ -18,25 +20,26 @@ PerformanceReplayerTest >> filePath [
 	^ x
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 PerformanceReplayerTest >> setUp [
 
 	super setUp.
 	performanceRecorder := PerformanceRecorder uniqueInstance.
+	performanceRecorder displayVisualizer: false.
 	performanceRecorder performer: PerformerSuperDirt new.
 	replayer := PerformanceMusicalReplayer new.
 	securePerformance := SavedPerformance new.
 	securePerformance
-	add: (RecordedInstructionCommand new order: 'performer:  PerformerSuperDirt new.');
-	 add: (RecordedInstructionCommand new order: 'freq: 138 bpm.');
-	 add: (RecordedInstrumentCommand new
-	 rhythm: '16 upbeats';
-	 symbol: 'bd' );
-	 add: (RecordedInstructionCommand new order: 'playFor: 16 bars.')
-		
+		add: (RecordedInstructionCommand new instruction:
+					 'performer:  PerformerSuperDirt new.');
+		add: (RecordedInstructionCommand new instruction: 'freq: 138 bpm.');
+		add: (RecordedInstrumentCommand new
+				 rhythm: '16 upbeats';
+				 symbol: 'bd');
+		add: (RecordedInstructionCommand new instruction: 'playFor: 16 bars.')
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 PerformanceReplayerTest >> testReadScriptStonFile [
 
 	| x oldPerformanceScript |
@@ -61,7 +64,7 @@ PerformanceReplayerTest >> testReadScriptStonFile [
 		(x / 'ReplayablePerformanceTest.ston') ensureDelete ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 PerformanceReplayerTest >> testReadScriptStonFileWithSureSavedPerformance [
 
 	| x oldPerformanceScript |
@@ -84,7 +87,7 @@ PerformanceReplayerTest >> testReadScriptStonFileWithSureSavedPerformance [
 		(x / 'ReplayablePerformanceTest.ston') ensureDelete ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 PerformanceReplayerTest >> testReplaySameAsOriginal [
 
 	| performance replayedPerformance |
@@ -111,7 +114,7 @@ PerformanceReplayerTest >> testReplaySameAsOriginal [
 		do: [ :perf1 :perf2 | self assert: perf1 equals: perf2 ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 PerformanceReplayerTest >> testReplaySameAsOriginalWithSureSavedPerformance [
 
 	| performance replayedPerformance |
@@ -137,7 +140,7 @@ PerformanceReplayerTest >> testReplaySameAsOriginalWithSureSavedPerformance [
 		do: [ :perf1 :perf2 | self assert: perf1 equals: perf2 ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 PerformanceReplayerTest >> testWriteScriptStonFile [
 
 	| x oldPerformanceScript stream |
@@ -165,7 +168,7 @@ PerformanceReplayerTest >> testWriteScriptStonFile [
 		(x / 'ReplayablePerformanceTest.ston') ensureDelete ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 PerformanceReplayerTest >> testWriteScriptStonFileWhenNameIsTaken [
 
 	| x |
