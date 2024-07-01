@@ -108,6 +108,16 @@ PerformanceRecorder >> announce: anAnnouncement [
 { #category : 'accessing' }
 PerformanceRecorder >> announcer [
 
+ announcer ifNil:[announcer := Announcer new.
+	announcer
+		when: RhythmAnnouncement send: #addInstrument: to: savedPerformance;
+		when: SymbolAnnouncement send: #lastSymbol: to: savedPerformance;
+		when: DirtNotesAnnouncement
+		send: #lastDirtNotes:
+		to: savedPerformance;
+		when: DelayAnnouncement send: #appliesDelay: to: savedPerformance;
+		when: DoubleRhythmAnnouncement send: #lastSymbol: to: savedPerformance;
+		when: NotesAnnouncement send: #appliesNotes: to: savedPerformance].
 	^ announcer
 ]
 
@@ -185,6 +195,18 @@ PerformanceRecorder >> dirtMIDIDevice: aString [
 Performance uniqueInstance dirtMIDIDevice: aString
 ]
 
+{ #category : 'accessing' }
+PerformanceRecorder >> displayVisualizer: aBoolean [
+
+Performance uniqueInstance displayVisualizer: aBoolean.
+]
+
+{ #category : 'accessing' }
+PerformanceRecorder >> emptySavedPerformance [
+
+	savedPerformance collectionOfCommands: OrderedCollection new.
+]
+
 { #category : 'accessing - structure variables' }
 PerformanceRecorder >> freq [
 	^ Performance uniqueInstance freq
@@ -232,10 +254,22 @@ PerformanceRecorder >> isPerformance [
 Performance uniqueInstance isPerformance
 ]
 
+{ #category : 'testing' }
+PerformanceRecorder >> isVisualizerOpen: aBoolean [ 
+
+Performance uniqueInstance isVisualizerOpen: aBoolean.
+]
+
 { #category : 'accessing' }
 PerformanceRecorder >> length [
 
 Performance uniqueInstance length
+]
+
+{ #category : 'as yet unclassified' }
+PerformanceRecorder >> levelOfDetail: anIntegerBetween1And5 [
+
+Performance uniqueInstance levelOfDetail: anIntegerBetween1And5 
 ]
 
 { #category : 'muting and soloing' }
@@ -273,6 +307,18 @@ PerformanceRecorder >> muteAllAtTime: aTime [
 	(Delay forMilliseconds: aTime) wait.
 
 	self muteAll
+]
+
+{ #category : 'as yet unclassified' }
+PerformanceRecorder >> openVisualizers [
+
+Performance uniqueInstance opensVisualizer.
+]
+
+{ #category : 'as yet unclassified' }
+PerformanceRecorder >> opensVisualizers [
+
+Performance uniqueInstance opensVisualizer.
 ]
 
 { #category : 'LiveCoding - satelliteEvent' }
@@ -315,17 +361,7 @@ PerformanceRecorder >> performer [
 PerformanceRecorder >> performer: aPerformer [
 
 	savedPerformance := SavedPerformance new.
-	announcer := Announcer new.
-	announcer
-		when: RhythmAnnouncement send: #addInstrument: to: savedPerformance;
-		when: SymbolAnnouncement send: #lastSymbol: to: savedPerformance;
-		when: DirtNotesAnnouncement
-		send: #lastDirtNotes:
-		to: savedPerformance;
-		when: DelayAnnouncement send: #appliesDelay: to: savedPerformance;
-		when: DoubleRhythmAnnouncement send: #lastSymbol: to: savedPerformance;
-		when: NotesAnnouncement send: #appliesNotes: to: savedPerformance.
-
+	
 	savedPerformance add: (RecordedInstructionCommand new instruction:
 			 'performer: ' , aPerformer asString allButFirst , ' new.').
 	Performance uniqueInstance performer: aPerformer
@@ -575,4 +611,10 @@ PerformanceRecorder >> visualization [
 PerformanceRecorder >> visualization: anObject [
 
 Performance uniqueInstance visualization: anObject 
+]
+
+{ #category : 'accessing' }
+PerformanceRecorder >> visualizer [ 
+
+^ Performance uniqueInstance visualizer
 ]

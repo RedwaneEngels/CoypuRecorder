@@ -1,1 +1,1 @@
-Package { #name : #'CoypuRecorder_Graphics-Tests' }
+Package { #name : 'CoypuRecorder_Graphics-Tests' }

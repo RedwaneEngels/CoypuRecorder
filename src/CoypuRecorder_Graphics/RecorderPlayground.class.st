@@ -1,24 +1,24 @@
 Class {
-	#name : #RecorderPlayground,
-	#superclass : #Object,
+	#name : 'RecorderPlayground',
+	#superclass : 'Object',
 	#instVars : [
 		'codeEditor',
 		'toolBar',
 		'playground',
-		'replayer',
-		'lastButtonPressed'
+		'replayer'
 	],
-	#category : #'CoypuRecorder_Graphics'
+	#category : 'CoypuRecorder_Graphics',
+	#package : 'CoypuRecorder_Graphics'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 RecorderPlayground class >> open [
 |x|
 x := self new.
 x playground openInSpace
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 RecorderPlayground >> button: aName icon: aPathToAnIcon event: aMessage [
 
 	| button |
@@ -30,18 +30,18 @@ RecorderPlayground >> button: aName icon: aPathToAnIcon event: aMessage [
 	^ button
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RecorderPlayground >> codeEditor [
 
 ^codeEditor 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 RecorderPlayground >> codeEditorInitialize [
 
-	| album menuBuilder |
+	"| album menuBuilder |
 	album := ToAlbum new.
-	album styler: (BlRBTextStyler new classOrMetaClass: self class).
+	album styler: BlTextStyler new.
 	album withSaveCapability.
 	album withRowNumbers.
 	album whenSaveRequestedDo: [ :saveRequested |
@@ -86,10 +86,59 @@ RecorderPlayground >> codeEditorInitialize [
 	album contextMenu: menuBuilder.
 	album cursorColor: Color cyan.
 
-	^ album
+	^ album"
+	| album menuBuilder|
+	album := ToAlbum new.
+	album 
+	defaultEditorElement;
+	hasSelection;
+	requestTextStyle;
+	withEditsFeedback;
+	styler: (BlRBTextStyler new classOrMetaClass: self class);
+	withRowNumbers;
+	whenCancelRequestedDo: [ :cancelRequested |
+		cancelRequested client text: '' ].
+		menuBuilder := [ :menu :request |
+	               | element |
+	               element := request currentTarget.
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Select all';
+			                whenClickedDo: [ :event |
+				                element selecter
+					                all;
+					                apply ];
+			                yourself).
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Copy';
+			                whenClickedDo: [ :event |
+				                element editor copySelected ];
+			                yourself).
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Cut';
+			                whenClickedDo: [ :event |
+				                element editor cutSelected ];
+			                yourself).
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Paste';
+			                whenClickedDo: [ :event | element editor paste ];
+			                yourself).
+	               menu addSeparator.
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Accept';
+			                whenClickedDo: [ :event | element requestSave ];
+			                yourself).
+	               menu addSeparator.
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Cancel';
+			                whenClickedDo: [ :event | element requestCancel ];
+			                yourself) ].
+	album contextMenu: menuBuilder.
+	album cursorColor: Color cyan.
+	
+^ album
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RecorderPlayground >> initialize [
 
 	super initialize.
@@ -102,45 +151,39 @@ RecorderPlayground >> initialize [
 	playground addChild: codeEditor.
 ]
 
-{ #category : #accessing }
-RecorderPlayground >> lastButtonPressed [
-
-^lastButtonPressed 
-]
-
-{ #category : #actions }
+{ #category : 'actions' }
 RecorderPlayground >> load [
 
 	| x |
-	lastButtonPressed := 'load'.
-	thisContext sender selector = 'testLoadButton' ifFalse: [
-		x := UIManager default
-			     chooseExistingFileReference: 'Select the ston file'
-			     extensions: #( 'ston' )
-			     path: FileLocator home.
-		replayer readScriptFromStonFile: x.
-		codeEditor text: ''.
-		replayer performanceScript do: [ :each |
-			codeEditor text: codeEditor text asString , each ] ]
+	thisContext sender sender selector traceCr.
+	thisContext sender selector = 'testLoadButton' ifTrue: [ ^ self ].
+	x := UIManager default
+		     chooseExistingFileReference: 'Select the ston file'
+		     extensions: #( 'ston' )
+		     path: FileLocator home.
+	replayer readScriptFromStonFile: x.
+	codeEditor text: ''.
+	replayer performanceScript do: [ :each |
+		codeEditor text: codeEditor text asString , each ]
 ]
 
-{ #category : #playing }
+{ #category : 'playing' }
 RecorderPlayground >> play [
 
-lastButtonPressed := 'play'.
 	replayer performanceScript:
 		(codeEditor text asString substrings: String cr).
+PerformanceRecorder uniqueInstance emptySavedPerformance.
+	replayer replayWithoutPlayground.
 
-	replayer replayWithoutPlayground
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RecorderPlayground >> playground [
 
 	^ playground 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 RecorderPlayground >> playgroundInitialize [
 
 	playground := ToPane new
@@ -150,11 +193,11 @@ RecorderPlayground >> playgroundInitialize [
 	playground matchParent
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 RecorderPlayground >> save [
 
 	| x title path |
-	lastButtonPressed := 'save'.
+
 	x := UIManager default.
 	title := x
 		         request: 'The name of the save:'
@@ -169,22 +212,22 @@ RecorderPlayground >> save [
 			 each , String cr ]).
 
 
-	replayer writeScriptInStonFile: title filePath: path
+	replayer writeScriptInStonFile: title filePath: path.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RecorderPlayground >> stop [
-	lastButtonPressed := 'stop'.
-	Performance uniqueInstance stop
+	Performance uniqueInstance stop.
+
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RecorderPlayground >> toolBar [
 
 	^ toolBar 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 RecorderPlayground >> toolBarInitialize [
 
 	| bar button x |
@@ -192,7 +235,7 @@ RecorderPlayground >> toolBarInitialize [
 	bar := ToElement new.
 	bar background: Color lightYellow.
 	bar geometry: BlRectangleGeometry new.
-	bar size: 1000 @ 30.
+	bar size: 5000 @ 30.
 	bar layout: (BlLinearLayout horizontal cellSpacing: 0).
 	"bar
 		addChild: (self button: 'Play' icon: #glamorousGo event: self play);
@@ -213,7 +256,7 @@ RecorderPlayground >> toolBarInitialize [
 	bar addChild: button.
 	button := ToButton new.
 	button label: (ToLabel text: 'Load').
-	button icon: (ToImage inner: (Smalltalk ui icons iconNamed: #open)).
+	button icon: (ToImage inner: (Smalltalk ui icons iconNamed: #smallOpen)).
 	button addEventHandlerOn: BlMouseDownEvent do: [ :e | self load ].
 	bar addChild: button.
 	button := ToButton new.

@@ -1,29 +1,40 @@
 Class {
-	#name : #RecorderPlaygroundTest,
-	#superclass : #TestCase,
+	#name : 'RecorderPlaygroundTest',
+	#superclass : 'TestCase',
 	#instVars : [
-		'recorderPlayground'
+		'recorderPlayground',
+		'mock'
 	],
-	#category : #'CoypuRecorder_Graphics-Tests'
+	#category : 'CoypuRecorder_Graphics-Tests',
+	#package : 'CoypuRecorder_Graphics-Tests'
 }
 
-{ #category : #running }
+{ #category : 'tests' }
+RecorderPlaygroundTest >> filePath [
+
+	| x |
+	x := FileLocator home / 'Documents'.
+	x := x / 'PerformanceScripts' / DateAndTime now asDate asString.
+	^ x
+]
+
+{ #category : 'running' }
 RecorderPlaygroundTest >> setUp [
 
 	super setUp.
 
-	recorderPlayground := RecorderPlayground new.
+	recorderPlayground := RecorderPlaygroundMock new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'tests' }
 RecorderPlaygroundTest >> testLoadButton [
-
 	self assert: recorderPlayground lastButtonPressed equals: nil.
-	BlSpace simulateClickOn: (recorderPlayground toolBar children at: 3) .
+
+	BlSpace simulateClickOn: (recorderPlayground toolBar children at: 3).
 	self assert: recorderPlayground lastButtonPressed equals: 'load'.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'tests' }
 RecorderPlaygroundTest >> testPlayButton [
 
 	self assert: recorderPlayground lastButtonPressed equals: nil.
@@ -31,7 +42,7 @@ RecorderPlaygroundTest >> testPlayButton [
 	self assert: recorderPlayground lastButtonPressed equals: 'play'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'tests' }
 RecorderPlaygroundTest >> testSaveButton [
 
 	self assert: recorderPlayground lastButtonPressed equals: nil.
@@ -39,7 +50,7 @@ RecorderPlaygroundTest >> testSaveButton [
 	self assert: recorderPlayground lastButtonPressed equals: 'save'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'tests' }
 RecorderPlaygroundTest >> testStopButton [
 
 	self assert: recorderPlayground lastButtonPressed equals: nil.
