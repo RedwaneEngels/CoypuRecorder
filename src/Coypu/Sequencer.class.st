@@ -11,7 +11,6 @@ It is conceived as something in between a Digital Audio Workstation track and a 
 Class {
 	#name : 'Sequencer',
 	#superclass : 'Object',
-	#type : 'variable',
 	#instVars : [
 		'seqKey',
 		'extraParams',
@@ -300,17 +299,18 @@ Sequencer >> dirtMessage: anArrayOfAssociationForSuperDirt [
 Sequencer >> dirtNotes: aStringWithNotes [
 	"add into a Sequencer anotes from a String in which numbers can be multiplicated"
 
-	| tokens dNotes arrayOfNotes announcement |
-	thisContext sender selector asString = 'asDirtNotes' ifFalse:[ 
-	announcement := DirtNotesAnnouncement new.
-	announcement newDirtNotes: aStringWithNotes.
-	PerformanceRecorder uniqueInstance announce: announcement].
+	| tokens dNotes arrayOfNotes announcement selectors|
+	selectors := #( #DoIt #testLastDirtNotes).
+	(selectors includes: thisContext sender selector) ifTrue: [
+		announcement := DirtNotesAnnouncement new.
+		announcement newDirtNotes: aStringWithNotes.
+		PerformanceRecorder uniqueInstance announce: announcement ].
 	tokens := aStringWithNotes splitOn: ','.
 	dNotes := ' '.
 	tokens do: [ :i |
-		(i includes: $*)
-			ifTrue: [ dNotes := dNotes , i multiplyStringsInString ]
-			ifFalse: [ dNotes := dNotes , i ] ].
+		dNotes := (i includes: $*)
+			          ifTrue: [ dNotes , i multiplyStringsInString ]
+			          ifFalse: [ dNotes , i ] ].
 
 	arrayOfNotes := (dNotes findBetweenSubstrings: '  ') collect: [ :each |
 		                each asNumber ].
@@ -367,10 +367,31 @@ Sequencer >> duty: aStringOrAnArray [
 ]
 
 { #category : 'LiveCoding-ExtraParams' }
+Sequencer >> effect: aStringOrAnArray [
+	"convenience method to avoid extra typing when we want to modify the effect, i.e. dry/wet "
+
+	self extra: #Effect values: aStringOrAnArray asDirtArrayOfValues
+]
+
+{ #category : 'LiveCoding-ExtraParams' }
 Sequencer >> extra: aSymbol values: aStringWithIndexes [
 	"stores extra values to control synths parameters on Kyma values can be a Number, an Array or  a valid string of Coypu Notation"
 
-	self extraParams at: aSymbol put: aStringWithIndexes asDirtArrayOfValues 
+	| announcement stringWithIndexes |
+	stringWithIndexes := aStringWithIndexes.
+	aStringWithIndexes class = Array ifTrue: [  
+	stringWithIndexes := String streamContents: [ :s |
+		                     aStringWithIndexes do: [ :each |
+			                     s
+				                     nextPutAll: each asString;
+				                     nextPutAll: ' ' ] ]].
+	announcement := ExtraValuesAnnouncement new extraValues:
+		                ' ' , thisContext sender selector asString , ''''
+		                , stringWithIndexes allButLast  asString ,''';'.
+	PerformanceRecorder uniqueInstance announce: announcement.
+	self extraParams
+		at: aSymbol
+		put: aStringWithIndexes asDirtArrayOfValues
 ]
 
 { #category : 'accessing' }
@@ -1244,48 +1265,18 @@ Sequencer >> times: anInteger [
 Sequencer >> to: aSymbol [
 	" assign sequencer to the performance at aSymbol. if a sound for SuperDirt is not specified, the symbol is used for sound name"
 
-	| announcement isInKeys |
-	isInKeys := false.
-	Performance uniqueInstance keys do: [ :k |
-		k = aSymbol ifTrue: [ 
-				(PerformanceRecorder uniqueInstance visualizer patternArray at:k)
-		forSequencer: self.
-		isInKeys := true ] ].
-	isInKeys ifFalse: [
-		Performance uniqueInstance visualizer addInstrument: aSymbol ].
-	" 	Performance uniqueInstance visualizer squareArray last initializeAnimation:
-        Performance uniqueInstance freq * 4."
-	self noteIndex: 1.
-	self seqKey: aSymbol asString.
-	announcement := (self notesSize > 4 and: [
+	| announcement |
+	announcement := (self notesSize >= 8 and: [
 		                 (self notes at: 1) = 60 and: [
 			                 (self notes at: 5) = 60 ] ])
-		                ifTrue: [ DoubleRhythmAnnouncement new ]
+		                ifTrue: [
+			                DoubleRhythmAnnouncement new ]
 		                ifFalse: [ SymbolAnnouncement new ].
-	announcement symbol: self seqKey.
+	announcement symbol: aSymbol.
 	PerformanceRecorder uniqueInstance announce: announcement.
 
 
-	"For SuperDirt"
-	self dirtMessage at: '_id' put: self seqKey.
-	self dirtMessage at: 'orbit' put: self orbit.
-
-	(self dirtMessage includesKey: 's')
-		ifFalse: [
-		self dirtMessage at: 's' put: aSymbol asString asDirtArray ]
-		ifTrue: [  ].
-
-	"For Polyphony"
-	seqChords
-		ifNil: [ Performance uniqueInstance at: aSymbol put: self ]
-		ifNotNil: [
-		Performance uniqueInstance at: aSymbol put: self asPolySeq ].
-
-
-	"For PerformerPhaust"
-	Performance uniqueInstance performer class = PerformerPhaust ifTrue: [
-		self phaustGateDestination: self seqKey , 'Gate'.
-		self phaustNoteDestination: self seqKey , 'Note' ]
+	Performance performanceType addSequencer: self to: aSymbol
 ]
 
 { #category : 'addToPerformance' }

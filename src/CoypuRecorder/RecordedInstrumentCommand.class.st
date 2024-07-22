@@ -43,7 +43,8 @@ Class {
 		'dirtNotes',
 		'rhythm',
 		'symbol',
-		'notes'
+		'notes',
+		'extraValues'
 	],
 	#category : 'CoypuRecorder-RecordedCommand',
 	#package : 'CoypuRecorder',
@@ -60,6 +61,54 @@ RecordedInstrumentCommand >> dirtNotes [
 RecordedInstrumentCommand >> dirtNotes: aDirtNotes [
 
 dirtNotes := aDirtNotes
+]
+
+{ #category : 'accessing' }
+RecordedInstrumentCommand >> extraValues [
+
+^	extraValues
+]
+
+{ #category : 'accessing' }
+RecordedInstrumentCommand >> extraValues: aString [
+
+extraValues := aString 
+]
+
+{ #category : 'printing items' }
+RecordedInstrumentCommand >> hasSymbol: aString [
+| m |
+m := aString.
+	
+	self symbol
+		ifNotNil: [
+			m := m , ' to: #' , symbol asString
+			     ,
+			     (delay
+				      ifNotNil: [ ' atTime: ' , delay asString , '.' ]
+				      ifNil: [ '.' ]) ]
+		ifNil: [ "Instrument without a symbol ex: 16 upbeats."
+			delay
+				ifNotNil: [
+					m := ('' join: m substrings allButLast) , ' delayed: '''
+					     , m substrings last asString , ''' atTime: '
+					     , delay asString , '.' ]
+				ifNil: [ m := m , '.' ] ].
+			
+^ m
+]
+
+{ #category : 'printing items' }
+RecordedInstrumentCommand >> isAOnceCall [
+
+	delay
+		ifNotNil: [
+			(symbol includesSubstring: 'onceAtSpeed:')
+				ifTrue: [
+				^ symbol allButFirst , ' atTime: ' , delay asString , '.' ]
+				ifFalse: [
+				^ symbol allButFirst , 'AtTime: ' , delay asString , '.' ] ]
+		ifNil: [ ^ symbol allButFirst , '.' ]
 ]
 
 { #category : 'testing' }
@@ -93,34 +142,15 @@ RecordedInstrumentCommand >> print [
 	| m |
 	"Print for a Once line ex: 'bass3' once "
 	rhythm ifNil: [
-		delay
-			ifNotNil: [
-				(symbol includesSubstring: 'onceAtSpeed:')
-					ifTrue: [
-					^ symbol allButFirst , ' atTime: ' , delay asString , '.' ]
-					ifFalse: [
-					^ symbol allButFirst , 'AtTime: ' , delay asString , '.' ] ]
-			ifNil: [ ^ symbol allButFirst , '.' ] ].
+		self isAOnceCall].
 
 
 	m := rhythm.
 	"add the notes if called"
 	notes ifNotNil: [ m := m , notes ].
 	"Classic command ex: 16 upbeats to: #bass3"
-	self symbol
-		ifNotNil: [
-			m := m , ' to: #' , symbol asString
-			     ,
-			     (delay
-				      ifNotNil: [ ' atTime: ' , delay asString , '.' ]
-				      ifNil: [ '.' ]) ]
-		ifNil: [ "Instrument without a symbol ex: 16 upbeats."
-			delay
-				ifNotNil: [
-					m := ('' join: m substrings allButLast) , ' delayed: '''
-					     , m substrings last asString , ''' atTime: '
-					     , delay asString , '.' ]
-				ifNil: [ m := m , '.' ] ].
+	self extraValues ifNotNil: [ m := m , extraValues ].
+m := self hasSymbol: m.
 
 	"add the dirtNotes if called"
 	dirtNotes ifNotNil: [

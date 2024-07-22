@@ -21,7 +21,7 @@ SavedPerformanceTest >> setUp [
 
 	super setUp.
 	performanceRecorder := PerformanceRecorder uniqueInstance.
-	performanceRecorder displayVisualizer: false.
+
 	performanceRecorder performer: PerformerSuperDirt new.
 	replayer := PerformanceTextualReplayer new
 ]
@@ -85,7 +85,7 @@ SavedPerformanceTest >> testAbsoluteToRelative [
 { #category : 'tests' }
 SavedPerformanceTest >> testAddInstrument [
 
-
+	self commands size traceCr.
 	16 upbeats to: #bd.
 
 	self denyEmpty: self commands.

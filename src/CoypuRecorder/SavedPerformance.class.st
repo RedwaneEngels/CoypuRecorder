@@ -44,17 +44,6 @@ Class {
 	#tag : 'savedPerformance'
 }
 
-{ #category : 'instance creation' }
-SavedPerformance class >> new [
-
-	| x |
-	x := super new.
-
-	x collectionOfCommands: OrderedCollection new.
-	
-^x
-]
-
 { #category : 'calculating' }
 SavedPerformance >> absoluteToDelay [
 	"Take the time of each commands and return an OrderedCollection with the delay between each of them"
@@ -91,6 +80,7 @@ SavedPerformance >> add: anObject [
 { #category : 'adding' }
 SavedPerformance >> addInstrument: anAnnouncement [
 	"Add a new RecordedInstrumentCommand in the collectionOfCommands. This message is called when a RythmAnnouncement is announced"
+
 	collectionOfCommands add:
 		(RecordedInstrumentCommand new rhythm: anAnnouncement rhythm)
 ]
@@ -102,6 +92,12 @@ Only called when recording a replay of a Performance."
 
 	collectionOfCommands last time:
 		(collectionOfCommands last time asTime addMilliSeconds: anAnnouncement delay).
+]
+
+{ #category : 'as yet unclassified' }
+SavedPerformance >> appliesExtraValues: anAnnouncement [
+
+collectionOfCommands last extraValues: anAnnouncement extraValues
 ]
 
 { #category : 'calculating' }
@@ -155,13 +151,17 @@ SavedPerformance >> header: aScript [
 	^ aScript
 ]
 
+{ #category : 'initialization' }
+SavedPerformance >> initialize [ 
+
+collectionOfCommands := OrderedCollection new.
+]
+
 { #category : 'adding' }
 SavedPerformance >> lastDirtNotes: anAnnouncement [
 	"add to the last RecordedInstrumentCommand dirtNotes.
 This message is called when a DirtNotesAnnouncement is announced."
-
-	collectionOfCommands last
-		dirtNotes: anAnnouncement newDirtNotes
+	collectionOfCommands last dirtNotes: anAnnouncement newDirtNotes
 ]
 
 { #category : 'adding' }

@@ -26,7 +26,6 @@ savedPerformance:	<SavedPerformance> object that has an OrderedCollection where 
 Class {
 	#name : 'PerformanceRecorder',
 	#superclass : 'Object',
-	#type : 'variable',
 	#instVars : [
 		'savedPerformance',
 		'announcer'
@@ -49,8 +48,8 @@ PerformanceRecorder class >> new [
 { #category : 'accessing' }
 PerformanceRecorder class >> uniqueInstance [
 
-	^ uniqueInstance
-		  ifNil: [ uniqueInstance := super new announcer: Announcer new. ]
+	^ uniqueInstance ifNil: [
+		  uniqueInstance := super new]
 ]
 
 { #category : 'accessing' }
@@ -101,23 +100,32 @@ Performance uniqueInstance add: aSequencer channel: anIntegerBetween1And16
 
 { #category : 'announcer' }
 PerformanceRecorder >> announce: anAnnouncement [
-"Used to announce with the announcer of PerformanceRecorder"
-	announcer announce: anAnnouncement.
+	"Used to announce with the announcer of PerformanceRecorder"
+
+	announcer ifNil: [
+		announcer := Announcer new.
+		announcer
+			when: RhythmAnnouncement
+			send: #addInstrument:
+			to: savedPerformance;
+			when: SymbolAnnouncement send: #lastSymbol: to: savedPerformance;
+			when: DirtNotesAnnouncement
+			send: #lastDirtNotes:
+			to: savedPerformance;
+			when: DelayAnnouncement send: #appliesDelay: to: savedPerformance;
+			when: DoubleRhythmAnnouncement
+			send: #lastSymbol:
+			to: savedPerformance;
+			when: NotesAnnouncement send: #appliesNotes: to: savedPerformance;
+			when: ExtraValuesAnnouncement send: #appliesExtraValues: to: savedPerformance ].
+
+	announcer announce: anAnnouncement
 ]
 
 { #category : 'accessing' }
 PerformanceRecorder >> announcer [
 
- announcer ifNil:[announcer := Announcer new.
-	announcer
-		when: RhythmAnnouncement send: #addInstrument: to: savedPerformance;
-		when: SymbolAnnouncement send: #lastSymbol: to: savedPerformance;
-		when: DirtNotesAnnouncement
-		send: #lastDirtNotes:
-		to: savedPerformance;
-		when: DelayAnnouncement send: #appliesDelay: to: savedPerformance;
-		when: DoubleRhythmAnnouncement send: #lastSymbol: to: savedPerformance;
-		when: NotesAnnouncement send: #appliesNotes: to: savedPerformance].
+
 	^ announcer
 ]
 
@@ -196,15 +204,9 @@ Performance uniqueInstance dirtMIDIDevice: aString
 ]
 
 { #category : 'accessing' }
-PerformanceRecorder >> displayVisualizer: aBoolean [
-
-Performance uniqueInstance displayVisualizer: aBoolean.
-]
-
-{ #category : 'accessing' }
 PerformanceRecorder >> emptySavedPerformance [
 
-	savedPerformance collectionOfCommands: OrderedCollection new.
+	savedPerformance collectionOfCommands removeAll
 ]
 
 { #category : 'accessing - structure variables' }
@@ -240,6 +242,12 @@ PerformanceRecorder >> freq: aDurationInSeconds atTime: aTime [
 PerformanceRecorder >> incrementTransportStep [
 
 	Performance uniqueInstance incrementTransportStep 
+]
+
+{ #category : 'initialization' }
+PerformanceRecorder >> initialize [
+	
+savedPerformance := SavedPerformance new
 ]
 
 { #category : 'initialization' }
@@ -351,6 +359,20 @@ PerformanceRecorder >> perfVisualizer: aPerfVisualizer [
 	Performance uniqueInstance perfVisualizer: aPerfVisualizer 
 ]
 
+{ #category : 'as yet unclassified' }
+PerformanceRecorder >> performanceType [
+
+	^ Performance performanceType
+]
+
+{ #category : 'as yet unclassified' }
+PerformanceRecorder >> performanceType: aPerformanceType [
+
+    savedPerformance add: (RecordedInstructionCommand new instruction:
+             'performanceType: ' , aPerformanceType asString).
+    ^ Performance performanceType: aPerformanceType
+]
+
 { #category : 'muting and soloing' }
 PerformanceRecorder >> performer [
 
@@ -360,8 +382,7 @@ PerformanceRecorder >> performer [
 { #category : 'accessing' }
 PerformanceRecorder >> performer: aPerformer [
 
-	savedPerformance := SavedPerformance new.
-	
+self emptySavedPerformance.
 	savedPerformance add: (RecordedInstructionCommand new instruction:
 			 'performer: ' , aPerformer asString allButFirst , ' new.').
 	Performance uniqueInstance performer: aPerformer
@@ -582,6 +603,20 @@ PerformanceRecorder >> transportStep [
 PerformanceRecorder >> transportStep: anInteger [
 
 Performance uniqueInstance transportStep: anInteger
+]
+
+{ #category : 'accessing - structure variables' }
+PerformanceRecorder >> type [
+
+^Performance uniqueInstance type
+]
+
+{ #category : 'accessing - structure variables' }
+PerformanceRecorder >> type: aPerformanceType [
+
+	savedPerformance add: (RecordedInstructionCommand new instruction:
+			 'type: ' , aPerformanceType asString,'.').
+	Performance uniqueInstance type: aPerformanceType
 ]
 
 { #category : 'LiveCoding - Performance' }
