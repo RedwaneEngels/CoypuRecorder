@@ -107,6 +107,15 @@ PerfTypeMooflod >> displayVisualizer [
 	^ displayVisualizer
 ]
 
+{ #category : 'accessing' }
+PerfTypeMooflod >> freq: aDurationInSeconds [
+
+Performance uniqueInstance freq: aDurationInSeconds .
+isVisualizerOpen ifTrue: [ 
+	visualizer squareArray do: [ :s|
+		s changeAnimationTime: Performance uniqueInstance freq * 4 ] .]
+]
+
 { #category : 'initialization' }
 PerfTypeMooflod >> initialize [
 
@@ -139,8 +148,14 @@ PerfTypeMooflod >> level [
 
 { #category : 'accessing' }
 PerfTypeMooflod >> level: anObject [
-
-	level := anObject
+|perf |
+	level := anObject.
+		"perf := Performance uniqueInstance.
+		perf keysDo: [ :k |
+			perf visualizer cleanRow:
+					(perf tracks indexOf: k)
+					
+			 ]"
 ]
 
 { #category : 'as yet unclassified' }

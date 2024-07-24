@@ -75,3 +75,10 @@ PerfType >> playPhaustEventAt: anIndex forSequencer: aSequencer [
 
 	^ true
 ]
+
+{ #category : 'accessing' }
+PerfType >> stop [ 
+
+	Performance uniqueInstance  activeProcess terminate.
+
+]
