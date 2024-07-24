@@ -39,16 +39,17 @@ RecorderPlayground >> codeEditor [
 { #category : 'as yet unclassified' }
 RecorderPlayground >> codeEditorInitialize [
 
-	"| album menuBuilder |
+	| album menuBuilder |
 	album := ToAlbum new.
-	album styler: BlTextStyler new.
-	album withSaveCapability.
-	album withRowNumbers.
-	album whenSaveRequestedDo: [ :saveRequested |
-		saveRequested accepted: true ].
-	album whenCancelRequestedDo: [ :cancelRequested |
-		cancelRequested client text: '' ].
-
+	album
+		defaultEditorElement;
+		hasSelection;
+		requestTextStyle;
+		withEditsFeedback;
+		styler: (BlPharoCodeStyler new classOrMetaClass: self class);
+		withRowNumbers;
+		whenCancelRequestedDo: [ :cancelRequested |
+			cancelRequested client text: '' ].
 	menuBuilder := [ :menu :request |
 	               | element |
 	               element := request currentTarget.
@@ -86,56 +87,7 @@ RecorderPlayground >> codeEditorInitialize [
 	album contextMenu: menuBuilder.
 	album cursorColor: Color cyan.
 
-	^ album"
-	| album menuBuilder|
-	album := ToAlbum new.
-	album 
-	defaultEditorElement;
-	hasSelection;
-	requestTextStyle;
-	withEditsFeedback;
-	styler: (BlRBTextStyler new classOrMetaClass: self class);
-	withRowNumbers;
-	whenCancelRequestedDo: [ :cancelRequested |
-		cancelRequested client text: '' ].
-		menuBuilder := [ :menu :request |
-	               | element |
-	               element := request currentTarget.
-	               menu addItem: (ToMenuItem new
-			                labelText: 'Select all';
-			                whenClickedDo: [ :event |
-				                element selecter
-					                all;
-					                apply ];
-			                yourself).
-	               menu addItem: (ToMenuItem new
-			                labelText: 'Copy';
-			                whenClickedDo: [ :event |
-				                element editor copySelected ];
-			                yourself).
-	               menu addItem: (ToMenuItem new
-			                labelText: 'Cut';
-			                whenClickedDo: [ :event |
-				                element editor cutSelected ];
-			                yourself).
-	               menu addItem: (ToMenuItem new
-			                labelText: 'Paste';
-			                whenClickedDo: [ :event | element editor paste ];
-			                yourself).
-	               menu addSeparator.
-	               menu addItem: (ToMenuItem new
-			                labelText: 'Accept';
-			                whenClickedDo: [ :event | element requestSave ];
-			                yourself).
-	               menu addSeparator.
-	               menu addItem: (ToMenuItem new
-			                labelText: 'Cancel';
-			                whenClickedDo: [ :event | element requestCancel ];
-			                yourself) ].
-	album contextMenu: menuBuilder.
-	album cursorColor: Color cyan.
-	
-^ album
+	^ album
 ]
 
 { #category : 'initialization' }
@@ -190,7 +142,7 @@ RecorderPlayground >> playgroundInitialize [
 		              id: #listPane;
 		              margin: (BlInsets top: 0 bottom: 5).
 	playground layout: (BlLinearLayout vertical cellSpacing: 0).
-	playground matchParent
+	playground matchParent.
 ]
 
 { #category : 'actions' }
@@ -230,19 +182,14 @@ RecorderPlayground >> toolBar [
 { #category : 'as yet unclassified' }
 RecorderPlayground >> toolBarInitialize [
 
-	| bar button x |
-	x:= 10.
+	| bar button x|
+	x := 10.
+
 	bar := ToElement new.
-	bar background: Color lightYellow.
+	bar background: Color lightOrange.
 	bar geometry: BlRectangleGeometry new.
 	bar size: 5000 @ 30.
-	bar layout: (BlLinearLayout horizontal cellSpacing: 0).
-	"bar
-		addChild: (self button: 'Play' icon: #glamorousGo event: self play);
-		addChild: (self button: 'Stop' icon: #stop event: self stop);
-		addChild: (self button: 'Load' icon: #open event: self load);
-		addChild:
-			(self button: 'Save' icon: #glamorousSave event: self hello)."
+	bar layout: (BlLinearLayout horizontal cellSpacing: 5).
 	button := ToButton new.
 	button label: (ToLabel text: 'Play').
 	button icon:
@@ -256,7 +203,8 @@ RecorderPlayground >> toolBarInitialize [
 	bar addChild: button.
 	button := ToButton new.
 	button label: (ToLabel text: 'Load').
-	button icon: (ToImage inner: (Smalltalk ui icons iconNamed: #smallOpen)).
+	button icon:
+		(ToImage inner: (Smalltalk ui icons iconNamed: #smallOpen)).
 	button addEventHandlerOn: BlMouseDownEvent do: [ :e | self load ].
 	bar addChild: button.
 	button := ToButton new.
@@ -266,7 +214,9 @@ RecorderPlayground >> toolBarInitialize [
 	button addEventHandlerOn: BlMouseDownEvent do: [ :e | self save ].
 	bar addChild: button.
 	bar childrenDo: [ :c |
-		c transformDo: [ :cc |  cc translateBy: x@0.
-		x := x + 5  ] ].
+		c transformDo: [ :cc |
+		
+			cc translateBy: x @ 3.
+			x := x + 5 ] ].
 	^ bar
 ]
