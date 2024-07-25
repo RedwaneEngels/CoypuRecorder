@@ -37,8 +37,7 @@ Class {
 	#name : 'SavedPerformance',
 	#superclass : 'Object',
 	#instVars : [
-		'collectionOfCommands',
-		'doubleRhythms'
+		'collectionOfCommands'
 	],
 	#category : 'CoypuRecorder-savedPerformance',
 	#package : 'CoypuRecorder',
@@ -95,7 +94,7 @@ Only called when recording a replay of a Performance."
 		(collectionOfCommands last time asTime addMilliSeconds: anAnnouncement delay).
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'calculating' }
 SavedPerformance >> appliesExtraValues: anAnnouncement [
 
 collectionOfCommands last extraValues: anAnnouncement extraValues
@@ -168,7 +167,7 @@ SavedPerformance >> header: aScript [
 SavedPerformance >> initialize [
 
 	collectionOfCommands := OrderedCollection new.
-	doubleRhythms := false
+
 ]
 
 { #category : 'adding' }

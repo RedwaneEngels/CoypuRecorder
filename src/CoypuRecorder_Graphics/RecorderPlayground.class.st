@@ -1,3 +1,28 @@
+"
+## For the Class part:
+  A UI used to replay Performance made from toplo.
+
+## For the Responsibility part:
+A graphical interface that can be used to replay Performance in a easier way.
+Can be used to play, stop, load and saved replays of a Performance.
+
+## For the Collaborators Part:
+Uses a PerformanceMusicalReplayer to replay the Performance.
+
+## Public API and Key Messages
+
+- Can be used to replay Performance already saved.
+- Can read ston and txt files of Performance.
+- You can open an instance of it by calling the class message ""open""
+
+
+### Instance Variables
+codeEditor: <ToAlbum> The code editor part of the UI
+toolBar:	<ToElement> The toolbar containing the four buttons (play,stop,load,save)
+playground: <ToPane> The ""mother"" element that has the codeEditor and toolBar has childrens
+replayer: <PerformanceMusicalReplayer> the replayer used by the UI
+
+"
 Class {
 	#name : 'RecorderPlayground',
 	#superclass : 'Object',
@@ -18,25 +43,13 @@ x := self new.
 x playground openInSpace
 ]
 
-{ #category : 'as yet unclassified' }
-RecorderPlayground >> button: aName icon: aPathToAnIcon event: aMessage [
-
-	| button |
-	button := ToButton new.
-	button label: (ToLabel text: aName).
-	button icon:
-		(ToImage inner: (Smalltalk ui icons iconNamed: aPathToAnIcon)).
-	button addEventHandlerOn: BlMouseDownEvent do: [ :e | self load ].
-	^ button
-]
-
 { #category : 'accessing' }
 RecorderPlayground >> codeEditor [
 
 ^codeEditor 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
 RecorderPlayground >> codeEditorInitialize [
 
 	| album menuBuilder |
@@ -107,19 +120,20 @@ RecorderPlayground >> initialize [
 RecorderPlayground >> load [
 
 	| x |
-	thisContext sender sender selector traceCr.
-	thisContext sender selector = 'testLoadButton' ifTrue: [ ^ self ].
 	x := UIManager default
 		     chooseExistingFileReference: 'Select the ston file'
 		     extensions: #( 'ston' )
 		     path: FileLocator home.
 	replayer readScriptFromStonFile: x.
 	codeEditor text: ''.
-	replayer performanceScript do: [ :each |
-		codeEditor text: codeEditor text asString , each ]
+	codeEditor text: (String streamContents: [ :s |
+		replayer performanceScript do: [ :each |
+			s
+				nextPutAll: codeEditor text asString;
+				nextPutAll: each ] ]).
 ]
 
-{ #category : 'playing' }
+{ #category : 'actions' }
 RecorderPlayground >> play [
 
 	replayer performanceScript:
@@ -135,7 +149,7 @@ RecorderPlayground >> playground [
 	^ playground 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
 RecorderPlayground >> playgroundInitialize [
 
 	playground := ToPane new
@@ -167,7 +181,7 @@ RecorderPlayground >> save [
 	replayer writeScriptInStonFile: title filePath: path.
 ]
 
-{ #category : 'accessing' }
+{ #category : 'actions' }
 RecorderPlayground >> stop [
 	Performance uniqueInstance stop.
 
@@ -179,14 +193,14 @@ RecorderPlayground >> toolBar [
 	^ toolBar 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
 RecorderPlayground >> toolBarInitialize [
 
-	| bar button x|
-	x := 10.
+	| bar button x |
+	x := 0.
 
 	bar := ToElement new.
-	bar background: Color lightOrange.
+	bar background: Color darkGray.
 	bar geometry: BlRectangleGeometry new.
 	bar size: 5000 @ 30.
 	bar layout: (BlLinearLayout horizontal cellSpacing: 5).
@@ -215,7 +229,6 @@ RecorderPlayground >> toolBarInitialize [
 	bar addChild: button.
 	bar childrenDo: [ :c |
 		c transformDo: [ :cc |
-		
 			cc translateBy: x @ 3.
 			x := x + 5 ] ].
 	^ bar

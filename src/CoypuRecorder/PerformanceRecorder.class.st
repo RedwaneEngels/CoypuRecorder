@@ -276,12 +276,6 @@ PerformanceRecorder >> length [
 Performance uniqueInstance length
 ]
 
-{ #category : 'as yet unclassified' }
-PerformanceRecorder >> levelOfDetail: anIntegerBetween1And5 [
-
-Performance uniqueInstance levelOfDetail: anIntegerBetween1And5 
-]
-
 { #category : 'muting and soloing' }
 PerformanceRecorder >> mute: aKeyOrAnArrayOfKeys [
 	"Create a new RecordedOrderCommand to add to the savedPerformance before calling the mute: message of the Performance "
@@ -319,18 +313,6 @@ PerformanceRecorder >> muteAllAtTime: aTime [
 	self muteAll
 ]
 
-{ #category : 'as yet unclassified' }
-PerformanceRecorder >> openVisualizers [
-
-Performance uniqueInstance opensVisualizer.
-]
-
-{ #category : 'as yet unclassified' }
-PerformanceRecorder >> opensVisualizers [
-
-Performance uniqueInstance opensVisualizer.
-]
-
 { #category : 'LiveCoding - satelliteEvent' }
 PerformanceRecorder >> pacaDance [
 	"Create a new RecordedOrderCommand to add to the savedPerformance before calling the pacaDance message of the Performance "
@@ -361,13 +343,13 @@ PerformanceRecorder >> perfVisualizer: aPerfVisualizer [
 	Performance uniqueInstance perfVisualizer: aPerfVisualizer 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 PerformanceRecorder >> performanceType [
 
 	^ Performance performanceType
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 PerformanceRecorder >> performanceType: aPerformanceType [
 
     savedPerformance add: (RecordedInstructionCommand new instruction:
@@ -560,7 +542,7 @@ PerformanceRecorder >> solo: aKeyOrAnArrayOfKeys atTime: aTime [
 	self solo: aKeyOrAnArrayOfKeys
 ]
 
-{ #category : 'accessing' }
+{ #category : 'start-stop' }
 PerformanceRecorder >> stop [
 	"Create a new RecordedOrderCommand to add to the savedPerformance before calling the stop message of the Performance "
 
@@ -568,7 +550,7 @@ PerformanceRecorder >> stop [
 	Performance uniqueInstance stop
 ]
 
-{ #category : 'accessing' }
+{ #category : 'start-stop' }
 PerformanceRecorder >> stopAtTime: aTime [
 	"call the stop method with a aTime delay"
 

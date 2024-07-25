@@ -1,3 +1,6 @@
+"
+A mock of RecorderPlayground used to do tests
+"
 Class {
 	#name : 'RecorderPlaygroundMock',
 	#superclass : 'RecorderPlayground',

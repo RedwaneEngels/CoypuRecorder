@@ -40,12 +40,6 @@ PerformanceMusicalReplayer >> getScript: aSavedPerformance [
 	aSavedPerformance scriptWithDelayTimeForReplayer: self
 ]
 
-{ #category : 'initialization' }
-PerformanceMusicalReplayer >> initialize [
-super initialize
-	"stop := false"
-]
-
 { #category : 'action' }
 PerformanceMusicalReplayer >> replayWithoutPlayground [
 

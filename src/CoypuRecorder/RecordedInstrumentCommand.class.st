@@ -111,13 +111,13 @@ RecordedInstrumentCommand >> isAOnceCall [
 		ifNil: [ ^ symbol allButFirst , '.' ]
 ]
 
-{ #category : 'testing' }
+{ #category : 'types' }
 RecordedInstrumentCommand >> isRecordedInstructionCommand [
 
 	^ false
 ]
 
-{ #category : 'testing' }
+{ #category : 'types' }
 RecordedInstrumentCommand >> isRecordedInstrumentCommand [
 
 ^true

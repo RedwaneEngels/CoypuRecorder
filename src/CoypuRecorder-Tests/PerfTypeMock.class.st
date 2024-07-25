@@ -1,3 +1,6 @@
+"
+A mock of PerfType used in tests to make the Performance silent
+"
 Class {
 	#name : 'PerfTypeMock',
 	#superclass : 'PerfType',
