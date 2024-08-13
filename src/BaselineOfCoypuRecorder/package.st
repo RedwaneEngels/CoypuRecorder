@@ -1,1 +1,1 @@
-Package { #name : #BaselineOfCoypuRecorder }
+Package { #name : 'BaselineOfCoypuRecorder' }
