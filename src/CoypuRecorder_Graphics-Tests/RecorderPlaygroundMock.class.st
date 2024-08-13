@@ -18,13 +18,13 @@ RecorderPlaygroundMock >> lastButtonPressed [
 	
 ]
 
-{ #category : 'playing' }
+{ #category : 'actions' }
 RecorderPlaygroundMock >> load [
 
 	lastButtonPressed := 'load'
 ]
 
-{ #category : 'playing' }
+{ #category : 'actions' }
 RecorderPlaygroundMock >> play [
 
 lastButtonPressed := 'play'
@@ -32,13 +32,13 @@ lastButtonPressed := 'play'
 
 ]
 
-{ #category : 'playing' }
+{ #category : 'actions' }
 RecorderPlaygroundMock >> save [
 
 	lastButtonPressed := 'save'
 ]
 
-{ #category : 'playing' }
+{ #category : 'actions' }
 RecorderPlaygroundMock >> stop [
 
 	lastButtonPressed := 'stop'

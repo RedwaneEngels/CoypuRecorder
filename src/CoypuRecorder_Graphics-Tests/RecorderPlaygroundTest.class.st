@@ -2,8 +2,7 @@ Class {
 	#name : 'RecorderPlaygroundTest',
 	#superclass : 'TestCase',
 	#instVars : [
-		'recorderPlayground',
-		'mock'
+		'recorderPlayground'
 	],
 	#category : 'CoypuRecorder_Graphics-Tests',
 	#package : 'CoypuRecorder_Graphics-Tests'
